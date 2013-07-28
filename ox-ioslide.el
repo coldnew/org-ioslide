@@ -262,15 +262,6 @@ holding contextual information."
   (format
    "<article class=\"flexbox vcenter\">\n%s</article>" contents))
 
-(defun org-ioslide-stylesheets (info)
-  "Return the HTML contents for declaring ioslide stylesheets."
-  "
-  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\">
-  <link rel=\"stylesheet\" media=\"all\" href=\"theme/css/default.css\">
-  <link rel=\"stylesheet\" media=\"only screen and (max-device-width: 480px)\" href=\"theme/css/phone.css\">
-  <base target=\"_blank\"> <!-- This amazingness opens all links in a new tab. -->
-  <script data-main=\"js/slides\" src=\"js/require-1.0.8.min.js\"></script>
-  ")
 
 ;;;; Note Block
 (defun org-ioslide-export-block (export-block contents info)
@@ -593,6 +584,23 @@ INFO is a plist used as a communication channel."
 			      info))
      "\n")))
 
+(defun org-ioslide--build-stylesheets (info)
+  "Return the HTML contents for declaring ioslide stylesheets."
+  (concat
+   (org-html-close-tag "meta"
+		       "name=\"apple-mobile-web-app-capable\" content=\"yes\" \n"
+		       info)
+
+   (org-html-close-tag "link"
+		       "rel=\"stylesheet\" media=\"all\" href=\"theme/css/default.css\" \n"
+		       info)
+
+   (org-html-close-tag "link"
+		       "rel=\"stylesheet\" media=\"only screen and (max-device-width: 480px)\" href=\"theme/css/phone.css\" \n"
+		       info)
+   "<script data-main=\"js/slides\" src=\"js/require-1.0.8.min.js\"></script>"
+   "\n"))
+
 (defun org-ioslide-template (contents info)
   "Return complete document string after HTML conversion.
 contents is the transoded contents string.
@@ -612,7 +620,7 @@ info is a plist holding eport options."
    "<!--<meta name=\"viewport\" content=\"initial-scale=0.4\">-->\n"
 
    ;; Import stylesheet from ioslide
-   (org-ioslide-stylesheets info)
+   (org-ioslide--build-stylesheets info)
    "</head>
 <body style=\"opacity: 0\">
 "
