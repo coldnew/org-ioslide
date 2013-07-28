@@ -25,8 +25,14 @@
 
 ;;; Commentary:
 
+;;; Note: This emacs plugin is under hardly development.
+;;
+;; It's not suggest to use this plugin since
+;; any function may be renamed or modified later.
+;;
+
 ;; ox-ioslide.el works like org-html5presentation.el and generate
-;; Google I/O 2013 templatem,  but only support org-mode 8.0 or above.
+;; Google I/O 2013 slide template.
 ;;
 
 ;;; Installation (not done yet):
