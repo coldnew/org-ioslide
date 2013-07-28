@@ -29,7 +29,6 @@
 ;;
 ;; It's not suggest to use this plugin since
 ;; any function may be renamed or modified later.
-;;
 
 ;; ox-ioslide.el works like org-html5presentation.el and generate
 ;; Google I/O 2013 slide template.
@@ -76,23 +75,6 @@
 vertical slides."
   :group 'org-export-ioslide
   :type 'integer)
-
-(defcustom org-ioslide-title-slide-template
-  "<slide class=\"title-slide segue nobackground\">
-       <aside class=\"gdbar\"><img src=\"images/google_developers_icon_128.png\"></aside>
-       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
-       <hgroup class=\"auto-fadein\">
-         <h1 data-config-title><!-- populated from slide_config.json --></h1>
-         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
-         <p data-config-presenter><!-- populated from slide_config.json --></p>
-       </hgroup>
-    </slide>
-  "
-  "Format template to specify title page slide.
-See `org-html-postamble-format' for the valid elements which
-can be include."
-  :group 'org-export-ioslide
-  :type 'string)
 
 ;;; Define Back-End
 
@@ -273,6 +255,20 @@ else get value from custom variable `org-ioslide-hlevel'."
                </article>
              </slide>\n"
          logo-file))))
+
+(defun org-ioslide-title-slide (info)
+  (format
+  "<slide class=\"title-slide segue nobackground\">
+       <aside class=\"gdbar\"><img src=\"%s\"></aside>
+       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+       <hgroup class=\"auto-fadein\">
+         <h1 data-config-title><!-- populated from slide_config.json --></h1>
+         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+         <p data-config-presenter><!-- populated from slide_config.json --></p>
+       </hgroup>
+    </slide>
+  "
+  (plist-get info :icon)))
 
 (defun org-ioslide-if-format (fmt val)
   (let ((str (if (listp val)
@@ -572,7 +568,7 @@ info is a plist holding eport options."
    (org-ioslide-logo-slide info)
 
    ;; Title Slide
-   org-ioslide-title-slide-template
+   (org-ioslide-title-slide info)
 
    ;; Slide contents
    contents
