@@ -134,7 +134,6 @@ vertical slides."
 
 
 ;;; Internal Functions
-
 (defun org-ioslide-if-format (fmt val)
   (let ((str (if (listp val)
                  (or (car-safe val) "")
@@ -254,31 +253,6 @@ else get value from custom variable `org-ioslide-hlevel'."
   (let ((hlevel-str (plist-get info :hlevel)))
     (if hlevel-str (string-to-number hlevel-str)
       org-ioslide-hlevel)))
-
-(defun org-ioslide-logo-slide (info)
-  (let ((logo-file (plist-get info :logo)))
-    (if (< 0 (string-width logo-file))
-        (format
-         "<slide class=\"logoslide nobackground\">
-               <article class=\"flexbox vcenter\">
-                 <span><img src=\"%s\"></span>
-               </article>
-             </slide>\n"
-         logo-file))))
-
-(defun org-ioslide-title-slide (info)
-  (format
-  "<slide class=\"title-slide segue nobackground\">
-       <aside class=\"gdbar\"><img src=\"%s\"></aside>
-       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
-       <hgroup class=\"auto-fadein\">
-         <h1 data-config-title><!-- populated from slide_config.json --></h1>
-         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
-         <p data-config-presenter><!-- populated from slide_config.json --></p>
-       </hgroup>
-    </slide>
-  "
-  (plist-get info :icon)))
 
 
 (defun org-ioslide-center-block (center-block contents info)
@@ -536,6 +510,89 @@ holding contextual information."
   ;; Just return the contents. No "<div>" tags.
   contents)
 
+;;; Template
+
+(defun org-ioslide--build-logo-slide (info)
+  (let ((logo-file (plist-get info :logo)))
+    (if (< 0 (string-width logo-file))
+        (format
+         "<slide class=\"logoslide nobackground\">
+               <article class=\"flexbox vcenter\">
+                 <span><img src=\"%s\"></span>
+               </article>
+             </slide>\n"
+         logo-file))))
+
+(defun org-ioslide--build-title-slide (info)
+  (format
+  "<slide class=\"title-slide segue nobackground\">
+       <aside class=\"gdbar\"><img src=\"%s\"></aside>
+       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+       <hgroup class=\"auto-fadein\">
+         <h1 data-config-title><!-- populated from slide_config.json --></h1>
+         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+         <p data-config-presenter><!-- populated from slide_config.json --></p>
+       </hgroup>
+    </slide>
+  "
+  (plist-get info :icon)))
+
+(defun org-ioslide--build-meta-info (info)
+  "Return meta tags for exported document.
+INFO is a plist used as a communication channel."
+  (let ((protect-string
+	 (lambda (str)
+	   (replace-regexp-in-string
+	    "\"" "&quot;" (org-html-encode-plain-text str))))
+	(author (and (plist-get info :with-author)
+		     (let ((auth (plist-get info :author)))
+		       (and auth
+			    ;; Return raw Org syntax, skipping non
+			    ;; exportable objects.
+			    (org-element-interpret-data
+			     (org-element-map auth
+				 (cons 'plain-text org-element-all-objects)
+			       'identity info))))))
+	(description (plist-get info :description))
+	(keywords (plist-get info :keywords))
+	(charset (or (and org-html-coding-system
+			  (fboundp 'coding-system-get)
+			  (coding-system-get org-html-coding-system
+					     'mime-charset))
+		     "iso-8859-1")))
+    (concat
+     "<title></title>\n"
+     (when (plist-get info :time-stamp-file)
+       (format-time-string
+	 (concat "<!-- " org-html-metadata-timestamp-format " -->\n")))
+
+     (format
+      (org-html-close-tag "meta" " charset=\"%s\"" info) charset)
+     "\n"
+     (format
+      (org-html-close-tag "meta" " htto-equiv=\"%s\" content=\"%s\"" info) "X-UA-Compatible" "chrome=1")
+     "\n"
+     (org-html-close-tag "meta" " name=\"generator\" content=\"Org-mode with org-ioslide\"" info)
+     "\n"
+     (if (org-string-nw-p author)
+	  (org-html-close-tag "meta"
+			      (format " name=\"author\" content=\"%s\""
+				      (funcall protect-string author))
+			      info))
+     "\n"
+     (if (org-string-nw-p description)
+	  (org-html-close-tag "meta"
+			      (format " name=\"description\" content=\"%s\"\n"
+				      (funcall protect-string description))
+			      info))
+     "\n"
+     (if (org-string-nw-p keywords)
+	  (org-html-close-tag "meta"
+			      (format " name=\"keywords\" content=\"%s\""
+				      (funcall protect-string keywords))
+			      info))
+     "\n")))
+
 (defun org-ioslide-template (contents info)
   "Return complete document string after HTML conversion.
 contents is the transoded contents string.
@@ -545,21 +602,14 @@ info is a plist holding eport options."
 <html>
 <head>
 "
-   "   <title></title>\n"
-   "   <meta charset=\"utf-8\">\n"
-   "   <meta http-equiv=\"X-UA-Compatible\" content=\"chrome=1\"> \n"
-   (org-ioslide-if-format "<meta name=\"generated\" content=\"%s\"/> \n" (format-time-string "%Y-%m-%d %T %Z"))
-   (org-ioslide-if-format "<meta name=\"author\" content=\"%s\"/>\n" (plist-get info :author))
-   (org-ioslide-if-format "<meta name=\"email\" content=\"%s\"/>\n" (plist-get info :email))
-   (org-ioslide-if-format "<meta name=\"description\" content=\"%s\"/>\n" (plist-get info :description))
-   (org-ioslide-if-format "<meta name=\"keywords\" content=\"%s\"/>\n" (plist-get info :keywords))
-   "   <meta name=\"generator\" content=\"org-ioslide\"/> \n"
+   ;; Create meta info
+   (org-ioslide--build-meta-info info)
 
+   ;; Other meta info.... well, I don't know what they do.....
    "<!--<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0\">-->\n"
    "<!--<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">-->\n"
    "<!--This one seems to work all the time, but really small on ipad-->\n"
    "<!--<meta name=\"viewport\" content=\"initial-scale=0.4\">-->\n"
-
 
    ;; Import stylesheet from ioslide
    (org-ioslide-stylesheets info)
@@ -570,10 +620,10 @@ info is a plist holding eport options."
    "<slides class=\"layout-widescreen\">\n"
 
    ;; Logo Slide
-   (org-ioslide-logo-slide info)
+   (org-ioslide--build-logo-slide info)
 
    ;; Title Slide
-   (org-ioslide-title-slide info)
+   (org-ioslide--build-title-slide info)
 
    ;; Slide contents
    contents
