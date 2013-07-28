@@ -135,6 +135,16 @@ vertical slides."
 
 ;;; Internal Functions
 
+(defun org-ioslide-if-format (fmt val)
+  (let ((str (if (listp val)
+                 (or (car-safe val) "")
+               val)))
+    (if val (format fmt str))))
+
+(defun org-ioslide-plist-get-string (info key)
+  (let ((r (plist-get info key)))
+    (if (stringp r) r (or (car r) ""))))
+
 (defun org-ioslide--download-resource ()
   "Download needed rsouce from org-ioslide-resource-url."
   (let ((url org-ioslide-resource-url)
@@ -270,11 +280,6 @@ else get value from custom variable `org-ioslide-hlevel'."
   "
   (plist-get info :icon)))
 
-(defun org-ioslide-if-format (fmt val)
-  (let ((str (if (listp val)
-                 (or (car-safe val) "")
-               val)))
-    (if val (format fmt str))))
 
 (defun org-ioslide-center-block (center-block contents info)
   "Transcode a CENTER-BLOCK element from Org to HTML.
@@ -591,11 +596,6 @@ info is a plist holding eport options."
 
 
 ;;; End-user functions
-
-(defun org-ioslide-plist-get-string (info key)
-  (let ((r (plist-get info key)))
-    (if (stringp r) r (or (car r) ""))))
-
 
 ;;;###autoload
 (defun org-ioslide-download-resource ()
