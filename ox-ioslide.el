@@ -59,6 +59,12 @@
   :group 'org-export-ioslide
   :type 'string)
 
+(defcustom org-ioslide-config-file
+  "slide_config.js"
+  "Slide config file for Google I/O slide."
+  :group 'org-export-ioslide
+  :type 'string)
+
 (defcustom org-ioslide-hlevel 1
   "The minimum level of headings that should be grouped into
 vertical slides."
@@ -523,7 +529,7 @@ info is a plist holding eport options."
 
 ;;;###autoload
 (defun org-ioslide-create-slide-config-file (text back-end info)
-  (let ((file-name "slide_config.js"))
+  (let ((file-name org-ioslide-config-file))
     (save-excursion
       (with-temp-file file-name
         (insert
