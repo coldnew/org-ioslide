@@ -313,8 +313,9 @@ Else use org-html-src-block to convert source block to html."
               (format
                "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
                (or (org-element-property :ASIDE headline) "")
-               (or (org-element-property :ICON headline) "")) "")
-
+	       ;; get ICON from property, if not exist get ICON from info
+               (or (org-element-property :ICON headline)
+		   (plist-get info :hlevel)"")) "")
 
           ;; handle title
           (org-ioslide--handle-title-group
