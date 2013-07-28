@@ -53,6 +53,11 @@
   :tag "Org Export to Google I/O HTML5 slide"
   :group 'org-export)
 
+(defcustom org-ioslide-resource-url
+  "https://io-2012-slides.googlecode.com/git/"
+  "Url to get Google I/O js and css resources."
+  :group 'org-export-ioslide
+  :type 'string)
 
 (defcustom org-ioslide-hlevel 1
   "The minimum level of headings that should be grouped into
@@ -135,6 +140,41 @@ can be include."
 
 
 ;;; Internal Functions
+
+(defun org-ioslide--download-resource ()
+  "Download needed rsouce from org-ioslide-resource-url."
+  (let ((url org-ioslide-resource-url)
+	(dir-list  '("js" "js/polyfills" "js/prettify" "theme" "theme/css" "theme/scss"))
+	(file-list '(;; Files in js dir
+		     ("js/" .
+		      ("hammer.js" "modernizr.custom.45394.js" "order.js"
+		       "require-1.0.8.min.js" "slide-controller.js" "slide-deck.js" "slides.js"))
+		     ;; Files in js/polyfills dir
+		     ("js/polyfills/" .
+		      ("classList.min.js" "dataset.min.js" "history.min.js"))
+		     ;; Files in js/prettify dir
+		     ("js/prettify/" .
+		      ("lang-apollo.js" "lang-css.js" "lang-hs.js" "lang-lua.js"
+		       "lang-n.js" "lang-scala.js" "lang-tex.js""lang-vhdl.js"
+		       "lang-xq.js""prettify.css" "lang-clj.js" "lang-go.js"
+		       "lang-lisp.js" "lang-ml.js" "lang-proto.js" "lang-sql.js"
+		       "lang-vb.js" "lang-wiki.js" "lang-yaml.js" "prettify.js"))
+		     ;; Files in theme/css dir
+		     ("theme/css/"  .
+		      ("default.css" "io2013.css" "phone.css"))
+		     ;; Files in theme/scss dir
+		     ("theme/scss/" .
+		      ("_base.scss" "default.scss" "io2013.scss" "phone.scss" "_variable.scss"))
+		     )))
+
+    ;; Create parent directory
+    (dolist (d dir-list) (make-directory d t))
+
+    ;; Download files
+    (dolist (fl file-list)
+      (dolist (f (cdr fl))
+	(let ((target (concat (car fl) f)))
+	  (url-copy-file (concat url target) target t))))))
 
 (defun org-ioslide-get-hlevel (info)
   "Get HLevel value safely.
@@ -477,10 +517,6 @@ info is a plist holding eport options."
 
 ;;; End-user functions
 
-(defun org-ioslide-download-file (url parent-dir file)
-  (let ((target (concat parent-dir file)))
-    (url-copy-file (concat url target) target t)))
-
 (defun org-ioslide-plist-get-string (info key)
   (let ((r (plist-get info key)))
     (if (stringp r) r (or (car r) ""))))
@@ -557,34 +593,9 @@ info is a plist holding eport options."
 (defun org-ioslide-download-resource ()
   "Download extra resource like css or js file to use this slide offline."
   (interactive)
-  (let ((url "https://io-2012-slides.googlecode.com/git/")
-        (dir-list     '("js" "js/polyfills" "js/prettify" "theme" "theme/css" "theme/scss"))
-        (js           '("js/"  ; dir to place files
-                        "hammer.js" "modernizr.custom.45394.js" "order.js" "require-1.0.8.min.js"
-                        "slide-controller.js" "slide-deck.js" "slides.js"))
-        (js-polyfills '("js/polyfills/" ; dir to place files
-                        "classList.min.js" "dataset.min.js" "history.min.js"))
-        (js-prettify  '("js/prettify/"  ; dir to place files
-                        "lang-apollo.js" "lang-css.js" "lang-hs.js" "lang-lua.js" "lang-n.js" "lang-scala.js" "lang-tex.js""lang-vhdl.js""lang-xq.js""prettify.css"
-                        "lang-clj.js" "lang-go.js" "lang-lisp.js" "lang-ml.js" "lang-proto.js" "lang-sql.js" "lang-vb.js" "lang-wiki.js" "lang-yaml.js" "prettify.js"))
-        (css          '("theme/css/"    ; dir to place files
-                        "default.css" "io2013.css" "phone.css"))
-        (scss         '("theme/scss/"   ; dir to place files
-                        "_base.scss" "default.scss" "io2013.scss" "phone.scss" "_variable.scss"))
-        )
-    ;; Create parent directory
-    (dolist (d dir-list) (make-directory d t))
-    ;; Download js files
-    (dolist (f (cdr js)) (org-ioslide-download-file url (car js) f))
-    (dolist (f (cdr js-polyfills)) (org-ioslide-download-file url (car js-polyfills) f))
-    (dolist (f (cdr js-prettify))  (org-ioslide-download-file url (car js-prettify) f))
-    ;; Download theme files
-    (dolist (f (cdr css))   (org-ioslide-download-file url (car css) f))
-    (dolist (f (cdr scss))  (org-ioslide-download-file url (car scss) f))
-
-    ;; Done
-    (message "Download ioslide resource SUCCESS!")
-    ))
+  (message "Start download ioslide resource!")
+  (org-ioslide--download-resource)
+  (message "Download ioslide resource Finish!"))
 
 ;;;###autoload
 (defun org-ioslide-export-as-html
