@@ -95,7 +95,7 @@ can be include."
   '(?I "Export to Google I/O HTML5 HTML slide."
        ((?I "To file" org-ioslide-export-to-html)))
 
-  :filters-alist '((:filter-parse-tree . org-ioslide-create-slide-config-file))
+  :filters-alist '((:filter-parse-tree . org-ioslide-generate-config-file))
 
   :options-alist
   '(
@@ -181,6 +181,73 @@ can be include."
       (dolist (f (cdr fl))
 	(let ((target (concat (car fl) f)))
 	  (url-copy-file (concat url target) target t))))))
+
+(defun org-ioslide-generate-config-file (text back-end info)
+  (let ((file-name org-ioslide-config-file))
+    (save-excursion
+      (with-temp-file file-name
+        (insert
+         (concat
+          "var SLIDE_CONFIG = {
+   // Slide Settings
+   settings: {
+"
+          ;; title
+          (format
+           "     title: '%s', \n" (org-ioslide-plist-get-string info :title))
+          ;; subtitle
+          (format
+           "     subtitle: '%s', \n" (org-ioslide-plist-get-string info :subtitle))
+          ;; useBuilds
+          (format
+           "     useBuilds: %s, " (org-ioslide-plist-get-string info :use-builds))
+          "// Default: true. False will turn off slide animation builds. \n"
+          ;; usePrettify
+          (format
+           "     usePrettify: %s, " (org-ioslide-plist-get-string info :use-prettify))
+          "// Default: true \n"
+          ;; enableSlideAreas
+          (format
+           "     enableSlideAreas: %s, " (org-ioslide-plist-get-string info :enable-slideareas))
+          "// Default: true. False turns off the click areas on either slide of the slides.\n"
+          ;; enableTouch
+          (format
+           "     enableTouch: %s, " (org-ioslide-plist-get-string info :enable-touch))
+          "// Default: true. If touch support should enabled. Note: the device must support touch.\n"
+          ;; favIcon
+          (format
+           "     favIcon: '%s', \n" (org-ioslide-plist-get-string info :fav-icon))
+          ;; TODO: fonts
+          "     fonts: [
+       'Open Sans:regular,semibold,italic,italicsemibold',
+       'Source Code Pro'
+     ],\n"
+          "   }, \n \n"
+          ;; Author information
+          "   // Author information
+   presenters: [{\n"
+          ;; name
+          (format
+           "     name: '%s', \n" (org-ioslide-plist-get-string info :author))
+          ;; company
+          (format
+           "     company: '%s', \n" (org-ioslide-plist-get-string info :company))
+          ;; google plus
+          (format
+           "     gplus: '%s', \n" (org-ioslide-plist-get-string info :google-plus))
+          ;; twitter
+          (format
+           "     twitter: '%s', \n" (org-ioslide-plist-get-string info :twitter))
+          ;; www
+          (format
+           "     www: '%s', \n" (org-ioslide-plist-get-string info :www))
+          ;; github
+          (format
+           "     github: '%s', \n" (org-ioslide-plist-get-string info :github))
+
+          "   }]
+};"
+          ))))))
 
 (defun org-ioslide-get-hlevel (info)
   "Get HLevel value safely.
@@ -527,73 +594,6 @@ info is a plist holding eport options."
   (let ((r (plist-get info key)))
     (if (stringp r) r (or (car r) ""))))
 
-;;;###autoload
-(defun org-ioslide-create-slide-config-file (text back-end info)
-  (let ((file-name org-ioslide-config-file))
-    (save-excursion
-      (with-temp-file file-name
-        (insert
-         (concat
-          "var SLIDE_CONFIG = {
-   // Slide Settings
-   settings: {
-"
-          ;; title
-          (format
-           "     title: '%s', \n" (org-ioslide-plist-get-string info :title))
-          ;; subtitle
-          (format
-           "     subtitle: '%s', \n" (org-ioslide-plist-get-string info :subtitle))
-          ;; useBuilds
-          (format
-           "     useBuilds: %s, " (org-ioslide-plist-get-string info :use-builds))
-          "// Default: true. False will turn off slide animation builds. \n"
-          ;; usePrettify
-          (format
-           "     usePrettify: %s, " (org-ioslide-plist-get-string info :use-prettify))
-          "// Default: true \n"
-          ;; enableSlideAreas
-          (format
-           "     enableSlideAreas: %s, " (org-ioslide-plist-get-string info :enable-slideareas))
-          "// Default: true. False turns off the click areas on either slide of the slides.\n"
-          ;; enableTouch
-          (format
-           "     enableTouch: %s, " (org-ioslide-plist-get-string info :enable-touch))
-          "// Default: true. If touch support should enabled. Note: the device must support touch.\n"
-          ;; favIcon
-          (format
-           "     favIcon: '%s', \n" (org-ioslide-plist-get-string info :fav-icon))
-          ;; TODO: fonts
-          "     fonts: [
-       'Open Sans:regular,semibold,italic,italicsemibold',
-       'Source Code Pro'
-     ],\n"
-          "   }, \n \n"
-          ;; Author information
-          "   // Author information
-   presenters: [{\n"
-          ;; name
-          (format
-           "     name: '%s', \n" (org-ioslide-plist-get-string info :author))
-          ;; company
-          (format
-           "     company: '%s', \n" (org-ioslide-plist-get-string info :company))
-          ;; google plus
-          (format
-           "     gplus: '%s', \n" (org-ioslide-plist-get-string info :google-plus))
-          ;; twitter
-          (format
-           "     twitter: '%s', \n" (org-ioslide-plist-get-string info :twitter))
-          ;; www
-          (format
-           "     www: '%s', \n" (org-ioslide-plist-get-string info :www))
-          ;; github
-          (format
-           "     github: '%s', \n" (org-ioslide-plist-get-string info :github))
-
-          "   }]
-};"
-          ))))))
 
 ;;;###autoload
 (defun org-ioslide-download-resource ()
