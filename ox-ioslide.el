@@ -592,16 +592,17 @@ INFO is a plist used as a communication channel."
   "Return the HTML contents for declaring ioslide stylesheets."
   (concat
    (org-html-close-tag "meta"
-		       "name=\"apple-mobile-web-app-capable\" content=\"yes\" \n"
+		       "name=\"apple-mobile-web-app-capable\" content=\"yes\""
 		       info)
-
+   "\n"
    (org-html-close-tag "link"
-		       "rel=\"stylesheet\" media=\"all\" href=\"theme/css/default.css\" \n"
+		       "rel=\"stylesheet\" media=\"all\" href=\"theme/css/default.css\""
 		       info)
-
+   "\n"
    (org-html-close-tag "link"
-		       "rel=\"stylesheet\" media=\"only screen and (max-device-width: 480px)\" href=\"theme/css/phone.css\" \n"
+		       "rel=\"stylesheet\" media=\"only screen and (max-device-width: 480px)\" href=\"theme/css/phone.css\""
 		       info)
+   "\n"
    "<script data-main=\"js/slides\" src=\"js/require-1.0.8.min.js\"></script>"
    "\n"))
 
