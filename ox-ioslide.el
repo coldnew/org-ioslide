@@ -118,6 +118,10 @@ vertical slides."
     (:logo              "LOGO"              nil    ""   t)
     (:icon              "ICON"              nil    ""   t)
     (:hlevel            "HLEVEL"            nil   nil   t)
+
+    ;; TODO: idea ?
+    ;; Hide the default title slide
+    ;; (:hide-title-slide  "HIDE_TITLE_SLIDE" nil    nil   t)
     )
 
   :translate-alist
@@ -129,7 +133,7 @@ vertical slides."
     (export-block . org-ioslide-export-block)
     )
 
-  :export-block '("NOTES")
+  :export-block '("NOTE")
   )
 
 
