@@ -479,7 +479,7 @@ holding contextual information."
          (org-ioslide--handle-title-group headline info)
 
          ;; Slide article class
-         (format "<article class=\"%s\">\n" (or (org-element-property :FONTSIZE headline) ""))
+         (format "<article class=\"%s\">\n" (or (org-element-property :ARTICLE headline) ""))
 
          ;; When there is no section, pretend there is an empty
          ;; one to get the correct <div class="outline- ...>

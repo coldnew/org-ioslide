@@ -58,7 +58,7 @@ Another list, but items fade as they build:
 ** Slide with (Smaller Font)
 
 :PROPERTIES:
-:FONTSIZE: smaller
+:ARTICLE: smaller
 :END:
 
 # NOTE: there are some problem in using =target="_self"= to bold this
@@ -92,7 +92,7 @@ Press 'h' to highlight important sections of code (wrapped in =<b>=)
 ** Code Slide (Small Font)
 
 :PROPERTIES:
-:FONTSIZE: smaller
+:ARTICLE: smaller
 :END:
 
 #+ATTR_IOSLIDE: :subtitle
@@ -182,7 +182,7 @@ Press 'p' to toggle speaker notes.
 
 :PROPERTIES:
 :SUBTITLE: Subtitle Placeholder
-:FONTSIZE: smaller
+:ARTICLE: smaller
 :END:
 
 |       | Column 1    | Column 2    | Column 3    | Column 4    |
@@ -209,7 +209,7 @@ Press 'p' to toggle speaker notes.
 ** Slide Styles
 
 :PROPERTIES:
-:FONTSIZE: smaller
+:ARTICLE: smaller
 :END:
 
 #+BEGIN_HTML
