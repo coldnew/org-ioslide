@@ -679,7 +679,8 @@ is non-nil."
   (interactive)
   (let ((outbuf (org-export-to-buffer
                  'ioslide "*Org Google I/O HTML5 Slide Export*"
-                 subtreep visible-only body-only ext-plist)))
+                 subtreep visible-only body-only ext-plist))
+	(org-export-coding-system org-html-coding-system))
     ;; Set major mode.
     (with-current-buffer outbuf (set-auto-mode t))
     (when org-export-show-temporary-export-buffer
