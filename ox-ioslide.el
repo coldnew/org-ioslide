@@ -403,7 +403,8 @@ Else use org-html-src-block to convert source block to html."
                (or (org-element-property :ASIDE headline) "")
 	       ;; get ICON from property, if not exist get ICON from info
                (or (org-element-property :ICON headline)
-		   (plist-get info :hlevel)"")) "")
+		   (plist-get info :icon) "")
+	       ) "")
 
           ;; handle title
           (org-ioslide--handle-title-group
