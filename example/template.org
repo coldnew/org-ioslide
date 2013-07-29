@@ -279,7 +279,6 @@ Press 'p' to toggle speaker notes.
 :PROPERTIES:
 :SLIDE: segue dark
 :SUBTITLE: Subtitle Placeholder
-:ICON: images/google_developers_icon_128.png
 :END:
 
 * Full Image (with Optional Headline)
@@ -296,7 +295,6 @@ Press 'p' to toggle speaker notes.
 :PROPERTIES:
 :SLIDE: segue dark quote
 :ASIDE: right bottom
-:ICON: images/google_developers_icon_128.png
 :END:
 
 #+BEGIN_HTML
@@ -327,7 +325,6 @@ Press 'p' to toggle speaker notes.
 :TITLE: false
 :SLIDE: thank-you-slide seque
 :ASIDE: right
-:ICON: images/google_developers_icon_128.png
 :END:
 
 #+HTML: <h2>
