@@ -10,7 +10,6 @@
 #+FAVICON: images/google_developers_logo_tiny.png
 
 # Author information
-
 #+AUTHOR: Firstname Lastname
 #+COMPANY: Job Title<br>Google
 #+GOOGLE_PLUS: http://plus.google.com/1234567890
@@ -24,7 +23,7 @@
 #+LOGO: images/google_developers_logo.png
 #+ICON: images/google_developers_icon_128.png
 
-#+OPTIONS: ^:nil toc:nil num:nil
+#+OPTIONS: ^:nil toc:nil num:nil author:t
 
 * Slide with Bullets
 
@@ -62,7 +61,7 @@ Another list, but items fade as they build:
 :FONTSIZE: smaller
 :END:
 
-# NOTE: there are some problem in using *target="_self"* to bold this
+# NOTE: there are some problem in using =target="_self"= to bold this
 #       text
 #       For more info aubout @@html: ... @@ block, please refer
 #       http://orgmode.org/manual/Quoting-HTML-tags.html#Quoting-HTML-tags
@@ -76,7 +75,7 @@ Another list, but items fade as they build:
 :SUBTITLE: Subtitle Placeholder
 :END:
 
-Press 'h' to highlight important sections of code (wrapped in *<b>*)
+Press 'h' to highlight important sections of code (wrapped in =<b>=)
 
 #+BEGIN_SRC javascript
 <script type='text/javascript'>

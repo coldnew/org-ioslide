@@ -246,6 +246,9 @@ vertical slides."
 };"
           ))))))
 
+
+;;; Transcode Functions
+
 (defun org-ioslide-get-hlevel (info)
   "Get HLevel value safely.
 If option \"HTML5SLIDE_HLEVEL\" is set, retrieve integer value from it,
@@ -254,7 +257,7 @@ else get value from custom variable `org-ioslide-hlevel'."
     (if hlevel-str (string-to-number hlevel-str)
       org-ioslide-hlevel)))
 
-
+;;;; Center Block
 (defun org-ioslide-center-block (center-block contents info)
   "Transcode a CENTER-BLOCK element from Org to HTML.
 CONTENTS holds the contents of the block.  INFO is a plist
