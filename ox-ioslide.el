@@ -140,9 +140,16 @@ vertical slides."
                val)))
     (if val (format fmt str))))
 
-(defun org-ioslide-plist-get-string (info key)
+(defun org-ioslide--plist-get-string (info key)
   (let ((r (plist-get info key)))
     (if (stringp r) r (or (car r) ""))))
+
+(defun org-ioslide--plist-get-encode-string (info key)
+  (let ((protect-string
+	 (lambda (str)
+	   (replace-regexp-in-string
+	    "\"" "&quot;" (org-html-encode-plain-text str)))))
+    (funcall protect-string (org-ioslide--plist-get-string info key))))
 
 (defun org-ioslide--download-resource ()
   "Download needed rsouce from org-ioslide-resource-url."
@@ -191,29 +198,29 @@ vertical slides."
 "
           ;; title
           (format
-           "     title: '%s', \n" (org-ioslide-plist-get-string info :title))
+           "     title: '%s', \n" (org-ioslide--plist-get-string info :title))
           ;; subtitle
           (format
-           "     subtitle: '%s', \n" (org-ioslide-plist-get-string info :subtitle))
+           "     subtitle: '%s', \n" (org-ioslide--plist-get-string info :subtitle))
           ;; useBuilds
           (format
-           "     useBuilds: %s, " (org-ioslide-plist-get-string info :use-builds))
+           "     useBuilds: %s, " (org-ioslide--plist-get-string info :use-builds))
           "// Default: true. False will turn off slide animation builds. \n"
           ;; usePrettify
           (format
-           "     usePrettify: %s, " (org-ioslide-plist-get-string info :use-prettify))
+           "     usePrettify: %s, " (org-ioslide--plist-get-string info :use-prettify))
           "// Default: true \n"
           ;; enableSlideAreas
           (format
-           "     enableSlideAreas: %s, " (org-ioslide-plist-get-string info :enable-slideareas))
+           "     enableSlideAreas: %s, " (org-ioslide--plist-get-string info :enable-slideareas))
           "// Default: true. False turns off the click areas on either slide of the slides.\n"
           ;; enableTouch
           (format
-           "     enableTouch: %s, " (org-ioslide-plist-get-string info :enable-touch))
+           "     enableTouch: %s, " (org-ioslide--plist-get-string info :enable-touch))
           "// Default: true. If touch support should enabled. Note: the device must support touch.\n"
           ;; favIcon
           (format
-           "     favIcon: '%s', \n" (org-ioslide-plist-get-string info :fav-icon))
+           "     favIcon: '%s', \n" (org-ioslide--plist-get-string info :fav-icon))
           ;; TODO: fonts
           "     fonts: [
        'Open Sans:regular,semibold,italic,italicsemibold',
@@ -225,22 +232,22 @@ vertical slides."
    presenters: [{\n"
           ;; name
           (format
-           "     name: '%s', \n" (org-ioslide-plist-get-string info :author))
+           "     name: '%s', \n" (org-ioslide--plist-get-string info :author))
           ;; company
           (format
-           "     company: '%s', \n" (org-ioslide-plist-get-string info :company))
+           "     company: '%s', \n" (org-ioslide--plist-get-string info :company))
           ;; google plus
           (format
-           "     gplus: '%s', \n" (org-ioslide-plist-get-string info :google-plus))
+           "     gplus: '%s', \n" (org-ioslide--plist-get-string info :google-plus))
           ;; twitter
           (format
-           "     twitter: '%s', \n" (org-ioslide-plist-get-string info :twitter))
+           "     twitter: '%s', \n" (org-ioslide--plist-get-string info :twitter))
           ;; www
           (format
-           "     www: '%s', \n" (org-ioslide-plist-get-string info :www))
+           "     www: '%s', \n" (org-ioslide--plist-get-string info :www))
           ;; github
           (format
-           "     github: '%s', \n" (org-ioslide-plist-get-string info :github))
+           "     github: '%s', \n" (org-ioslide--plist-get-string info :github))
 
           "   }]
 };"
