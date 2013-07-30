@@ -307,7 +307,13 @@ contextual information."
       (org-html--textarea-block src-block)
     (let ((lang (org-element-property :language src-block))
           (caption (org-export-get-caption src-block))
-          (code (org-ioslide--encode-src-text (car (org-export-unravel-code src-block))))
+          (code
+	   ;; If not use-prettify, use org-html's method
+	   ;; to renderd src block
+	   (if (string= "true" (plist-get info :use-prettify))
+	       (org-ioslide--encode-src-text (car (org-export-unravel-code src-block)))
+	     (org-html-format-code src-block info)))
+
           (label (let ((lbl (org-element-property :name src-block)))
                    (if (not lbl) ""
                      (format " id=\"%s\""
@@ -329,11 +335,7 @@ contextual information."
   "Transcode a SRC-BLOCK element from Org to HTML.
 If #+USE_PRETTIFY is `true' use org-ioslide--src-block to render the code block.
 Else use org-html-src-block to convert source block to html."
-  (if (string= "true" (plist-get info :use-prettify))
-      (org-ioslide--src-block src-block contents info)
-    ;; If #+USE_PRETTIFY is `false', use org-html-src-block to
-    ;; generate HTML code.
-    (org-html-src-block src-block contents info)))
+      (org-ioslide--src-block src-block contents info))
 
 ;;;; Google Analytics
 (defun org-ioslide-google-analytics (info)
@@ -713,6 +715,7 @@ is non-nil."
 ;; hoghtlight in table
 ;; table color
 ;; table option B
+;; maybe remove slide_config.js ?
 
 (provide 'ox-ioslide)
 ;;; ox-ioslide.el ends here
