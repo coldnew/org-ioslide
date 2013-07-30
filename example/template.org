@@ -323,7 +323,7 @@ Press 'p' to toggle speaker notes.
 
 :PROPERTIES:
 :TITLE: false
-:SLIDE: thank-you-slide seque
+:SLIDE: thank-you-slide segue
 :ASIDE: right
 :END:
 
@@ -331,6 +331,13 @@ Press 'p' to toggle speaker notes.
 <Thank you>
 #+HTML: </h2>
 
+Important contact information goes here.
+
+#+BEGIN_HTML
+  <p class="auto-fadein" data-config-contact>
+    <!-- populated from slide_config.json -->
+  </p>
+#+END_HTML
 
 * End of slide (show logo slide)
 
