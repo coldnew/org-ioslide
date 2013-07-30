@@ -702,6 +702,7 @@ is non-nil."
 ;; hoghtlight in table
 ;; table color
 ;; table option B
+;; maybe remove slide_config.js ?
 
 (provide 'ox-ioslide)
 ;;; ox-ioslide.el ends here
