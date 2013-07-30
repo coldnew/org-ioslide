@@ -330,3 +330,15 @@ Press 'p' to toggle speaker notes.
 #+HTML: <h2>
 <Thank you>
 #+HTML: </h2>
+
+
+* End of slide (show logo slide)
+
+:PROPERTIES:
+:TITLE: false
+:SLIDE: logoslide dark
+:END:
+
+#+BEGIN_CENTER
+[[file:images/google_developers_logo_white.png]]
+#+END_CENTER
