@@ -147,6 +147,9 @@ vertical slides."
 (defun org-ioslide-close-element (element attr body)
   (format "<%s %s>\n%s\n</%s>" element attr body element))
 
+(defun org-ioslide-close-element* (element attr body)
+  (format "</%s>\n%s\n<%s %s>\n" element body element attr))
+
 (defun org-ioslide--download-resource ()
   "Download needed rsouce from org-ioslide-resource-url."
   (let ((url org-ioslide-resource-url)
@@ -477,8 +480,6 @@ holding contextual information."
          (and (org-export-last-sibling-p headline info)
               (org-html-end-plain-list type)))))
 
-     ;;     ((org-element-property :SLIDE headline) (org-ioslide--handle-slide-class headline contents info))
-
      ;; Case 3. Standard headline.  Export it as a section.
      (t
       (let* ((section-number (mapconcat 'number-to-string
@@ -492,39 +493,39 @@ holding contextual information."
              (hlevel (org-ioslide-get-hlevel info))
              (first-content (car (org-element-contents headline))))
 
-	(org-ioslide-close-element
-	 (org-ioslide--container headline info)
-	 (format "id=\"%s\" %s"
-		 (or (org-element-property :CUSTOM_ID headline)
-		     (concat "sec-" section-number))
-		 ;; container class
-		 (org-ioslide--container-class headline info))
-	 ;; body
-	 (format "%s%s%s"
-		 ;; aside
-		 ""
-		 ;; title
-		 (org-ioslide--title headline info)
-		 ;; article
-		 (org-ioslide--article headline contents info)))
+        (org-ioslide-close-element
+         (org-ioslide--container headline info)
+         (format "id=\"%s\" %s"
+                 (or (org-element-property :CUSTOM_ID headline)
+                     (concat "sec-" section-number))
+                 ;; container class
+                 (org-ioslide--container-class headline info))
+         ;; body
+         (format "%s%s%s"
+                 ;; aside
+                 ""
+                 ;; title
+                 (org-ioslide--title headline info)
+                 ;; article
+                 (org-ioslide--article headline contents info)))
 
-	)))))
-        ;; (format "<%s id=\"%s\" %s>\n %s%s%s</%s>\n"
-        ;;         (org-ioslide--container headline info)
-        ;;         (format "%s"
-        ;;                 (or (org-element-property :CUSTOM_ID headline)
-        ;;                     (concat "sec-" section-number)))
-	;; 	;; container class
-        ;;         (org-ioslide--container-class headline info)
-	;; 	;; aside
-	;; 	""
-	;; 	;; title
-        ;;         (org-ioslide--title headline info)
-	;; 	;; article
-	;; 	(org-ioslide--article headline contents info)
+        )))))
+;; (format "<%s id=\"%s\" %s>\n %s%s%s</%s>\n"
+;;         (org-ioslide--container headline info)
+;;         (format "%s"
+;;                 (or (org-element-property :CUSTOM_ID headline)
+;;                     (concat "sec-" section-number)))
+;;      ;; container class
+;;         (org-ioslide--container-class headline info)
+;;      ;; aside
+;;      ""
+;;      ;; title
+;;         (org-ioslide--title headline info)
+;;      ;; article
+;;      (org-ioslide--article headline contents info)
 
-	;; 	(org-ioslide--container headline info)
-        ;;         ))))))
+;;      (org-ioslide--container headline info)
+;;         ))))))
 ;; (concat
 ;;  ;; ;; Stop previous slide.
 ;;  ;; (if (or (/= level 1)
@@ -573,19 +574,19 @@ holding contextual information."
    (or (org-element-property :BACKGROUND headline) "")))
 
 (defun org-ioslide--title (headline info &optional class title-class no-title)
-    (if (string= "false" (org-element-property :TITLE headline)) ""
-      (format
-       "\n<hgroup class=\"%s\">
+  (if (string= "false" (org-element-property :TITLE headline)) ""
+    (format
+     "\n<hgroup class=\"%s\">
        <h2 class=\"%s\">%s</h2>
        <h3>%s</h3>
        </hgroup>
 "
-       (or class "")
-       ;; headline text.
-       (or title-class "")
-       (org-html-format-headline--wrap headline info)
-       ;; subtitle
-       (or (org-element-property :SUBTITLE headline) ""))))
+     (or class "")
+     ;; headline text.
+     (or title-class "")
+     (org-html-format-headline--wrap headline info)
+     ;; subtitle
+     (or (org-element-property :SUBTITLE headline) ""))))
 
 (defun org-ioslide-section (section contents info)
   "Transcode a SECTION element from Org to HTML.
@@ -594,18 +595,30 @@ holding contextual information."
   ;; Just return the contents. No "<div>" tags.
   contents)
 
+;;FIXME: bug
 (defun org-ioslide--article (headline contents info)
-  ;; When there is no section, pretend there is an empty
-  ;; one to get the correct <div class="outline- ...>
-  ;; which is needed by `org-info.js'.
-  (let ((container "article"))
-  (format "<%s>\n%s</%s>\n"
-	  container
-	   (if (not (eq (org-element-type first-content) 'article))
-	       (concat (org-html-section first-content "" info)
-		       contents)
-	     contents)
-	   container)))
+  (let ((level (org-export-get-relative-level headline info))
+	(hlevel (org-ioslide-get-hlevel info))
+	(element "article")
+	(attr (format "class=\"%s\"" (or (org-element-property :ARTICLE headline) ""))))
+    (org-ioslide-close-element
+     element
+;;     (format "class=\"%s\"" (or (org-element-property :ARTICLE headline) ""))
+     attr
+     ;;
+     (concat
+      ;; Stop previous slide
+      (if (or (/= level 1)
+	      (not (org-export-first-sibling-p headline info)))
+	  "</article></slide>\n")
+
+     contents
+     ;; ;; Stop all slides when meets last head 1.
+     ;; (if (and (= level 1)
+     ;; 	      (org-export-last-sibling-p headline info))
+     ;; 	 "</slide>")
+     )
+     )))
 
 ;;; Template
 
