@@ -492,24 +492,37 @@ holding contextual information."
              (level1 (+ level (1- org-html-toplevel-hlevel)))
              (hlevel (org-ioslide-get-hlevel info))
              (first-content (car (org-element-contents headline))))
+        (concat
 
-        (org-ioslide-close-element
-         (org-ioslide--container headline info)
-         (format "id=\"%s\" %s"
-                 (or (org-element-property :CUSTOM_ID headline)
-                     (concat "sec-" section-number))
-                 ;; container class
-                 (org-ioslide--container-class headline info))
-         ;; body
-         (format "%s%s%s"
-                 ;; aside
-                 ""
-                 ;; title
-                 (org-ioslide--title headline info)
-                 ;; article
-                 (org-ioslide--article headline contents info)))
+	 ;; Stop previous slide.
+         (if (or (/= level 1)
+                 (not (org-export-first-sibling-p headline info)))
+             "</slide>\n")
 
-        )))))
+         (org-ioslide-close-element
+          (org-ioslide--container headline info)
+          (format "id=\"%s\" %s"
+                  (or (org-element-property :CUSTOM_ID headline)
+                      (concat "sec-" section-number))
+                  ;; container class
+                  (org-ioslide--container-class headline info))
+          ;; body
+          (format "%s%s%s"
+                  ;; aside
+                  ""
+                  ;; title
+                  (org-ioslide--title headline info)
+
+                  ;; When there is no section, pretend there is an empty
+                  ;; one to get the correct <div class="outline- ...>
+                  ;; which is needed by `org-info.js'.
+                  (if (not (eq (org-element-type first-content) 'section))
+                      (concat (org-html-section first-content "" info)
+                              "")
+                    contents)
+                  ))
+
+         ))))))
 ;; (format "<%s id=\"%s\" %s>\n %s%s%s</%s>\n"
 ;;         (org-ioslide--container headline info)
 ;;         (format "%s"
@@ -593,32 +606,25 @@ holding contextual information."
 CONTENTS holds the contents of the section. INFO is a plist
 holding contextual information."
   ;; Just return the contents. No "<div>" tags.
-  contents)
+  ;;  contents
+  (let ((parent (org-export-get-parent-headline section)))
+    ;; Before first headline: no container, just return CONTENTS.
+    (if (not parent) contents
+      ;; Get div's class and id references.
+      (let* ((class-num (+ (org-export-get-relative-level parent info)
+                           (1- org-html-toplevel-hlevel)))
+             (section-number
+              (mapconcat
+               'number-to-string
+               (org-export-get-headline-number parent info) "-")))
 
-;;FIXME: bug
-(defun org-ioslide--article (headline contents info)
-  (let ((level (org-export-get-relative-level headline info))
-	(hlevel (org-ioslide-get-hlevel info))
-	(element "article")
-	(attr (format "class=\"%s\"" (or (org-element-property :ARTICLE headline) ""))))
-    (org-ioslide-close-element
-     element
-;;     (format "class=\"%s\"" (or (org-element-property :ARTICLE headline) ""))
-     attr
-     ;;
-     (concat
-      ;; Stop previous slide
-      (if (or (/= level 1)
-	      (not (org-export-first-sibling-p headline info)))
-	  "</article></slide>\n")
-
-     contents
-     ;; ;; Stop all slides when meets last head 1.
-     ;; (if (and (= level 1)
-     ;; 	      (org-export-last-sibling-p headline info))
-     ;; 	 "</slide>")
-     )
-     )))
+        (org-ioslide-close-element
+         "article"
+         (format "class=\"%s\" id=\"text-%s\""
+                 (or (org-element-property :ARTICLE parent) "")
+                 (or (org-element-property :CUSTOM_ID parent) section-number))
+         contents
+         )))))
 
 ;;; Template
 
