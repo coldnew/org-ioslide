@@ -144,6 +144,9 @@ vertical slides."
   (let ((r (plist-get info key)))
     (if (stringp r) r (or (car r) ""))))
 
+(defun org-ioslide-close-element (element element-extra body)
+  (format "<%s %s>\n%s\n</%s>" element element-extra body element))
+
 (defun org-ioslide--download-resource ()
   "Download needed rsouce from org-ioslide-resource-url."
   (let ((url org-ioslide-resource-url)
@@ -488,22 +491,40 @@ holding contextual information."
              (level1 (+ level (1- org-html-toplevel-hlevel)))
              (hlevel (org-ioslide-get-hlevel info))
              (first-content (car (org-element-contents headline))))
-        (format "<%s id=\"%s\" %s>\n %s%s%s</%s>\n"
-                (org-ioslide--container headline info)
-                (format "%s"
-                        (or (org-element-property :CUSTOM_ID headline)
-                            (concat "sec-" section-number)))
-		;; container class
-                (org-ioslide--container-class headline info)
-		;; aside
-		""
-		;; title
-                (org-ioslide--title headline info)
-		;; article
-		(org-ioslide--article headline contents info)
 
-		(org-ioslide--container headline info)
-                ))))))
+	(org-ioslide-close-element
+	 (org-ioslide--container headline info)
+	 (format "id=\"%s\" %s"
+		 (or (org-element-property :CUSTOM_ID headline)
+		     (concat "sec-" section-number))
+		 ;; container class
+		 (org-ioslide--container-class headline info))
+	 ;; body
+	 (format "%s%s%s"
+		 ;; aside
+		 ""
+		 ;; title
+		 (org-ioslide--title headline info)
+		 ;; article
+		 (org-ioslide--article headline contents info)))
+
+	)))))
+        ;; (format "<%s id=\"%s\" %s>\n %s%s%s</%s>\n"
+        ;;         (org-ioslide--container headline info)
+        ;;         (format "%s"
+        ;;                 (or (org-element-property :CUSTOM_ID headline)
+        ;;                     (concat "sec-" section-number)))
+	;; 	;; container class
+        ;;         (org-ioslide--container-class headline info)
+	;; 	;; aside
+	;; 	""
+	;; 	;; title
+        ;;         (org-ioslide--title headline info)
+	;; 	;; article
+	;; 	(org-ioslide--article headline contents info)
+
+	;; 	(org-ioslide--container headline info)
+        ;;         ))))))
 ;; (concat
 ;;  ;; ;; Stop previous slide.
 ;;  ;; (if (or (/= level 1)
