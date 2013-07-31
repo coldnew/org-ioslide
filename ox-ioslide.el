@@ -586,20 +586,26 @@ holding contextual information."
    ;; background
    (or (org-element-property :BACKGROUND headline) "")))
 
-(defun org-ioslide--title (headline info &optional class title-class no-title)
-  (if (string= "false" (org-element-property :TITLE headline)) ""
-    (format
-     "\n<hgroup class=\"%s\">
+(defun org-ioslide--title (headline info)
+  (let* ((title (org-element-property :TITLE headline))
+         ;;      (title-class (remove "hide"  title))
+         (title-class "")
+         )
+    (if (not (string= "hide" title)) ""
+      (format
+       "<hgroup class=\"%s\">
        <h2 class=\"%s\">%s</h2>
        <h3>%s</h3>
        </hgroup>
 "
-     (or class "")
-     ;; headline text.
-     (or title-class "")
-     (org-html-format-headline--wrap headline info)
-     ;; subtitle
-     (or (org-element-property :SUBTITLE headline) ""))))
+       ;; class
+       ""
+       ;; headline text.
+       (or title-class "")
+       (org-html-format-headline--wrap headline info)
+       ;; subtitle
+       (or (org-element-property :SUBTITLE headline) ""))))
+  )
 
 (defun org-ioslide--aside (headline info)
   (if (org-element-property :SLIDE headline)
