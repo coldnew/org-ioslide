@@ -144,8 +144,8 @@ vertical slides."
   (let ((r (plist-get info key)))
     (if (stringp r) r (or (car r) ""))))
 
-(defun org-ioslide-close-element (element element-extra body)
-  (format "<%s %s>\n%s\n</%s>" element element-extra body element))
+(defun org-ioslide-close-element (element attr body)
+  (format "<%s %s>\n%s\n</%s>" element attr body element))
 
 (defun org-ioslide--download-resource ()
   "Download needed rsouce from org-ioslide-resource-url."
