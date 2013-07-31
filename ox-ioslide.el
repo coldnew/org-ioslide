@@ -494,7 +494,7 @@ holding contextual information."
              (first-content (car (org-element-contents headline))))
         (concat
 
-	 ;; Stop previous slide.
+         ;; Stop previous slide.
          (if (or (/= level 1)
                  (not (org-export-first-sibling-p headline info)))
              "</slide>\n")
@@ -509,7 +509,7 @@ holding contextual information."
           ;; body
           (format "%s%s%s"
                   ;; aside
-                  ""
+                  (org-ioslide--aside headline info)
                   ;; title
                   (org-ioslide--title headline info)
 
@@ -600,6 +600,20 @@ holding contextual information."
      (org-html-format-headline--wrap headline info)
      ;; subtitle
      (or (org-element-property :SUBTITLE headline) ""))))
+
+(defun org-ioslide--aside (headline info)
+  (if (org-element-property :SLIDE headline)
+      (let* ((class (org-element-property :SLIDE headline))
+             (segue-p (string-match "segue" class)))
+        ;; icon
+        (if segue-p
+            (format
+             "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
+             (or (org-element-property :ASIDE headline) "")
+             ;; get ICON from property, if not exist get ICON from info
+             (or (org-element-property :ICON headline)
+                 (plist-get info :icon) "")
+             ) ""))))
 
 (defun org-ioslide-section (section contents info)
   "Transcode a SECTION element from Org to HTML.
