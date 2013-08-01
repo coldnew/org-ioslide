@@ -646,6 +646,7 @@ holding contextual information."
          contents
          )))))
 
+
 ;;; Template
 
 (defun org-ioslide--build-logo-slide (info)
