@@ -402,7 +402,7 @@ holding contextual information."
         (concat
 
          ;; Stop previous slide.
-	 ;; FIXME: This will make slide has more </slide> element
+         ;; FIXME: This will make slide has more </slide> element
          (if (or (/= level 1)
                  (not (org-export-first-sibling-p headline info)))
              "</slide>\n")
@@ -434,17 +434,19 @@ holding contextual information."
 
 (defun org-ioslide--container-class (headline info)
   "Special handler for segue slide class."
-  (format
-   "id=\"%s\" class=\"%s nobackground\" style=\"background-image: url(%s)\""
-   ;; id
-   (or (org-element-property :CUSTOM_ID headline)
-       (concat "sec-" (mapconcat 'number-to-string
-                                 (org-export-get-headline-number headline info)
-                                 "-")))
-   ;; class
-   (or (org-element-property :SLIDE headline) "")
-   ;; background
-   (or (org-element-property :BACKGROUND headline) "")))
+  (let ((class (org-element-property :SLIDE headline))
+        (bg (org-element-property :BACKGROUND headline)))
+    (format
+     "id=\"%s\" %s %s"
+     ;; id
+     (or (org-element-property :CUSTOM_ID headline)
+         (concat "sec-" (mapconcat 'number-to-string
+                                   (org-export-get-headline-number headline info)
+                                   "-")))
+
+     (if class (format "class=\"%s\"" class) "")
+     (if bg    (format "style=\"background-image: url(%s)\"" bg) "")
+     )))
 
 (defun org-ioslide--title (headline info)
   (let* ((title (org-element-property :TITLE headline))
@@ -617,11 +619,11 @@ INFO is a plist used as a communication channel."
     (org-element-normalize-string (plist-get info :html-head))
     (org-element-normalize-string (plist-get info :html-head-extra))
     (when (and (plist-get info :html-htmlized-css-url)
-	       (eq org-html-htmlize-output-type 'css))
+               (eq org-html-htmlize-output-type 'css))
       (org-html-close-tag "link"
-			  (format " rel=\"stylesheet\" href=\"%s\" type=\"text/css\""
-				  (plist-get info :html-htmlized-css-url))
-			  info)))))
+                          (format " rel=\"stylesheet\" href=\"%s\" type=\"text/css\""
+                                  (plist-get info :html-htmlized-css-url))
+                          info)))))
 
 (defun org-ioslide-template (contents info)
   "Return complete document string after HTML conversion.
