@@ -138,7 +138,7 @@ vertical slides."
 
 
 ;;; Internal Functions
-(defun org-ioslide-plist-get-string (info key)
+(defun org-ioslide--plist-get-string (info key)
   (let ((r (plist-get info key)))
     (if (stringp r) r (or (car r) ""))))
 
@@ -346,25 +346,6 @@ Else use org-html-src-block to convert source block to html."
 "
              "</script>\n"
              ) user-id)))
-
-
-;;;; title
-(defun org-ioslide--handle-title-group (headline info &optional class title-class no-title)
-  (let ((no-title-p (or no-title
-                        (if (string= "false" (org-element-property :TITLE headline)) t nil))))
-    (if no-title-p ""
-      (format
-       "\n<hgroup class=\"%s\">
-       <h2 class=\"%s\">%s</h2>
-       <h3>%s</h3>
-       </hgroup>
-"
-       (or class "")
-       ;; headline text.
-       (or title-class "")
-       (org-html-format-headline--wrap headline info)
-       ;; subtitle
-       (or (org-element-property :SUBTITLE headline) "")))))
 
 ;;;; headline
 
