@@ -605,6 +605,7 @@ INFO is a plist used as a communication channel."
                        "rel=\"stylesheet\" media=\"only screen and (max-device-width: 480px)\" href=\"theme/css/phone.css\""
                        info)
    "\n"
+   "<base target=\"_blank\"> <!-- This amazingness opens all links in a new tab. -->\n"
    "<script data-main=\"js/slides\" src=\"js/require-1.0.8.min.js\"></script>"
    "\n"))
 
@@ -705,6 +706,7 @@ is non-nil."
 ;; table color
 ;; table option B
 ;; maybe remove slide_config.js ?
+;; rewrite css <-- wtf!! the little icon is defined in css
 
 (provide 'ox-ioslide)
 ;;; ox-ioslide.el ends here
