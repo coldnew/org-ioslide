@@ -489,6 +489,7 @@ holding contextual information."
         (concat
 
          ;; Stop previous slide.
+	 ;; FIXME: This will make slide has more </slide> element
          (if (or (/= level 1)
                  (not (org-export-first-sibling-p headline info)))
              "</slide>\n")
