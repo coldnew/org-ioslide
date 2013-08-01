@@ -593,8 +593,7 @@ holding contextual information."
        "<hgroup class=\"%s\">
        <h2 class=\"%s\">%s</h2>
        <h3>%s</h3>
-       </hgroup>
-"
+       </hgroup>\n"
        ;; class
        (or hgroup-class "")
        ;; headline text.
