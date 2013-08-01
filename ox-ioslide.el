@@ -696,7 +696,7 @@ INFO is a plist used as a communication channel."
                           (fboundp 'coding-system-get)
                           (coding-system-get org-html-coding-system
                                              'mime-charset))
-                     "iso-8859-1")))
+                     "utf-8")))
     (concat
      "<title></title>\n"
      (when (plist-get info :time-stamp-file)
