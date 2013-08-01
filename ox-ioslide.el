@@ -138,7 +138,7 @@ vertical slides."
 
 
 ;;; Internal Functions
-(defun org-ioslide-plist-get-string (info key)
+(defun org-ioslide--plist-get-string (info key)
   (let ((r (plist-get info key)))
     (if (stringp r) r (or (car r) ""))))
 
