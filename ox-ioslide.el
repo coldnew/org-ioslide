@@ -584,6 +584,7 @@ holding contextual information."
   (let* ((title (org-element-property :TITLE headline))
          ;;      (title-class (remove "hide"  title))
          (title-class "")
+	 (hgroup-class (org-element-property :HGROUP headline))
          )
     (if (string= "hide" title) ""
       (format
@@ -593,7 +594,7 @@ holding contextual information."
        </hgroup>
 "
        ;; class
-       ""
+       (or hgroup-class "")
        ;; headline text.
        (or title-class "")
        (org-html-format-headline--wrap headline info)
@@ -601,19 +602,19 @@ holding contextual information."
        (or (org-element-property :SUBTITLE headline) "")))))
 
 (defun org-ioslide--aside (headline info)
-  (if (org-element-property :SLIDE headline)
-      (let* ((class (org-element-property :SLIDE headline))
-             (segue-p (string-match "segue" class)))
-        ;; icon
-        (if segue-p
-            (format
-             "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
-             (or (org-element-property :ASIDE headline) "")
-             ;; get ICON from property, if not exist get ICON from info
-             (or (org-element-property :ICON headline)
-                 (plist-get info :icon) "")
-             ) "")))
-  "")
+  (let* ((slide-class (format "%s" (org-element-property :SLIDE headline)))
+	 (segue-p (or (string-match "segue" slide-class) nil)))
+  (if (< 0 (string-bytes slide-class))
+      ;; icon
+      (if segue-p
+	  (format
+	   "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
+	   (or (org-element-property :ASIDE headline) "")
+	   ;; get ICON from property, if not exist get ICON from info
+	   (or (org-element-property :ICON headline)
+	       (plist-get info :icon) "")
+	   ) "")
+  "")))
 
 (defun org-ioslide-section (section contents info)
   "Transcode a SECTION element from Org to HTML.
