@@ -363,76 +363,76 @@ Else use org-html-src-block to convert source block to html."
        (or (org-element-property :SUBTITLE headline) "")))))
 
 ;;;; Segue slide
-(defun org-ioslide--handle-slide-id (headline info)
-  "Generate <slide> class with id."
-  (format "<slide id=\"%s\" "
-          (or (org-element-property :CUSTOM_ID headline)
-              (concat "sec-" (mapconcat 'number-to-string
-                                        (org-export-get-headline-number headline info)
-                                        "-")))))
+;; (defun org-ioslide--handle-slide-id (headline info)
+;;   "Generate <slide> class with id."
+;;   (format "<slide id=\"%s\" "
+;;           (or (org-element-property :CUSTOM_ID headline)
+;;               (concat "sec-" (mapconcat 'number-to-string
+;;                                         (org-export-get-headline-number headline info)
+;;                                         "-")))))
 
-(defun org-ioslide--handle-slide-class (headline contents info)
-  "Special handler for segue slide class."
-  ;; Check if :SLIDE: property is not nil
-  (if (org-element-property :SLIDE headline)
-      (let* ((class (org-element-property :SLIDE headline))
-             (segue-p (string-match "segue" class))
-             (quote-p (string-match "quote" class))
-             (thank-p (string-match "thank-you-slide" class)))
-        (concat
-         ;; Stop previous slide.
-         (if (or (/= level 1)
-                 (not (org-export-first-sibling-p headline info)))
-             "</article></slide>\n")
-         ;; slide class
-         (org-ioslide--handle-slide-id headline info)
-         ;; segue slide
-         (format
-          "class=\"%s nobackground\" style=\"background-image: url(%s)\">
-%s
-%s
-%s
-    </slide>
-  "
-          ;; class for slide
-          (or (org-element-property :SLIDE headline) "")
-          ;; background
-          (or (org-element-property :BACKGROUND headline) "")
-          ;; icon
-          (if segue-p
-              (format
-               "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
-               (or (org-element-property :ASIDE headline) "")
-               ;; get ICON from property, if not exist get ICON from info
-               (or (org-element-property :ICON headline)
-                   (plist-get info :icon) "")
-               ) "")
+;; (defun org-ioslide--handle-slide-class (headline contents info)
+;;   "Special handler for segue slide class."
+;;   ;; Check if :SLIDE: property is not nil
+;;   (if (org-element-property :SLIDE headline)
+;;       (let* ((class (org-element-property :SLIDE headline))
+;;              (segue-p (string-match "segue" class))
+;;              (quote-p (string-match "quote" class))
+;;              (thank-p (string-match "thank-you-slide" class)))
+;;         (concat
+;;          ;; Stop previous slide.
+;;          (if (or (/= level 1)
+;;                  (not (org-export-first-sibling-p headline info)))
+;;              "</article></slide>\n")
+;;          ;; slide class
+;;          (org-ioslide--handle-slide-id headline info)
+;;          ;; segue slide
+;;          (format
+;;           "class=\"%s nobackground\" style=\"background-image: url(%s)\">
+;; %s
+;; %s
+;; %s
+;;     </slide>
+;;   "
+;;           ;; class for slide
+;;           (or (org-element-property :SLIDE headline) "")
+;;           ;; background
+;;           (or (org-element-property :BACKGROUND headline) "")
+;;           ;; icon
+;;           (if segue-p
+;;               (format
+;;                "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
+;;                (or (org-element-property :ASIDE headline) "")
+;;                ;; get ICON from property, if not exist get ICON from info
+;;                (or (org-element-property :ICON headline)
+;;                    (plist-get info :icon) "")
+;;                ) "")
 
-          ;; handle title
-          (org-ioslide--handle-title-group
-           ;; hadline
-           headline
-           ;; info
-           info
-           ;; if not segue or is quote, disable fadin.
-           (if (and segue-p (not quote-p)) "auto-fadein " " ")
-           ;; headline text color (select white if has background)
-           (if (org-element-property :BACKGROUND headline) "white" "")
-           ;;  if this is quote, disable title
-           quote-p)
+;;           ;; handle title
+;;           (org-ioslide--handle-title-group
+;;            ;; hadline
+;;            headline
+;;            ;; info
+;;            info
+;;            ;; if not segue or is quote, disable fadin.
+;;            (if (and segue-p (not quote-p)) "auto-fadein " " ")
+;;            ;; headline text color (select white if has background)
+;;            (if (org-element-property :BACKGROUND headline) "white" "")
+;;            ;;  if this is quote, disable title
+;;            quote-p)
 
-          ;; contents
-          (format "<article %s> %s </article>"
-                  ;; if define article class or use quote, add class
-                  ;; here
-                  (format "class=\" %s\"" (concat
-                                           (or (org-element-property :ARTICLE headline) "")
-                                           (if (or quote-p
-                                                   thank-p)
-                                               "flexbox vleft auto-fadein" "")))
+;;           ;; contents
+;;           (format "<article %s> %s </article>"
+;;                   ;; if define article class or use quote, add class
+;;                   ;; here
+;;                   (format "class=\" %s\"" (concat
+;;                                            (or (org-element-property :ARTICLE headline) "")
+;;                                            (if (or quote-p
+;;                                                    thank-p)
+;;                                                "flexbox vleft auto-fadein" "")))
 
-                  contents)
-          )))))
+;;                   contents)
+;;           )))))
 
 ;;;; Other
 
@@ -495,11 +495,8 @@ holding contextual information."
 
          (org-ioslide-close-element
           (org-ioslide--container headline info)
-          (format "id=\"%s\" %s"
-                  (or (org-element-property :CUSTOM_ID headline)
-                      (concat "sec-" section-number))
-                  ;; container class
-                  (org-ioslide--container-class headline info))
+          ;; container class
+          (org-ioslide--container-class headline info)
           ;; body
           (format "%s%s%s"
                   ;; aside
@@ -574,8 +571,13 @@ holding contextual information."
 (defun org-ioslide--container-class (headline info)
   "Special handler for segue slide class."
   (format
-   "class=\"%s nobackground\" style=\"background-image: url(%s)\""
-   ;; class for slide
+   "id=\"%s\" class=\"%s nobackground\" style=\"background-image: url(%s)\""
+   ;; id
+   (or (org-element-property :CUSTOM_ID headline)
+       (concat "sec-" (mapconcat 'number-to-string
+                                 (org-export-get-headline-number headline info)
+                                 "-")))
+   ;; class
    (or (org-element-property :SLIDE headline) "")
    ;; background
    (or (org-element-property :BACKGROUND headline) "")))
@@ -584,7 +586,7 @@ holding contextual information."
   (let* ((title (org-element-property :TITLE headline))
          ;;      (title-class (remove "hide"  title))
          (title-class "")
-	 (hgroup-class (org-element-property :HGROUP headline))
+         (hgroup-class (org-element-property :HGROUP headline))
          )
     (if (string= "hide" title) ""
       (format
@@ -603,18 +605,18 @@ holding contextual information."
 
 (defun org-ioslide--aside (headline info)
   (let* ((slide-class (format "%s" (org-element-property :SLIDE headline)))
-	 (segue-p (or (string-match "segue" slide-class) nil)))
-  (if (< 0 (string-bytes slide-class))
-      ;; icon
-      (if segue-p
-	  (format
-	   "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
-	   (or (org-element-property :ASIDE headline) "")
-	   ;; get ICON from property, if not exist get ICON from info
-	   (or (org-element-property :ICON headline)
-	       (plist-get info :icon) "")
-	   ) "")
-  "")))
+         (segue-p (or (string-match "segue" slide-class) nil)))
+    (if (< 0 (string-bytes slide-class))
+        ;; icon
+        (if segue-p
+            (format
+             "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
+             (or (org-element-property :ASIDE headline) "")
+             ;; get ICON from property, if not exist get ICON from info
+             (or (org-element-property :ICON headline)
+                 (plist-get info :icon) "")
+             ) "")
+      "")))
 
 (defun org-ioslide-section (section contents info)
   "Transcode a SECTION element from Org to HTML.
