@@ -609,6 +609,20 @@ INFO is a plist used as a communication channel."
    "<script data-main=\"js/slides\" src=\"js/require-1.0.8.min.js\"></script>"
    "\n"))
 
+(defun org-ioslide--build-head (info)
+  "Return information for the <head>..</head> of the HTML output.
+INFO is a plist used as a communication channel."
+  (org-element-normalize-string
+   (concat
+    (org-element-normalize-string (plist-get info :html-head))
+    (org-element-normalize-string (plist-get info :html-head-extra))
+    (when (and (plist-get info :html-htmlized-css-url)
+	       (eq org-html-htmlize-output-type 'css))
+      (org-html-close-tag "link"
+			  (format " rel=\"stylesheet\" href=\"%s\" type=\"text/css\""
+				  (plist-get info :html-htmlized-css-url))
+			  info)))))
+
 (defun org-ioslide-template (contents info)
   "Return complete document string after HTML conversion.
 contents is the transoded contents string.
@@ -629,6 +643,8 @@ info is a plist holding eport options."
 
    ;; Import stylesheet from ioslide
    (org-ioslide--build-stylesheets info)
+   ;; html head
+   (org-ioslide--build-head info)
    "</head>
 <body style=\"opacity: 0\">
 "
