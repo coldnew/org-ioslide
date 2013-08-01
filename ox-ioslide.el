@@ -362,79 +362,7 @@ Else use org-html-src-block to convert source block to html."
        ;; subtitle
        (or (org-element-property :SUBTITLE headline) "")))))
 
-;;;; Segue slide
-;; (defun org-ioslide--handle-slide-id (headline info)
-;;   "Generate <slide> class with id."
-;;   (format "<slide id=\"%s\" "
-;;           (or (org-element-property :CUSTOM_ID headline)
-;;               (concat "sec-" (mapconcat 'number-to-string
-;;                                         (org-export-get-headline-number headline info)
-;;                                         "-")))))
-
-;; (defun org-ioslide--handle-slide-class (headline contents info)
-;;   "Special handler for segue slide class."
-;;   ;; Check if :SLIDE: property is not nil
-;;   (if (org-element-property :SLIDE headline)
-;;       (let* ((class (org-element-property :SLIDE headline))
-;;              (segue-p (string-match "segue" class))
-;;              (quote-p (string-match "quote" class))
-;;              (thank-p (string-match "thank-you-slide" class)))
-;;         (concat
-;;          ;; Stop previous slide.
-;;          (if (or (/= level 1)
-;;                  (not (org-export-first-sibling-p headline info)))
-;;              "</article></slide>\n")
-;;          ;; slide class
-;;          (org-ioslide--handle-slide-id headline info)
-;;          ;; segue slide
-;;          (format
-;;           "class=\"%s nobackground\" style=\"background-image: url(%s)\">
-;; %s
-;; %s
-;; %s
-;;     </slide>
-;;   "
-;;           ;; class for slide
-;;           (or (org-element-property :SLIDE headline) "")
-;;           ;; background
-;;           (or (org-element-property :BACKGROUND headline) "")
-;;           ;; icon
-;;           (if segue-p
-;;               (format
-;;                "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
-;;                (or (org-element-property :ASIDE headline) "")
-;;                ;; get ICON from property, if not exist get ICON from info
-;;                (or (org-element-property :ICON headline)
-;;                    (plist-get info :icon) "")
-;;                ) "")
-
-;;           ;; handle title
-;;           (org-ioslide--handle-title-group
-;;            ;; hadline
-;;            headline
-;;            ;; info
-;;            info
-;;            ;; if not segue or is quote, disable fadin.
-;;            (if (and segue-p (not quote-p)) "auto-fadein " " ")
-;;            ;; headline text color (select white if has background)
-;;            (if (org-element-property :BACKGROUND headline) "white" "")
-;;            ;;  if this is quote, disable title
-;;            quote-p)
-
-;;           ;; contents
-;;           (format "<article %s> %s </article>"
-;;                   ;; if define article class or use quote, add class
-;;                   ;; here
-;;                   (format "class=\" %s\"" (concat
-;;                                            (or (org-element-property :ARTICLE headline) "")
-;;                                            (if (or quote-p
-;;                                                    thank-p)
-;;                                                "flexbox vleft auto-fadein" "")))
-
-;;                   contents)
-;;           )))))
-
-;;;; Other
+;;;; headline
 
 (defun org-ioslide-headline (headline contents info)
   "Transcode a HEADLINE element from Org to Google I/O slides.
@@ -513,57 +441,7 @@ holding contextual information."
                               "")
                     contents)
                   ))
-
          ))))))
-;; (format "<%s id=\"%s\" %s>\n %s%s%s</%s>\n"
-;;         (org-ioslide--container headline info)
-;;         (format "%s"
-;;                 (or (org-element-property :CUSTOM_ID headline)
-;;                     (concat "sec-" section-number)))
-;;      ;; container class
-;;         (org-ioslide--container-class headline info)
-;;      ;; aside
-;;      ""
-;;      ;; title
-;;         (org-ioslide--title headline info)
-;;      ;; article
-;;      (org-ioslide--article headline contents info)
-
-;;      (org-ioslide--container headline info)
-;;         ))))))
-;; (concat
-;;  ;; ;; Stop previous slide.
-;;  ;; (if (or (/= level 1)
-;;  ;;         (not (org-export-first-sibling-p headline info)))
-;;  ;;     "</article></slide>\n")
-
-;;  ;; Add an extra "<article>" to group following slides
-;;  ;; into vertical ones.
-;;  ;;         (if (eq level hlevel) "<slide>\n")
-;;  ;; Start a new slide.
-;;  (org-ioslide--handle-slide-id headline info) " >\n"
-
-;;  ;; Handle Slide title
-;;  (org-ioslide--handle-title-group headline info)
-
-;;  ;; Slide article class
-;;  (format "<article class=\"%s\">\n" (or (org-element-property :ARTICLE headline) ""))
-
-;;  ;; When there is no section, pretend there is an empty
-;;  ;; one to get the correct <div class="outline- ...>
-;;  ;; which is needed by `org-info.js'.
-;;  (if (not (eq (org-element-type first-content) 'section))
-;;      (concat (org-html-section first-content "" info)
-;;              contents)
-;;    contents)
-
-;;  ;; Add an extra "</article>" to stop vertical slide grouping.
-;;  (if (= level hlevel) "</article>\n")
-
-;;  ;; Stop all slides when meets last head 1.
-;;  (if (and (= level 1)
-;;           (org-export-last-sibling-p headline info))
-;;      "</slide>")))))))
 
 (defun org-ioslide--container (headline info)
   "Return the top container of ioslide."
