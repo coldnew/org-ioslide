@@ -138,48 +138,41 @@ vertical slides."
 
 
 ;;; Internal Functions
-(defun org-ioslide-if-format (fmt val)
-  (let ((str (if (listp val)
-                 (or (car-safe val) "")
-               val)))
-    (if val (format fmt str))))
-
-(defun org-ioslide--plist-get-string (info key)
+(defun org-ioslide-plist-get-string (info key)
   (let ((r (plist-get info key)))
     (if (stringp r) r (or (car r) ""))))
 
-(defun org-ioslide--plist-get-encode-string (info key)
-  (let ((protect-string
-	 (lambda (str)
-	   (replace-regexp-in-string
-	    "\"" "&quot;" (org-html-encode-plain-text str)))))
-    (funcall protect-string (org-ioslide--plist-get-string info key))))
+(defun org-ioslide-close-element (element attr body)
+  (format "<%s %s>\n%s\n</%s>" element attr body element))
+
+(defun org-ioslide-close-element* (element attr body)
+  (format "</%s>\n%s\n<%s %s>\n" element body element attr))
 
 (defun org-ioslide--download-resource ()
   "Download needed rsouce from org-ioslide-resource-url."
   (let ((url org-ioslide-resource-url)
-	(dir-list  '("js" "js/polyfills" "js/prettify" "theme" "theme/css" "theme/scss"))
-	(file-list '(;; Files in js dir
-		     ("js/" .
-		      ("hammer.js" "modernizr.custom.45394.js" "order.js"
-		       "require-1.0.8.min.js" "slide-controller.js" "slide-deck.js" "slides.js"))
-		     ;; Files in js/polyfills dir
-		     ("js/polyfills/" .
-		      ("classList.min.js" "dataset.min.js" "history.min.js"))
-		     ;; Files in js/prettify dir
-		     ("js/prettify/" .
-		      ("lang-apollo.js" "lang-css.js" "lang-hs.js" "lang-lua.js"
-		       "lang-n.js" "lang-scala.js" "lang-tex.js""lang-vhdl.js"
-		       "lang-xq.js""prettify.css" "lang-clj.js" "lang-go.js"
-		       "lang-lisp.js" "lang-ml.js" "lang-proto.js" "lang-sql.js"
-		       "lang-vb.js" "lang-wiki.js" "lang-yaml.js" "prettify.js"))
-		     ;; Files in theme/css dir
-		     ("theme/css/"  .
-		      ("default.css" "io2013.css" "phone.css"))
-		     ;; Files in theme/scss dir
-		     ("theme/scss/" .
-		      ("_base.scss" "default.scss" "io2013.scss" "phone.scss" "_variable.scss"))
-		     )))
+        (dir-list  '("js" "js/polyfills" "js/prettify" "theme" "theme/css" "theme/scss"))
+        (file-list '(;; Files in js dir
+                     ("js/" .
+                      ("hammer.js" "modernizr.custom.45394.js" "order.js"
+                       "require-1.0.8.min.js" "slide-controller.js" "slide-deck.js" "slides.js"))
+                     ;; Files in js/polyfills dir
+                     ("js/polyfills/" .
+                      ("classList.min.js" "dataset.min.js" "history.min.js"))
+                     ;; Files in js/prettify dir
+                     ("js/prettify/" .
+                      ("lang-apollo.js" "lang-css.js" "lang-hs.js" "lang-lua.js"
+                       "lang-n.js" "lang-scala.js" "lang-tex.js""lang-vhdl.js"
+                       "lang-xq.js""prettify.css" "lang-clj.js" "lang-go.js"
+                       "lang-lisp.js" "lang-ml.js" "lang-proto.js" "lang-sql.js"
+                       "lang-vb.js" "lang-wiki.js" "lang-yaml.js" "prettify.js"))
+                     ;; Files in theme/css dir
+                     ("theme/css/"  .
+                      ("default.css" "io2013.css" "phone.css"))
+                     ;; Files in theme/scss dir
+                     ("theme/scss/" .
+                      ("_base.scss" "default.scss" "io2013.scss" "phone.scss" "_variable.scss"))
+                     )))
 
     ;; Create parent directory
     (dolist (d dir-list) (make-directory d t))
@@ -187,8 +180,8 @@ vertical slides."
     ;; Download files
     (dolist (fl file-list)
       (dolist (f (cdr fl))
-	(let ((target (concat (car fl) f)))
-	  (url-copy-file (concat url target) target t))))))
+        (let ((target (concat (car fl) f)))
+          (url-copy-file (concat url target) target t))))))
 
 (defun org-ioslide-generate-config-file (text back-end info)
   (let ((file-name org-ioslide-config-file))
@@ -308,11 +301,11 @@ contextual information."
     (let ((lang (org-element-property :language src-block))
           (caption (org-export-get-caption src-block))
           (code
-	   ;; If not use-prettify, use org-html's method
-	   ;; to renderd src block
-	   (if (string= "true" (plist-get info :use-prettify))
-	       (org-ioslide--encode-src-text (car (org-export-unravel-code src-block)))
-	     (org-html-format-code src-block info)))
+           ;; If not use-prettify, use org-html's method
+           ;; to renderd src block
+           (if (string= "true" (plist-get info :use-prettify))
+               (org-ioslide--encode-src-text (car (org-export-unravel-code src-block)))
+             (org-html-format-code src-block info)))
 
           (label (let ((lbl (org-element-property :name src-block)))
                    (if (not lbl) ""
@@ -335,7 +328,7 @@ contextual information."
   "Transcode a SRC-BLOCK element from Org to HTML.
 If #+USE_PRETTIFY is `true' use org-ioslide--src-block to render the code block.
 Else use org-html-src-block to convert source block to html."
-      (org-ioslide--src-block src-block contents info))
+  (org-ioslide--src-block src-block contents info))
 
 ;;;; Google Analytics
 (defun org-ioslide-google-analytics (info)
@@ -360,95 +353,23 @@ Else use org-html-src-block to convert source block to html."
   (let ((no-title-p (or no-title
                         (if (string= "false" (org-element-property :TITLE headline)) t nil))))
     (if no-title-p ""
-        (format
-         "\n<hgroup class=\"%s\">
+      (format
+       "\n<hgroup class=\"%s\">
        <h2 class=\"%s\">%s</h2>
        <h3>%s</h3>
        </hgroup>
 "
-         (or class "")
-         ;; headline text.
-         (or title-class "")
-         (org-html-format-headline--wrap headline info)
-         ;; subtitle
-         (or (org-element-property :SUBTITLE headline) "")))))
+       (or class "")
+       ;; headline text.
+       (or title-class "")
+       (org-html-format-headline--wrap headline info)
+       ;; subtitle
+       (or (org-element-property :SUBTITLE headline) "")))))
 
-;;;; Segue slide
-(defun org-ioslide--handle-slide-id (headline info)
-  "Generate <slide> class with id."
-  (format "<slide id=\"%s\" "
-          (or (org-element-property :CUSTOM_ID headline)
-              (concat "sec-" (mapconcat 'number-to-string
-                                        (org-export-get-headline-number headline info)
-                                        "-")))))
-
-(defun org-ioslide--handle-slide-class (headline contents info)
-  "Special handler for segue slide class."
-  ;; Check if :SLIDE: property is not nil
-  (if (org-element-property :SLIDE headline)
-      (let* ((class (org-element-property :SLIDE headline))
-             (segue-p (string-match "segue" class))
-             (quote-p (string-match "quote" class))
-	     (thank-p (string-match "thank-you-slide" class)))
-        (concat
-         ;; Stop previous slide.
-         (if (or (/= level 1)
-                 (not (org-export-first-sibling-p headline info)))
-             "</article></slide>\n")
-         ;; slide class
-         (org-ioslide--handle-slide-id headline info)
-         ;; segue slide
-         (format
-          "class=\"%s nobackground\" style=\"background-image: url(%s)\">
-%s
-%s
-%s
-    </slide>
-  "
-          ;; class for slide
-          (or (org-element-property :SLIDE headline) "")
-          ;; background
-          (or (org-element-property :BACKGROUND headline) "")
-          ;; icon
-          (if segue-p
-              (format
-               "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
-               (or (org-element-property :ASIDE headline) "")
-	       ;; get ICON from property, if not exist get ICON from info
-               (or (org-element-property :ICON headline)
-		   (plist-get info :icon) "")
-	       ) "")
-
-          ;; handle title
-          (org-ioslide--handle-title-group
-           ;; hadline
-           headline
-           ;; info
-           info
-           ;; if not segue or is quote, disable fadin.
-           (if (and segue-p (not quote-p)) "auto-fadein " " ")
-           ;; headline text color (select white if has background)
-           (if (org-element-property :BACKGROUND headline) "white" "")
-           ;;  if this is quote, disable title
-           quote-p)
-
-          ;; contents
-          (format "<article %s> %s </article>"
-                  ;; if define article class or use quote, add class
-                  ;; here
-                  (format "class=\" %s\"" (concat
-                                           (or (org-element-property :ARTICLE headline) "")
-                                           (if (or quote-p
-						   thank-p)
-					       "flexbox vleft auto-fadein" "")))
-
-                  contents)
-          )))))
-
-;;;; Other
+;;;; headline
 
 (defun org-ioslide-headline (headline contents info)
-  "Transcode a HEADLINE element from Org to html5presentation.
+  "Transcode a HEADLINE element from Org to Google I/O slides.
 CONTENTS holds the contents of the headline. INFO is a plist
 holding contextual information."
   ;; First call org-html-headline to get the formatted HTML contents.
@@ -468,56 +389,143 @@ holding contextual information."
          ;; Create the headline text.
          (full-text (org-html-format-headline--wrap headline info)))
     (cond
-     ;; Case 1: Ignore the footnote section.
+     ;; Case 1: This is a footnote section: ignore it.
      ((org-element-property :footnote-section-p headline) nil)
-     ((org-element-property :SLIDE headline) (org-ioslide--handle-slide-class headline contents info))
+     ;; Case 2. This is a deep sub-tree: export it as a list item.
+     ;;         Also export as items headlines for which no section
+     ;;         format has been found.
+     ((org-export-low-level-p headline info)
+      ;; Build the real contents of the sub-tree.
+      (let* ((type (if numberedp 'ordered 'unordered))
+             (itemized-body (org-html-format-list-item
+                             contents type nil info nil full-text)))
+        (concat
+         (and (org-export-first-sibling-p headline info)
+              (org-html-begin-plain-list type))
+         itemized-body
+         (and (org-export-last-sibling-p headline info)
+              (org-html-end-plain-list type)))))
 
-     ;; Case 2. Standard headline. Export it as a section.
+     ;; Case 3. Standard headline.  Export it as a section.
      (t
-      (let* ((level1 (+ level (1- org-html-toplevel-hlevel)))
+      (let* ((section-number (mapconcat 'number-to-string
+                                        (org-export-get-headline-number
+                                         headline info) "-"))
+             (ids (remove 'nil
+                          (list (org-element-property :CUSTOM_ID headline)
+                                (concat "sec-" section-number)
+                                (org-element-property :ID headline))))
+             (level1 (+ level (1- org-html-toplevel-hlevel)))
              (hlevel (org-ioslide-get-hlevel info))
              (first-content (car (org-element-contents headline))))
         (concat
+
          ;; Stop previous slide.
+	 ;; FIXME: This will make slide has more </slide> element
          (if (or (/= level 1)
                  (not (org-export-first-sibling-p headline info)))
-             "</article></slide>\n")
+             "</slide>\n")
 
-         ;; Add an extra "<article>" to group following slides
-         ;; into vertical ones.
-         ;;         (if (eq level hlevel) "<slide>\n")
-         ;; Start a new slide.
-         (org-ioslide--handle-slide-id headline info) " >\n"
+         (org-ioslide-close-element
+          (org-ioslide--container headline info)
+          ;; container class
+          (org-ioslide--container-class headline info)
+          ;; body
+          (format "%s%s%s"
+                  ;; aside
+                  (org-ioslide--aside headline info)
+                  ;; title
+                  (org-ioslide--title headline info)
 
-         ;; Handle Slide title
-         (org-ioslide--handle-title-group headline info)
+                  ;; When there is no section, pretend there is an empty
+                  ;; one to get the correct <div class="outline- ...>
+                  ;; which is needed by `org-info.js'.
+                  (if (not (eq (org-element-type first-content) 'section))
+                      (concat (org-html-section first-content "" info)
+                              "")
+                    contents)
+                  ))
+         ))))))
 
-         ;; Slide article class
-         (format "<article class=\"%s\">\n" (or (org-element-property :ARTICLE headline) ""))
+(defun org-ioslide--container (headline info)
+  "Return the top container of ioslide."
+  "slide")
 
-         ;; When there is no section, pretend there is an empty
-         ;; one to get the correct <div class="outline- ...>
-         ;; which is needed by `org-info.js'.
-         (if (not (eq (org-element-type first-content) 'section))
-             (concat (org-html-section first-content "" info)
-                     contents)
-           contents)
+(defun org-ioslide--container-class (headline info)
+  "Special handler for segue slide class."
+  (format
+   "id=\"%s\" class=\"%s nobackground\" style=\"background-image: url(%s)\""
+   ;; id
+   (or (org-element-property :CUSTOM_ID headline)
+       (concat "sec-" (mapconcat 'number-to-string
+                                 (org-export-get-headline-number headline info)
+                                 "-")))
+   ;; class
+   (or (org-element-property :SLIDE headline) "")
+   ;; background
+   (or (org-element-property :BACKGROUND headline) "")))
 
-         ;; Add an extra "</article>" to stop vertical slide grouping.
-         (if (= level hlevel) "</article>\n")
+(defun org-ioslide--title (headline info)
+  (let* ((title (org-element-property :TITLE headline))
+         ;;      (title-class (remove "hide"  title))
+         (title-class "")
+         (hgroup-class (org-element-property :HGROUP headline))
+         )
+    (if (string= "hide" title) ""
+      (format
+       "<hgroup class=\"%s\">
+       <h2 class=\"%s\">%s</h2>
+       <h3>%s</h3>
+       </hgroup>\n"
+       ;; class
+       (or hgroup-class "")
+       ;; headline text.
+       (or title-class "")
+       (org-html-format-headline--wrap headline info)
+       ;; subtitle
+       (or (org-element-property :SUBTITLE headline) "")))))
 
-         ;; Stop all slides when meets last head 1.
-         (if (and (= level 1)
-                  (org-export-last-sibling-p headline info))
-             "</slide>")))))))
+(defun org-ioslide--aside (headline info)
+  (let* ((slide-class (format "%s" (org-element-property :SLIDE headline)))
+         (segue-p (or (string-match "segue" slide-class) nil)))
+    (if (< 0 (string-bytes slide-class))
+        ;; icon
+        (if segue-p
+            (format
+             "<aside class=\"gdbar %s\"><img src=\"%s\"></aside>"
+             (or (org-element-property :ASIDE headline) "")
+             ;; get ICON from property, if not exist get ICON from info
+             (or (org-element-property :ICON headline)
+                 (plist-get info :icon) "")
+             ) "")
+      "")))
 
 (defun org-ioslide-section (section contents info)
   "Transcode a SECTION element from Org to HTML.
 CONTENTS holds the contents of the section. INFO is a plist
 holding contextual information."
   ;; Just return the contents. No "<div>" tags.
-  contents)
+  ;;  contents
+  (let ((parent (org-export-get-parent-headline section)))
+    ;; Before first headline: no container, just return CONTENTS.
+    (if (not parent) contents
+      ;; Get div's class and id references.
+      (let* ((class-num (+ (org-export-get-relative-level parent info)
+                           (1- org-html-toplevel-hlevel)))
+             (section-number
+              (mapconcat
+               'number-to-string
+               (org-export-get-headline-number parent info) "-")))
 
+        (org-ioslide-close-element
+         "article"
+         (format "class=\"%s\" id=\"text-%s\""
+                 (or (org-element-property :ARTICLE parent) "")
+                 (or (org-element-property :CUSTOM_ID parent) section-number))
+         contents
+         )))))
+
+
 ;;; Template
 
 (defun org-ioslide--build-logo-slide (info)
@@ -533,7 +541,7 @@ holding contextual information."
 
 (defun org-ioslide--build-title-slide (info)
   (format
-  "<slide class=\"title-slide segue nobackground\">
+   "<slide class=\"title-slide segue nobackground\">
        <aside class=\"gdbar\"><img src=\"%s\"></aside>
        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
        <hgroup class=\"auto-fadein\">
@@ -543,36 +551,36 @@ holding contextual information."
        </hgroup>
     </slide>
   "
-  (plist-get info :icon)))
+   (plist-get info :icon)))
 
 (defun org-ioslide--build-meta-info (info)
   "Return meta tags for exported document.
 INFO is a plist used as a communication channel."
   (let ((protect-string
-	 (lambda (str)
-	   (replace-regexp-in-string
-	    "\"" "&quot;" (org-html-encode-plain-text str))))
-	(author (and (plist-get info :with-author)
-		     (let ((auth (plist-get info :author)))
-		       (and auth
-			    ;; Return raw Org syntax, skipping non
-			    ;; exportable objects.
-			    (org-element-interpret-data
-			     (org-element-map auth
-				 (cons 'plain-text org-element-all-objects)
-			       'identity info))))))
-	(description (plist-get info :description))
-	(keywords (plist-get info :keywords))
-	(charset (or (and org-html-coding-system
-			  (fboundp 'coding-system-get)
-			  (coding-system-get org-html-coding-system
-					     'mime-charset))
-		     "iso-8859-1")))
+         (lambda (str)
+           (replace-regexp-in-string
+            "\"" "&quot;" (org-html-encode-plain-text str))))
+        (author (and (plist-get info :with-author)
+                     (let ((auth (plist-get info :author)))
+                       (and auth
+                            ;; Return raw Org syntax, skipping non
+                            ;; exportable objects.
+                            (org-element-interpret-data
+                             (org-element-map auth
+                                 (cons 'plain-text org-element-all-objects)
+                               'identity info))))))
+        (description (plist-get info :description))
+        (keywords (plist-get info :keywords))
+        (charset (or (and org-html-coding-system
+                          (fboundp 'coding-system-get)
+                          (coding-system-get org-html-coding-system
+                                             'mime-charset))
+                     "utf-8")))
     (concat
      "<title></title>\n"
      (when (plist-get info :time-stamp-file)
        (format-time-string
-	 (concat "<!-- " org-html-metadata-timestamp-format " -->\n")))
+        (concat "<!-- " org-html-metadata-timestamp-format " -->\n")))
 
      (format
       (org-html-close-tag "meta" " charset=\"%s\"" info) charset)
@@ -583,38 +591,38 @@ INFO is a plist used as a communication channel."
      (org-html-close-tag "meta" " name=\"generator\" content=\"Org-mode with org-ioslide\"" info)
      "\n"
      (if (org-string-nw-p author)
-	  (org-html-close-tag "meta"
-			      (format " name=\"author\" content=\"%s\""
-				      (funcall protect-string author))
-			      info))
+         (org-html-close-tag "meta"
+                             (format " name=\"author\" content=\"%s\""
+                                     (funcall protect-string author))
+                             info))
      "\n"
      (if (org-string-nw-p description)
-	  (org-html-close-tag "meta"
-			      (format " name=\"description\" content=\"%s\"\n"
-				      (funcall protect-string description))
-			      info))
+         (org-html-close-tag "meta"
+                             (format " name=\"description\" content=\"%s\"\n"
+                                     (funcall protect-string description))
+                             info))
      "\n"
      (if (org-string-nw-p keywords)
-	  (org-html-close-tag "meta"
-			      (format " name=\"keywords\" content=\"%s\""
-				      (funcall protect-string keywords))
-			      info))
+         (org-html-close-tag "meta"
+                             (format " name=\"keywords\" content=\"%s\""
+                                     (funcall protect-string keywords))
+                             info))
      "\n")))
 
 (defun org-ioslide--build-stylesheets (info)
   "Return the HTML contents for declaring ioslide stylesheets."
   (concat
    (org-html-close-tag "meta"
-		       "name=\"apple-mobile-web-app-capable\" content=\"yes\""
-		       info)
+                       "name=\"apple-mobile-web-app-capable\" content=\"yes\""
+                       info)
    "\n"
    (org-html-close-tag "link"
-		       "rel=\"stylesheet\" media=\"all\" href=\"theme/css/default.css\""
-		       info)
+                       "rel=\"stylesheet\" media=\"all\" href=\"theme/css/default.css\""
+                       info)
    "\n"
    (org-html-close-tag "link"
-		       "rel=\"stylesheet\" media=\"only screen and (max-device-width: 480px)\" href=\"theme/css/phone.css\""
-		       info)
+                       "rel=\"stylesheet\" media=\"only screen and (max-device-width: 480px)\" href=\"theme/css/phone.css\""
+                       info)
    "\n"
    "<script data-main=\"js/slides\" src=\"js/require-1.0.8.min.js\"></script>"
    "\n"))
@@ -693,7 +701,7 @@ is non-nil."
   (let ((outbuf (org-export-to-buffer
                  'ioslide "*Org Google I/O HTML5 Slide Export*"
                  subtreep visible-only body-only ext-plist))
-	(org-export-coding-system org-html-coding-system))
+        (org-export-coding-system org-html-coding-system))
     ;; Set major mode.
     (with-current-buffer outbuf (set-auto-mode t))
     (when org-export-show-temporary-export-buffer
