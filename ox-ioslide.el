@@ -134,12 +134,6 @@ vertical slides."
 
 
 ;;; Internal Functions
-(defun org-ioslide-if-format (fmt val)
-  (let ((str (if (listp val)
-                 (or (car-safe val) "")
-               val)))
-    (if val (format fmt str))))
-
 (defun org-ioslide-plist-get-string (info key)
   (let ((r (plist-get info key)))
     (if (stringp r) r (or (car r) ""))))
