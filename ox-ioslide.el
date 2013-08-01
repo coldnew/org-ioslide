@@ -591,7 +591,7 @@ holding contextual information."
          ;;      (title-class (remove "hide"  title))
          (title-class "")
          )
-    (if (not (string= "hide" title)) ""
+    (if (string= "hide" title) ""
       (format
        "<hgroup class=\"%s\">
        <h2 class=\"%s\">%s</h2>
@@ -604,8 +604,7 @@ holding contextual information."
        (or title-class "")
        (org-html-format-headline--wrap headline info)
        ;; subtitle
-       (or (org-element-property :SUBTITLE headline) ""))))
-  )
+       (or (org-element-property :SUBTITLE headline) "")))))
 
 (defun org-ioslide--aside (headline info)
   (if (org-element-property :SLIDE headline)
@@ -619,7 +618,8 @@ holding contextual information."
              ;; get ICON from property, if not exist get ICON from info
              (or (org-element-property :ICON headline)
                  (plist-get info :icon) "")
-             ) ""))))
+             ) "")))
+  "")
 
 (defun org-ioslide-section (section contents info)
   "Transcode a SECTION element from Org to HTML.
