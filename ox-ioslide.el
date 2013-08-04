@@ -434,9 +434,9 @@ holding contextual information."
 
 (defun org-ioslide--container-class (headline info)
   "Special handler for segue slide class."
-  (let* ((class (org-element-property :SLIDE headline))
-        (bg (org-element-property :BACKGROUND headline))
-	(segue-p (or (string-match "segue" (format "%s" class) nil))))
+  (let* ((class (or (org-element-property :SLIDE headline) ""))
+	 (fill-image (org-element-property :FILL headline))
+	 (segue-p (or (string-match "segue" (format "%s" class) nil))))
     (format
      "id=\"%s\" %s %s"
      ;; id
@@ -444,9 +444,11 @@ holding contextual information."
          (concat "sec-" (mapconcat 'number-to-string
                                    (org-export-get-headline-number headline info)
                                    "-")))
-     (if (or segue-p class)
-	 (format "class=\"%s %s\"" class "nobackground") "")
-     (if (or segue-p bg )  (format "style=\"background-image: url(%s)\"" bg) "")
+     (if (or segue-p class fill-image)
+	 (format "class=\"%s %s %s\""
+		 (if fill-image "fill" "") class "nobackground") "")
+     (if (or segue-p fill-image)
+	 (format "style=\"background-image: url(%s)\"" fill-image) "")
      )))
 
 (defun org-ioslide--title (headline info)
