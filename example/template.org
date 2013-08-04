@@ -293,7 +293,7 @@ Press 'p' to toggle speaker notes.
 * Quote text :: do not handle title
 
 :PROPERTIES:
-:TITLE: hide
+:TITLE: hide asdad
 :SLIDE: segue dark quote
 :ASIDE: right bottom
 :END:
@@ -343,7 +343,7 @@ Important contact information goes here.
 * End of slide (show logo slide)
 
 :PROPERTIES:
-:TITLE: false
+:TITLE: hide
 :SLIDE: logoslide dark
 :END:
 
