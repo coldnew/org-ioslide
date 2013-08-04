@@ -450,12 +450,10 @@ holding contextual information."
      )))
 
 (defun org-ioslide--title (headline info)
-  (let* ((title (org-element-property :TITLE headline))
-         ;;      (title-class (remove "hide"  title))
-         (title-class "")
-         (hgroup-class (org-element-property :HGROUP headline))
-         )
-    (if (string= "hide" title) ""
+  (let* ((title (format "%s "(org-element-property :TITLE headline)))
+	 (title-class (replace-regexp-in-string "\\<hide\\>" "" title))
+         (hgroup-class (org-element-property :HGROUP headline)))
+    (if (string-match "hide" title) ""
       (format
        "<hgroup class=\"%s\">
        <h2 class=\"%s\">%s</h2>
