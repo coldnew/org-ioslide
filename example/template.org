@@ -293,6 +293,7 @@ Press 'p' to toggle speaker notes.
 * Quote text :: do not handle title
 
 :PROPERTIES:
+:TITLE: hide
 :SLIDE: segue dark quote
 :ASIDE: right bottom
 :END:
@@ -314,7 +315,7 @@ Press 'p' to toggle speaker notes.
 * Slide with iFrame (no title)
 
 :PROPERTIES:
-:TITLE: false
+:TITLE: hide
 :END:
 
 #+HTML: <iframe data-src="http://www.google.com/doodle4google/resources/history.html"></iframe>
@@ -322,7 +323,7 @@ Press 'p' to toggle speaker notes.
 * Thank You slide
 
 :PROPERTIES:
-:TITLE: false
+:TITLE: hide
 :SLIDE: thank-you-slide segue
 :ASIDE: right
 :END:
