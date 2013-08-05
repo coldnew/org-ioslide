@@ -76,6 +76,12 @@ vertical slides."
   :group 'org-export-ioslide
   :type 'integer)
 
+(defcustom org-ioslide-download-resource-if-not-exist t
+  "Set t will automatically download resource when export to
+html."
+  :group 'org-export-ioslide
+  :type 'boolean)
+
 ;;; Define Back-End
 
 (org-export-define-derived-backend 'ioslide 'html
@@ -182,6 +188,12 @@ vertical slides."
       (dolist (f (cdr fl))
         (let ((target (concat (car fl) f)))
           (url-copy-file (concat url target) target t))))))
+
+(defun org-ioslide-check-resource ()
+  "Check js/slides.js exist or not, if not exist, re-fetch resource."
+  (if (and (not (file-exists-p "js/slides.js"))
+	   org-ioslide-download-resource-if-not-exist)
+      (org-ioslide--download-resource)))
 
 (defun org-ioslide-generate-config-file (text back-end info)
   (let ((file-name org-ioslide-config-file))
@@ -716,6 +728,9 @@ is non-nil."
   (let* ((extension (concat "." org-html-extension))
          (file (org-export-output-file-name extension subtreep))
          (org-export-coding-system org-html-coding-system))
+    ;; Check resource and re-fetch it
+    (org-ioslide-check-resource)
+    ;; export to html use ioslide backend
     (org-export-to-file
      'ioslide file subtreep visible-only body-only ext-plist)))
 
