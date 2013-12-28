@@ -284,8 +284,7 @@ Press 'p' to toggle speaker notes.
 * Full Image (with Optional Headline)
 
 :PROPERTIES:
-:SLIDE: fill
-:BACKGROUND: images/sky.jpg
+:FILL: images/sky.jpg
 :END:
 
 #+HTML: <footer class="source white">www.flickr.com/photos/25797459@N06/5438799763/</footer>
@@ -293,6 +292,7 @@ Press 'p' to toggle speaker notes.
 * Quote text :: do not handle title
 
 :PROPERTIES:
+:TITLE: hide
 :SLIDE: segue dark quote
 :ASIDE: right bottom
 :END:
@@ -314,22 +314,17 @@ Press 'p' to toggle speaker notes.
 * Slide with iFrame (no title)
 
 :PROPERTIES:
-:TITLE: false
+:TITLE: hide
 :END:
 
 #+HTML: <iframe data-src="http://www.google.com/doodle4google/resources/history.html"></iframe>
 
-* Thank You slide
+* <Thank you>
 
 :PROPERTIES:
-:TITLE: false
 :SLIDE: thank-you-slide segue
 :ASIDE: right
 :END:
-
-#+HTML: <h2>
-<Thank you>
-#+HTML: </h2>
 
 Important contact information goes here.
 
@@ -342,7 +337,7 @@ Important contact information goes here.
 * End of slide (show logo slide)
 
 :PROPERTIES:
-:TITLE: false
+:TITLE: hide
 :SLIDE: logoslide dark
 :END:
 
