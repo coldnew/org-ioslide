@@ -137,7 +137,7 @@ html."
     (center-block . org-ioslide-center-block)
     (src-block    . org-ioslide-src-block)
     (export-block . org-ioslide-export-block)
-    )
+    (paragraph    . org-ioslide-paragraph))
 
   :export-block '("NOTE")
   )
@@ -292,6 +292,22 @@ CONTENTS is nil. NFO is a plist holding contextual information."
        (org-element-property :value export-block)
        "</section>\n</aside>\n")
     (org-html-export-block export-block contents info)))
+
+;;;; Paragraph
+
+(defun org-ioslide-paragraph (paragraph contents info)
+  "Transcode a PARAGRAPH element from Org to HTML.
+CONTENTS is the contents of the paragraph, as a string.  INFO is
+the plist used as a communication channel."
+  ;; Fix multibyte language like chinese will be automatically add
+  ;; some space since org-mode will transpose auto-fill-mode's space
+  ;; to newline char.
+  (let ((fix-contents
+	 (replace-regexp-in-string
+	  (concat "\\([[:multibyte:]]\\) *\n *\\([[:multibyte:]]\\)") "\\1\\2" contents)))
+
+    ;; Send modify data to org-html-paragraph
+    (org-html-paragraph paragraph fix-contents info)))
 
 ;;;; Src Block
 
