@@ -6,6 +6,7 @@
 ;; Keywords: html presentation
 ;; X-URL: http://github.com/coldnew/org-ioslide
 ;; Version: 0.1
+;; Package-Requires: ((org "8.0"))
 
 ;; This file is not part of GNU Emacs.
 
