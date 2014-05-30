@@ -87,8 +87,13 @@ html."
 
 (org-export-define-derived-backend 'ioslide 'html
   :menu-entry
-  '(?I "Export to Google I/O HTML5 HTML slide."
-       ((?I "To file" org-ioslide-export-to-html)))
+  '(?i "Export to Google I/O HTML slide."
+       ((?H "As HTML buffer" org-ioslide-export-as-html)
+	(?h "As HTML file" org-ioslide-export-to-html))
+	(?o "As HTML file and open"
+	    (lambda (a s v b)
+	      (if a (org-ioslide-export-to-html t s v b)
+		(org-open-file (org-ioslide-export-to-html nil s v b))))))
 
   :filters-alist '((:filter-parse-tree . org-ioslide-generate-config-file))
 
