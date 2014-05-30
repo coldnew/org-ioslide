@@ -188,9 +188,9 @@ html."
     ;; Download files
     (dolist (fl file-list)
 
-      ;; Check fi parent dir exist or not
+      ;; Check if parent dir exist or not
       (unless (file-exists-p (car fl))
-        (make-directory (cad fl) d))
+        (make-directory (cad fl) t))
 
       ;; Download files
       (dolist (f (cdr fl))
