@@ -737,7 +737,11 @@ is non-nil."
     ;; Set major mode.
     (with-current-buffer outbuf (set-auto-mode t))
     (when org-export-show-temporary-export-buffer
-      (switch-to-buffer-other-window outbuf))))
+      (switch-to-buffer-other-window outbuf)
+      ;; Indent html buffer to make debug more easy
+      (delete-trailing-whitespace)
+      (indent-region (point-min) (point-max))
+      (untabify (point-min) (point-max)))))
 
 ;;;###autoload
 (defun org-ioslide-export-to-html
