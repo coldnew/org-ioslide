@@ -158,7 +158,6 @@ html."
 (defun org-ioslide--download-resource ()
   "Download needed rsouce from org-ioslide-resource-url."
   (let ((url org-ioslide-resource-url)
-        (dir-list  '("js" "js/polyfills" "js/prettify" "theme" "theme/css" "theme/scss"))
         (file-list '(;; Files in js dir
                      ("js/" .
                       ("hammer.js" "modernizr.custom.45394.js" "order.js"
@@ -181,11 +180,14 @@ html."
                       ("_base.scss" "default.scss" "io2013.scss" "phone.scss" "_variable.scss"))
                      )))
 
-    ;; Create parent directory
-    (dolist (d dir-list) (make-directory d t))
-
     ;; Download files
     (dolist (fl file-list)
+
+      ;; Check fi parent dir exist or not
+      (unless (file-exists-p (car fl))
+        (make-directory (cad fl) d))
+
+      ;; Download files
       (dolist (f (cdr fl))
         (let ((target (concat (car fl) f)))
           (url-copy-file (concat url target) target t))))))
