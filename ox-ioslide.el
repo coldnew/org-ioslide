@@ -89,11 +89,11 @@ html."
   :menu-entry
   '(?i "Export to Google I/O HTML slide."
        ((?H "As HTML buffer" org-ioslide-export-as-html)
-	(?h "As HTML file" org-ioslide-export-to-html))
-	(?o "As HTML file and open"
-	    (lambda (a s v b)
-	      (if a (org-ioslide-export-to-html t s v b)
-		(org-open-file (org-ioslide-export-to-html nil s v b))))))
+        (?h "As HTML file" org-ioslide-export-to-html))
+       (?o "As HTML file and open"
+           (lambda (a s v b)
+             (if a (org-ioslide-export-to-html t s v b)
+               (org-open-file (org-ioslide-export-to-html nil s v b))))))
 
   :filters-alist '((:filter-parse-tree . org-ioslide-generate-config-file))
 
@@ -200,7 +200,7 @@ html."
 (defun org-ioslide-check-resource ()
   "Check js/slides.js exist or not, if not exist, re-fetch resource."
   (if (and (not (file-exists-p "js/slides.js"))
-	   org-ioslide-download-resource-if-not-exist)
+           org-ioslide-download-resource-if-not-exist)
       (org-ioslide--download-resource)))
 
 (defun org-ioslide-generate-config-file (text back-end info)
@@ -311,8 +311,8 @@ the plist used as a communication channel."
   ;; some space since org-mode will transpose auto-fill-mode's space
   ;; to newline char.
   (let ((fix-contents
-	 (replace-regexp-in-string
-	  (concat "\\([[:multibyte:]]\\) *\n *\\([[:multibyte:]]\\)") "\\1\\2" contents)))
+         (replace-regexp-in-string
+          (concat "\\([[:multibyte:]]\\) *\n *\\([[:multibyte:]]\\)") "\\1\\2" contents)))
 
     ;; Send modify data to org-html-paragraph
     (org-html-paragraph paragraph fix-contents info)))
@@ -471,8 +471,8 @@ holding contextual information."
 (defun org-ioslide--container-class (headline info)
   "Special handler for segue slide class."
   (let* ((class (or (org-element-property :SLIDE headline) ""))
-	 (fill-image (org-element-property :FILL headline))
-	 (segue-p (or (string-match "segue" (format "%s" class) nil))))
+         (fill-image (org-element-property :FILL headline))
+         (segue-p (or (string-match "segue" (format "%s" class) nil))))
     (format
      "id=\"%s\" %s %s"
      ;; id
@@ -481,15 +481,15 @@ holding contextual information."
                                    (org-export-get-headline-number headline info)
                                    "-")))
      (if (or segue-p class fill-image)
-	 (format "class=\"%s %s %s\""
-		 (if fill-image "fill" "") class "nobackground") "")
+         (format "class=\"%s %s %s\""
+                 (if fill-image "fill" "") class "nobackground") "")
      (if (or segue-p fill-image)
-	 (format "style=\"background-image: url(%s)\"" fill-image) "")
+         (format "style=\"background-image: url(%s)\"" fill-image) "")
      )))
 
 (defun org-ioslide--title (headline info)
   (let* ((title (format "%s "(org-element-property :TITLE headline)))
-	 (title-class (replace-regexp-in-string "\\<hide\\>" "" title))
+         (title-class (replace-regexp-in-string "\\<hide\\>" "" title))
          (hgroup-class (org-element-property :HGROUP headline)))
     (if (string-match "hide" title) ""
       (format
@@ -736,8 +736,8 @@ will be displayed when `org-export-show-temporary-export-buffer'
 is non-nil."
   (interactive)
   (let ((outbuf (org-export-to-buffer
-                 'ioslide "*Org Google I/O HTML5 Slide Export*"
-                 subtreep visible-only body-only ext-plist))
+                    'ioslide "*Org Google I/O HTML5 Slide Export*"
+                  subtreep visible-only body-only ext-plist))
         (org-export-coding-system org-html-coding-system))
     ;; Set major mode.
     (with-current-buffer outbuf (set-auto-mode t))
@@ -760,7 +760,7 @@ is non-nil."
     (org-ioslide-check-resource)
     ;; export to html use ioslide backend
     (org-export-to-file
-     'ioslide file subtreep visible-only body-only ext-plist)))
+        'ioslide file subtreep visible-only body-only ext-plist)))
 
 ;; TODO:
 ;; Fix center not center
