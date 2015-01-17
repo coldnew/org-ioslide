@@ -639,7 +639,7 @@ INFO is a plist used as a communication channel."
 (defun org-ioslide-template (contents info)
   "Return complete document string after HTML conversion.
 contents is the transoded contents string.
-info is a plist holding eport options."
+info is a plist holding export options."
   (concat
    "<!DOCTYPE html>
 <html>
@@ -658,6 +658,11 @@ info is a plist holding eport options."
    (org-ioslide--build-stylesheets info)
    ;; html head
    (org-ioslide--build-head info)
+
+   "
+   <script src=\"/js/jquery-1.7.1.min.js\" type=\"text/javascript\"></script>
+"
+
    "</head>
 <body style=\"opacity: 0\">
 "
