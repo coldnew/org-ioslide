@@ -52,18 +52,17 @@
 (require 'ox-html)
 (eval-when-compile (require 'cl))
 
+(defvar org-ioslide-path
+  (file-truename (file-name-directory load-file-name))
+  "Get the absolute path of this file. Don't change this manually."
+  )
+
 
 ;;; User Configuration Variables
 (defgroup org-export-ioslide nil
   "Options for exporting Org mode files to HTML5 slide."
   :tag "Org Export to Google I/O HTML5 slide"
   :group 'org-export)
-
-(defcustom org-ioslide-resource-url
-  "https://io-2012-slides.googlecode.com/git/"
-  "Url to get Google I/O js and css resources."
-  :group 'org-export-ioslide
-  :type 'string)
 
 (defcustom org-ioslide-config-file
   "slide_config.js"
@@ -148,6 +147,7 @@ html."
   :export-block '("NOTE")
   )
 
+
 
 ;;; Internal Functions
 (defun org-ioslide--plist-get-string (info key)
@@ -158,50 +158,21 @@ html."
   (format "<%s %s>\n%s\n</%s>" element attr body element))
 
 (defun org-ioslide-close-element* (element attr body)
+  "What is this?!"
   (format "</%s>\n%s\n<%s %s>\n" element body element attr))
 
-(defun org-ioslide--download-resource ()
-  "Download needed rsouce from org-ioslide-resource-url."
-  (let ((url org-ioslide-resource-url)
-        (file-list '(;; Files in js dir
-                     ("js/" .
-                      ("hammer.js" "modernizr.custom.45394.js" "order.js"
-                       "require-1.0.8.min.js" "slide-controller.js" "slide-deck.js" "slides.js"))
-                     ;; Files in js/polyfills dir
-                     ("js/polyfills/" .
-                      ("classList.min.js" "dataset.min.js" "history.min.js"))
-                     ;; Files in js/prettify dir
-                     ("js/prettify/" .
-                      ("lang-apollo.js" "lang-css.js" "lang-hs.js" "lang-lua.js"
-                       "lang-n.js" "lang-scala.js" "lang-tex.js""lang-vhdl.js"
-                       "lang-xq.js""prettify.css" "lang-clj.js" "lang-go.js"
-                       "lang-lisp.js" "lang-ml.js" "lang-proto.js" "lang-sql.js"
-                       "lang-vb.js" "lang-wiki.js" "lang-yaml.js" "prettify.js"))
-                     ;; Files in theme/css dir
-                     ("theme/css/"  .
-                      ("default.css" "io2013.css" "phone.css"))
-                     ;; Files in theme/scss dir
-                     ("theme/scss/" .
-                      ("_base.scss" "default.scss" "io2013.scss" "phone.scss" "_variable.scss"))
-                     )))
-
-    ;; Download files
-    (dolist (fl file-list)
-
-      ;; Check if parent dir exist or not
-      (unless (file-exists-p (car fl))
-        (make-directory (cad fl) t))
-
-      ;; Download files
-      (dolist (f (cdr fl))
-        (let ((target (concat (car fl) f)))
-          (url-copy-file (concat url target) target t))))))
+(defun org-ioslide--copy-resource ()
+  "Copy needed resource to current path."
+  ;; Download files
+  (mapc (lambda (dir)
+	  (copy-file (concat org-ioslide-path dir) dir))
+	("js/" "images/" "theme/")))
 
 (defun org-ioslide-check-resource ()
   "Check js/slides.js exist or not, if not exist, re-fetch resource."
   (if (and (not (file-exists-p "js/slides.js"))
            org-ioslide-download-resource-if-not-exist)
-      (org-ioslide--download-resource)))
+      (org-ioslide--copy-resource)))
 
 (defun org-ioslide-generate-config-file (text back-end info)
   (let ((file-name org-ioslide-config-file))
@@ -723,7 +694,7 @@ info is a plist holding eport options."
   "Download extra resource like css or js file to use this slide offline."
   (interactive)
   (message "Start download ioslide resource!")
-  (org-ioslide--download-resource)
+  (org-ioslide--copy-resource)
   (message "Download ioslide resource Finish!"))
 
 ;;;###autoload
