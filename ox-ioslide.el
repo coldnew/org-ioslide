@@ -166,7 +166,7 @@ html."
   ;; Download files
   (mapc (lambda (dir)
 	  (copy-file (concat org-ioslide-path dir) dir))
-	("js/" "images/" "theme/")))
+	'("js/" "images/" "theme/")))
 
 (defun org-ioslide-check-resource ()
   "Check js/slides.js exist or not, if not exist, re-fetch resource."
