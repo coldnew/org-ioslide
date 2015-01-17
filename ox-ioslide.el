@@ -98,6 +98,9 @@ html."
 
   :options-alist
   '(
+    ;; Overwrite the HTML_HEAD defined in ox-html.el
+    (:html-head "HTML_HEAD" nil "" newline)
+
     ;; Configs that will be generated in slide_config.js
 
     ;; subtitle
