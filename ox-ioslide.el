@@ -116,7 +116,7 @@ html."
     ;; Note: the dvice must support touch.
     (:enable-touch      "ENABLE_TOUCH"      nil "true"  t)
     ;; favIcon
-    (:fav-icon          "FAVICON"           nil    ""   t)
+    (:fav-icon          "FAVICON"           nil "images/emacs-icon.png" t)
     ;; TODO: fonts
     ;; Author information
     (:company           "COMPANY"           nil   nil   t)
@@ -130,7 +130,7 @@ html."
     ;; Google analytics: 'UA-XXXXXXXX-1
     (:analytics         "ANALYTICS"         nil   nil   t)
     (:logo              "LOGO"              nil    ""   t)
-    (:icon              "ICON"              nil    ""   t)
+    (:icon              "ICON"              nil "images/emacs-icon.png" t)
     (:hlevel            "HLEVEL"            nil   nil   t)
 
     ;; TODO: idea ?
