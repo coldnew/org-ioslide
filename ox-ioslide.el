@@ -168,7 +168,7 @@ html."
   "Copy needed resource to current path."
   ;; Download files
   (mapc (lambda (dir)
-	  (copy-file (concat org-ioslide-path dir) dir))
+	  (copy-directory (concat org-ioslide-path dir) dir))
 	'("js/" "images/" "theme/")))
 
 (defun org-ioslide-check-resource ()
