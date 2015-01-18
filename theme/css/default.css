@@ -999,6 +999,26 @@ article.smaller q:before, article.smaller q:after {
 }
 
 /* line 735, ../scss/default.scss */
+.alignright {
+  float: right;
+}
+
+/* line 739, ../scss/default.scss */
+blockquote {
+  font-style: italic;
+  font-family: 'Times New Roman', Times, serif !important;
+  padding: 1em 1em;
+  background-color: #FCF7E8;
+  border-left: 0.2em solid #C6BB9F;
+  color: #616161;
+  quotes: "“" "”" "‘" "’";
+}
+/* line 747, ../scss/default.scss */
+blockquote p {
+  margin-top: 0;
+}
+
+/* line 752, ../scss/default.scss */
 .reflect {
   -webkit-box-reflect: below 3px -webkit-linear-gradient(rgba(255, 255, 255, 0) 85%, white 150%);
   -moz-box-reflect: below 3px -moz-linear-gradient(rgba(255, 255, 255, 0) 85%, white 150%);
@@ -1007,7 +1027,7 @@ article.smaller q:before, article.smaller q:after {
   box-reflect: below 3px linear-gradient(rgba(255, 255, 255, 0) 85%, #ffffff 150%);
 }
 
-/* line 743, ../scss/default.scss */
+/* line 760, ../scss/default.scss */
 .flexbox {
   display: -webkit-box !important;
   display: -moz-box !important;
@@ -1016,7 +1036,7 @@ article.smaller q:before, article.smaller q:after {
   display: box !important;
 }
 
-/* line 747, ../scss/default.scss */
+/* line 764, ../scss/default.scss */
 .flexbox.vcenter {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
@@ -1034,7 +1054,7 @@ article.smaller q:before, article.smaller q:after {
   width: 100%;
 }
 
-/* line 753, ../scss/default.scss */
+/* line 770, ../scss/default.scss */
 .flexbox.vleft {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
@@ -1052,7 +1072,7 @@ article.smaller q:before, article.smaller q:after {
   width: 100%;
 }
 
-/* line 759, ../scss/default.scss */
+/* line 776, ../scss/default.scss */
 .flexbox.vright {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
@@ -1070,7 +1090,7 @@ article.smaller q:before, article.smaller q:after {
   width: 100%;
 }
 
-/* line 765, ../scss/default.scss */
+/* line 782, ../scss/default.scss */
 .auto-fadein {
   -moz-transition: opacity 0.6s ease-in 1s;
   -o-transition: opacity 0.6s ease-in 1s;
@@ -1081,7 +1101,7 @@ article.smaller q:before, article.smaller q:after {
 }
 
 /* Clickable/tappable areas */
-/* line 771, ../scss/default.scss */
+/* line 788, ../scss/default.scss */
 .slide-area {
   z-index: 1000;
   position: absolute;
@@ -1095,59 +1115,59 @@ article.smaller q:before, article.smaller q:after {
   margin-top: -350px;
 }
 
-/* line 788, ../scss/default.scss */
+/* line 805, ../scss/default.scss */
 #prev-slide-area {
   margin-left: -550px;
 }
 
-/* line 793, ../scss/default.scss */
+/* line 810, ../scss/default.scss */
 #next-slide-area {
   margin-left: 450px;
 }
 
 /* ===== SLIDE CONTENT ===== */
-/* line 801, ../scss/default.scss */
+/* line 818, ../scss/default.scss */
 .logoslide img {
   width: 383px;
   height: 92px;
 }
 
-/* line 807, ../scss/default.scss */
+/* line 824, ../scss/default.scss */
 .segue {
   padding: 60px 120px;
 }
-/* line 810, ../scss/default.scss */
+/* line 827, ../scss/default.scss */
 .segue h2 {
   color: #e6e6e6;
   font-size: 60px;
 }
-/* line 814, ../scss/default.scss */
+/* line 831, ../scss/default.scss */
 .segue h3 {
   color: #e6e6e6;
   line-height: 2.8;
 }
-/* line 818, ../scss/default.scss */
+/* line 835, ../scss/default.scss */
 .segue hgroup {
   position: absolute;
   bottom: 225px;
 }
 
-/* line 824, ../scss/default.scss */
+/* line 841, ../scss/default.scss */
 .thank-you-slide {
   background: #4387fd !important;
   color: white;
 }
-/* line 828, ../scss/default.scss */
+/* line 845, ../scss/default.scss */
 .thank-you-slide h2 {
   font-size: 60px;
   color: inherit;
 }
-/* line 833, ../scss/default.scss */
+/* line 850, ../scss/default.scss */
 .thank-you-slide article > p {
   margin-top: 2em;
   font-size: 20pt;
 }
-/* line 838, ../scss/default.scss */
+/* line 855, ../scss/default.scss */
 .thank-you-slide > p {
   position: absolute;
   bottom: 80px;
@@ -1155,7 +1175,7 @@ article.smaller q:before, article.smaller q:after {
   line-height: 1.3;
 }
 
-/* line 846, ../scss/default.scss */
+/* line 863, ../scss/default.scss */
 aside.gdbar {
   height: 97px;
   width: 215px;
@@ -1181,7 +1201,7 @@ aside.gdbar {
   transition: all 0.5s ease-out 0.5s;
   /* Better to transition only on background-size, but not sure how to do that with the mixin. */
 }
-/* line 857, ../scss/default.scss */
+/* line 874, ../scss/default.scss */
 aside.gdbar.right {
   right: 0;
   left: -moz-initial;
@@ -1193,20 +1213,20 @@ aside.gdbar.right {
   -webkit-transform: rotateZ(180deg);
   transform: rotateZ(180deg);
 }
-/* line 864, ../scss/default.scss */
+/* line 881, ../scss/default.scss */
 aside.gdbar.right img {
   -moz-transform: rotateZ(180deg);
   -ms-transform: rotateZ(180deg);
   -webkit-transform: rotateZ(180deg);
   transform: rotateZ(180deg);
 }
-/* line 869, ../scss/default.scss */
+/* line 886, ../scss/default.scss */
 aside.gdbar.bottom {
   top: -moz-initial;
   top: initial;
   bottom: 60px;
 }
-/* line 875, ../scss/default.scss */
+/* line 892, ../scss/default.scss */
 aside.gdbar img {
   width: 85px;
   height: 85px;
@@ -1215,24 +1235,24 @@ aside.gdbar img {
   margin: 8px 15px;
 }
 
-/* line 886, ../scss/default.scss */
+/* line 903, ../scss/default.scss */
 .title-slide hgroup {
   bottom: 100px;
 }
-/* line 889, ../scss/default.scss */
+/* line 906, ../scss/default.scss */
 .title-slide hgroup h1 {
   font-size: 65px;
   line-height: 1.4;
   letter-spacing: -3px;
   color: #515151;
 }
-/* line 896, ../scss/default.scss */
+/* line 913, ../scss/default.scss */
 .title-slide hgroup h2 {
   font-size: 34px;
   color: #a9a9a9;
   font-weight: inherit;
 }
-/* line 902, ../scss/default.scss */
+/* line 919, ../scss/default.scss */
 .title-slide hgroup p {
   font-size: 20px;
   color: #797979;
@@ -1240,11 +1260,11 @@ aside.gdbar img {
   margin-top: 2em;
 }
 
-/* line 911, ../scss/default.scss */
+/* line 928, ../scss/default.scss */
 .quote {
   color: #e6e6e6;
 }
-/* line 914, ../scss/default.scss */
+/* line 931, ../scss/default.scss */
 .quote .author {
   font-size: 24px;
   position: absolute;
@@ -1252,22 +1272,22 @@ aside.gdbar img {
   line-height: 1.4;
 }
 
-/* line 923, ../scss/default.scss */
+/* line 940, ../scss/default.scss */
 [data-config-contact] a {
   color: white;
   border-bottom: none;
 }
-/* line 927, ../scss/default.scss */
+/* line 944, ../scss/default.scss */
 [data-config-contact] span {
   width: 115px;
   display: inline-block;
 }
 
-/* line 936, ../scss/default.scss */
+/* line 953, ../scss/default.scss */
 .overview.popup .note {
   display: none !important;
 }
-/* line 942, ../scss/default.scss */
+/* line 959, ../scss/default.scss */
 .overview slides slide {
   display: block;
   cursor: pointer;
@@ -1280,26 +1300,26 @@ aside.gdbar img {
   background: linear-gradient(#ffffff, #ffffff 85%, #e6e6e6);
   background-color: white;
 }
-/* line 943, ../scss/default.scss */
+/* line 960, ../scss/default.scss */
 .overview slides slide.backdrop {
   display: none !important;
 }
-/* line 954, ../scss/default.scss */
+/* line 971, ../scss/default.scss */
 .overview slides slide.far-past, .overview slides slide.past, .overview slides slide.next, .overview slides slide.far-next, .overview slides slide.far-past {
   opacity: 0.5;
   display: block;
 }
-/* line 963, ../scss/default.scss */
+/* line 980, ../scss/default.scss */
 .overview slides slide.current {
   opacity: 1;
 }
-/* line 969, ../scss/default.scss */
+/* line 986, ../scss/default.scss */
 .overview .slide-area {
   display: none;
 }
 
 @media print {
-  /* line 976, ../scss/default.scss */
+  /* line 993, ../scss/default.scss */
   slides slide {
     display: block !important;
     position: relative;
@@ -1323,46 +1343,46 @@ aside.gdbar img {
     opacity: 1 !important;
     color: #555;
   }
-  /* line 991, ../scss/default.scss */
+  /* line 1008, ../scss/default.scss */
   slides slide.far-past, slides slide.past, slides slide.next, slides slide.far-next, slides slide.far-past, slides slide.current {
     opacity: 1 !important;
     display: block !important;
   }
-  /* line 1002, ../scss/default.scss */
+  /* line 1019, ../scss/default.scss */
   slides slide .build > * {
     -moz-transition: none;
     -o-transition: none;
     -webkit-transition: none;
     transition: none;
   }
-  /* line 1006, ../scss/default.scss */
+  /* line 1023, ../scss/default.scss */
   slides slide .build .to-build,
   slides slide .build .build-fade {
     opacity: 1;
   }
-  /* line 1012, ../scss/default.scss */
+  /* line 1029, ../scss/default.scss */
   slides slide .auto-fadein {
     opacity: 1 !important;
   }
-  /* line 1016, ../scss/default.scss */
+  /* line 1033, ../scss/default.scss */
   slides slide.backdrop {
     display: none !important;
   }
-  /* line 1020, ../scss/default.scss */
+  /* line 1037, ../scss/default.scss */
   slides slide table.rows {
     border-right: 0;
   }
-  /* line 1025, ../scss/default.scss */
+  /* line 1042, ../scss/default.scss */
   slides slide[hidden] {
     display: none !important;
   }
 
-  /* line 1030, ../scss/default.scss */
+  /* line 1047, ../scss/default.scss */
   .slide-area {
     display: none;
   }
 
-  /* line 1034, ../scss/default.scss */
+  /* line 1051, ../scss/default.scss */
   .reflect {
     -webkit-box-reflect: none;
     -moz-box-reflect: none;
@@ -1371,7 +1391,7 @@ aside.gdbar img {
     box-reflect: none;
   }
 
-  /* line 1042, ../scss/default.scss */
+  /* line 1059, ../scss/default.scss */
   pre, code {
     font-family: monospace !important;
   }

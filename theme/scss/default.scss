@@ -732,6 +732,23 @@ article.smaller {
     text-align: center;
 }
 
+.alignright {
+    float: right;
+}
+
+blockquote {
+    font-style: italic;
+    font-family: 'Times New Roman', Times, serif !important;
+    padding: 1em 1em;
+    background-color: #FCF7E8;
+    border-left: 0.2em solid #C6BB9F;
+    color: #616161;
+    quotes: '\201C''\201D''\2018''\2019';
+    p {
+	margin-top: 0;
+    }
+}
+
 .reflect {
     -webkit-box-reflect: below 3px -webkit-linear-gradient(rgba(255,255,255,0) 85%, white 150%);
     -moz-box-reflect: below 3px -moz-linear-gradient(rgba(255,255,255,0) 85%, white 150%);

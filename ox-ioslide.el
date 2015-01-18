@@ -148,6 +148,7 @@ html."
     (template     . org-ioslide-template)
     (center-block . org-ioslide-center-block)
     (src-block    . org-ioslide-src-block)
+    (quote-block  . org-ioslide-quote-block)
     (export-block . org-ioslide-export-block)
     (paragraph    . org-ioslide-paragraph))
 
@@ -278,6 +279,17 @@ CONTENTS is nil. NFO is a plist holding contextual information."
        (org-element-property :value export-block)
        "</section>\n</aside>\n")
     (org-html-export-block export-block contents info)))
+
+;;;; Quote Block
+(defun org-ioslide-quote-block (quote-block contents info)
+  "Transcode a QUOTE-BLOCK element from Org to HTML.
+CONTENTS holds the contents of the block.  INFO is a plist
+holding contextual information."
+  (format "<blockquote>\n%s</blockquote>"
+	  (replace-regexp-in-string
+	   "^ *&#x2013;\\(.+\\)"
+	   "<span class='alignright'>&#x2013;\\1</span>"
+	   contents)))
 
 ;;;; Paragraph
 
