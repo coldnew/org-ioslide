@@ -647,7 +647,7 @@ save disk space."
   (if (string= "true" (org-ioslide--plist-get-string info :use-mathjax))
       (progn
 	;; Check if MathJax installed
-	(if (file-exists-p "js/mathjax")
+	(if (not (file-exists-p "js/mathjax"))
 	    (copy-directory (concat org-ioslide-path "js/mathjax") "js/mathjax"))
 	"\n<script src=\"js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local\" type=\"text/javascript\"></script>\n")
     (progn
