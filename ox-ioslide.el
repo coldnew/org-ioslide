@@ -127,6 +127,10 @@ html."
 
     ;; Other configs
 
+    ;; Use MathJax, Default: true. False will remove MathJax from
+    ;; current slide to save space (when exporting); True will
+    ;; re-install it again.
+    (:use-mathjax       "USE_MATHJAX"       nil "true"  t)
     ;; Google analytics: 'UA-XXXXXXXX-1
     (:analytics         "ANALYTICS"         nil   nil   t)
     (:logo              "LOGO"              nil    ""   t)
@@ -636,6 +640,23 @@ INFO is a plist used as a communication channel."
                                   (plist-get info :html-htmlized-css-url))
                           info)))))
 
+(defun org-ioslide--install-mathjax (info)
+  "If '#+USE_MATHJAX: true' is set (default), install MathJax and enable it.
+If '#+USE_MATHJAX: false' is set, remove MathJax directory to
+save disk space."
+  (if (string= "true" (org-ioslide--plist-get-string info :use-mathjax))
+      (progn
+	;; Check if MathJax installed
+	(if (file-exists-p "js/mathjax")
+	    (copy-directory (concat org-ioslide-path "js/mathjax") "js/mathjax"))
+	"\n<script src=\"js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local\" type=\"text/javascript\"></script>\n")
+    (progn
+      (if (file-exists-p "js/mathjax")
+	  (delete-directory "js/mathjax" t))
+      "")
+    )
+  )
+
 (defun org-ioslide-template (contents info)
   "Return complete document string after HTML conversion.
 contents is the transoded contents string.
@@ -662,6 +683,9 @@ info is a plist holding export options."
    "
    <script src=\"/js/jquery-1.7.1.min.js\" type=\"text/javascript\"></script>
 "
+
+   ;; MathJax
+   (org-ioslide--install-mathjax info)
 
    "</head>
 <body style=\"opacity: 0\">
