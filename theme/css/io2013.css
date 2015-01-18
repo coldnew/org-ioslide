@@ -26,9 +26,9 @@ slides > slide {
 slides > slide.title-slide:after {
   content: '';
   background: url(../../images/io2013/google-io-lockup-1.png) no-repeat 100% 50%;
-  -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
+  -webkit-background-size: contain;
   background-size: contain;
   position: absolute;
   bottom: 80px;
