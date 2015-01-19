@@ -1,3 +1,14 @@
+# This file is used for SCSS + Compass.
+# You can write SCSS then compile to CSS with this file.
+
+# Usage guide:
+# Install ruby-devel first
+# sudo gem update --system
+# sudo gem install scss
+# sudo gem install compass
+# cd org-ioslide
+# compass2.0 watch -s expanded
+
 # Require any additional compass plugins here.
 
 # Set this to the root of your project when deployed:
