@@ -76,12 +76,6 @@ vertical slides."
   :group 'org-export-ioslide
   :type 'integer)
 
-(defcustom org-ioslide-download-resource-if-not-exist t
-  "Set t will automatically download resource when export to
-html."
-  :group 'org-export-ioslide
-  :type 'boolean)
-
 ;;; Define Back-End
 
 (org-export-define-derived-backend 'ioslide 'html
@@ -150,6 +144,7 @@ html."
     (src-block    . org-ioslide-src-block)
     (quote-block  . org-ioslide-quote-block)
     (verse-block  . org-ioslide-verse-block)
+    (table-cell   . org-ioslide-table-cell)
     (export-block . org-ioslide-export-block)
     (plain-list   . org-ioslide-plain-list)
     (paragraph    . org-ioslide-paragraph))
@@ -180,8 +175,7 @@ html."
 
 (defun org-ioslide-check-resource ()
   "Check js/slides.js exist or not, if not exist, re-fetch resource."
-  (if (and (not (file-exists-p "js/slides.js"))
-           org-ioslide-download-resource-if-not-exist)
+  (if (not (file-exists-p "js/slides.js"))
       (org-ioslide--copy-resource)))
 
 (defun org-ioslide-generate-config-file (text back-end info)
@@ -552,6 +546,37 @@ holding contextual information."
          contents
          )))))
 
+;;;; Table Cell (support for "highlight" class)
+(defun org-ioslide-table-cell (table-cell contents info)
+  "Transcode a TABLE-CELL element from Org to HTML.
+CONTENTS is nil.  INFO is a plist used as a communication
+channel."
+  (let* ((table-row (org-export-get-parent table-cell))
+	 (table (org-export-get-parent-table table-cell))
+	 (cell-attrs
+	  (if (not org-html-table-align-individual-fields) ""
+	    (format " class=\"%s%s\""
+		    (org-export-table-cell-alignment table-cell info)
+		    (if (and (stringp contents)
+			     (string-prefix-p "* " contents))
+			(progn (setq contents (substring contents 2))
+			       " highlight")
+		      "")
+		    ))))
+    (when (or (not contents) (string= "" (org-trim contents)))
+      (setq contents "&#xa0;"))
+    (cond
+     ((and (org-export-table-has-header-p table info)
+	   (= 1 (org-export-table-row-group table-row info)))
+      (concat "\n" (format (car org-html-table-header-tags) "col" cell-attrs)
+	      contents (cdr org-html-table-header-tags)))
+     ((and org-html-table-use-header-tags-for-first-column
+	   (zerop (cdr (org-export-table-cell-address table-cell info))))
+      (concat "\n" (format (car org-html-table-header-tags) "row" cell-attrs)
+	      contents (cdr org-html-table-header-tags)))
+     (t (concat "\n" (format (car org-html-table-data-tags) cell-attrs)
+		contents (cdr org-html-table-data-tags))))))
+
 
 ;; Plain List
 
@@ -791,18 +816,9 @@ info is a plist holding export options."
 
 
 ;;; End-user functions
-
-;;;###autoload
-(defun org-ioslide-download-resource ()
-  "Download extra resource like css or js file to use this slide offline."
-  (interactive)
-  (message "Start download ioslide resource!")
-  (org-ioslide--copy-resource)
-  (message "Download ioslide resource Finish!"))
-
 ;;;###autoload
 (defun org-ioslide-export-as-html
-  (&optional async subtreep visible-only body-only ext-plist)
+    (&optional async subtreep visible-only body-only ext-plist)
   "Export current buffer to an HTML buffer.
 
 Export is done in a buffer named \"*Org HTML5 Slide Export*\", which

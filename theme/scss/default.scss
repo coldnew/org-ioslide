@@ -496,7 +496,7 @@ table {
 
     td.highlight {
 	color: $gray-4;
-	@include background(linear-gradient(top, $brand-yellow 40%, $brand-yellow-secondary2 80%) no-repeat);
+	background-color: $hiroko-highlight;
     }
 
     &.rows {
