@@ -149,6 +149,7 @@ html."
     (center-block . org-ioslide-center-block)
     (src-block    . org-ioslide-src-block)
     (quote-block  . org-ioslide-quote-block)
+    (verse-block  . org-ioslide-verse-block)
     (export-block . org-ioslide-export-block)
     (paragraph    . org-ioslide-paragraph))
 
@@ -286,10 +287,25 @@ CONTENTS is nil. NFO is a plist holding contextual information."
 CONTENTS holds the contents of the block.  INFO is a plist
 holding contextual information."
   (format "<blockquote>\n%s</blockquote>"
-	  (replace-regexp-in-string
-	   "^ *&#x2013;\\(.+\\)"
-	   "<span class='alignright'>&#x2013;\\1</span>"
-	   contents)))
+	  ;; Align "-- Name" to right side.
+	  (save-match-data
+	    (replace-regexp-in-string
+	     "</span>\n</p>"
+	     "</span><br  />\n</p>"
+	     (replace-regexp-in-string
+	      "^ *\\(&#x201[34];\\)\\(.+\\)\\(<br */>\\|\n\\)"
+	      "<span class='alignright'>\\1\\2</span>\\3"
+	      contents)))))
+
+;;; Verse Block
+(defun org-ioslide-verse-block (verse-block contents info)
+  "Transcode a VERSE-BLOCK element from Org to HTML.
+CONTENTS is verse block contents.  INFO is a plist holding
+contextual information."
+  ;; Align "-- Name" to right side.
+  (replace-regexp-in-string "^ *&#xa0;\\(?:&#xa0;\\)+\\(&#x201[34];\\)\\(.+?\\)\\(<br */>\\|\n\\)"
+			    "<span class='alignright'>\\1\\2</span>\\3"
+			    (org-html-verse-block verse-block contents info)))
 
 ;;;; Paragraph
 

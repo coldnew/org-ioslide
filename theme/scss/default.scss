@@ -736,7 +736,7 @@ article.smaller {
     float: right;
 }
 
-blockquote {
+blockquote, p.verse {
     font-style: italic;
     font-family: 'Times New Roman', Times, serif !important;
     padding: 1em 1em;
@@ -746,6 +746,7 @@ blockquote {
     quotes: '\201C''\201D''\2018''\2019';
     p {
 	margin-top: 0;
+	margin-bottom: 0 !important;
     }
 }
 
