@@ -151,6 +151,7 @@ html."
     (quote-block  . org-ioslide-quote-block)
     (verse-block  . org-ioslide-verse-block)
     (export-block . org-ioslide-export-block)
+    (plain-list   . org-ioslide-plain-list)
     (paragraph    . org-ioslide-paragraph))
 
   :export-block '("NOTE")
@@ -424,10 +425,10 @@ holding contextual information."
                              contents type nil info nil full-text)))
         (concat
          (and (org-export-first-sibling-p headline info)
-              (org-html-begin-plain-list type))
+              (org-ioslide-begin-plain-list type))
          itemized-body
          (and (org-export-last-sibling-p headline info)
-              (org-html-end-plain-list type)))))
+              (org-ioslide-end-plain-list type)))))
 
      ;; Case 3. Standard headline.  Export it as a section.
      (t
@@ -469,6 +470,49 @@ holding contextual information."
                     contents)
                   ))
          ))))))
+
+;;;; Plain List
+
+;; FIXME Maybe arg1 is not needed because <li value="20"> already sets
+;; the correct value for the item counter
+(defun org-ioslide-begin-plain-list (type class &optional arg1)
+  "Insert the beginning of the HTML list depending on TYPE.
+When ARG1 is a string, use it as the start parameter for ordered
+lists."
+  (if class
+      ;; quotes should be removed from "\"build fade\"", so:
+      (setq class
+	    (format " class=\"%s\""
+		    (replace-regexp-in-string "[\"']" "" class)))
+    (setq class ""))
+  (case type
+    (ordered
+     (format "<ol%s%s>"
+	     class
+	     (if arg1 (format " start=\"%d\"" arg1) "")))
+    (unordered (format "<ul%s>" class))
+    (descriptive (format "<dl%s>" class))))
+
+(defun org-ioslide-end-plain-list (type)
+  "Insert the end of the HTML list depending on TYPE."
+  (case type
+    (ordered "</ol>")
+    (unordered "</ul>")
+    (descriptive "</dl>")))
+
+(defun org-ioslide-plain-list (plain-list contents info)
+  "Transcode a PLAIN-LIST element from Org to HTML.
+CONTENTS is the contents of the list.  INFO is a plist holding
+contextual information."
+  (let* ((type (org-element-property :type plain-list))
+	 (attributes (org-export-read-attribute :attr_html plain-list))
+	 (class (plist-get attributes :class)))
+    (if attributes (setq ttt attributes))
+    (format "%s\n%s%s"
+	    (org-ioslide-begin-plain-list type class)
+	    contents (org-ioslide-end-plain-list type))))
+
+;;; Container
 
 (defun org-ioslide--container (headline info)
   "Return the top container of ioslide."
