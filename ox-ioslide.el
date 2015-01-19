@@ -507,7 +507,6 @@ contextual information."
   (let* ((type (org-element-property :type plain-list))
 	 (attributes (org-export-read-attribute :attr_html plain-list))
 	 (class (plist-get attributes :class)))
-    (if attributes (setq ttt attributes))
     (format "%s\n%s%s"
 	    (org-ioslide-begin-plain-list type class)
 	    contents (org-ioslide-end-plain-list type))))
