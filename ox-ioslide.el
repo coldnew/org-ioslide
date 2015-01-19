@@ -471,48 +471,6 @@ holding contextual information."
                   ))
          ))))))
 
-;;;; Plain List
-
-;; FIXME Maybe arg1 is not needed because <li value="20"> already sets
-;; the correct value for the item counter
-(defun org-ioslide-begin-plain-list (type class &optional arg1)
-  "Insert the beginning of the HTML list depending on TYPE.
-When ARG1 is a string, use it as the start parameter for ordered
-lists."
-  (if class
-      ;; quotes should be removed from "\"build fade\"", so:
-      (setq class
-	    (format " class=\"%s\""
-		    (replace-regexp-in-string "[\"']" "" class)))
-    (setq class ""))
-  (case type
-    (ordered
-     (format "<ol%s%s>"
-	     class
-	     (if arg1 (format " start=\"%d\"" arg1) "")))
-    (unordered (format "<ul%s>" class))
-    (descriptive (format "<dl%s>" class))))
-
-(defun org-ioslide-end-plain-list (type)
-  "Insert the end of the HTML list depending on TYPE."
-  (case type
-    (ordered "</ol>")
-    (unordered "</ul>")
-    (descriptive "</dl>")))
-
-(defun org-ioslide-plain-list (plain-list contents info)
-  "Transcode a PLAIN-LIST element from Org to HTML.
-CONTENTS is the contents of the list.  INFO is a plist holding
-contextual information."
-  (let* ((type (org-element-property :type plain-list))
-	 (attributes (org-export-read-attribute :attr_html plain-list))
-	 (class (plist-get attributes :class)))
-    (format "%s\n%s%s"
-	    (org-ioslide-begin-plain-list type class)
-	    contents (org-ioslide-end-plain-list type))))
-
-;;; Container
-
 (defun org-ioslide--container (headline info)
   "Return the top container of ioslide."
   "slide")
@@ -593,6 +551,48 @@ holding contextual information."
                  (or (org-element-property :CUSTOM_ID parent) section-number))
          contents
          )))))
+
+
+;; Plain List
+
+;; FIXME Maybe arg1 is not needed because <li value="20"> already sets
+;; the correct value for the item counter
+(defun org-ioslide-begin-plain-list (type class &optional arg1)
+  "Insert the beginning of the HTML list depending on TYPE.
+When ARG1 is a string, use it as the start parameter for ordered
+lists."
+  (if class
+      ;; quotes should be removed from "\"build fade\"", so:
+      (setq class
+	    (format " class=\"%s\""
+		    (replace-regexp-in-string "[\"']" "" class)))
+    (setq class ""))
+  (case type
+    (ordered
+     (format "<ol%s%s>"
+	     class
+	     (if arg1 (format " start=\"%d\"" arg1) "")))
+    (unordered (format "<ul%s>" class))
+    (descriptive (format "<dl%s>" class))))
+
+(defun org-ioslide-end-plain-list (type)
+  "Insert the end of the HTML list depending on TYPE."
+  (case type
+    (ordered "</ol>")
+    (unordered "</ul>")
+    (descriptive "</dl>")))
+
+(defun org-ioslide-plain-list (plain-list contents info)
+  "Transcode a PLAIN-LIST element from Org to HTML.
+CONTENTS is the contents of the list.  INFO is a plist holding
+contextual information."
+  (let* ((type (org-element-property :type plain-list))
+	 (attributes (org-export-read-attribute :attr_html plain-list))
+	 (class (plist-get attributes :class)))
+    (format "%s\n%s%s"
+	    (org-ioslide-begin-plain-list type class)
+	    contents (org-ioslide-end-plain-list type))))
+
 
 
 ;;; Template
