@@ -184,6 +184,29 @@ vertical slides."
   (if (not (file-exists-p "js/slides.js"))
       (org-ioslide--copy-resource)))
 
+(defun org-ioslide-generate-small-icon-css (icon-path)
+  "Generate theme/css/small-icon.css to overwrite style.
+(The small icon at the left bottom corner)"
+  (progn
+    (save-excursion
+      (with-temp-file "theme/css/small-icon.css"
+	(insert "slides > slide:not(.nobackground):before {
+background: url(../../" icon-path ") no-repeat 0 50%;
+font-size: 12pt;
+content: "";
+position: absolute;
+bottom: 20px;
+left: 60px;
+-moz-background-size: 30px 30px;
+-o-background-size: 30px 30px;
+-webkit-background-size: 30px 30px;
+background-size: 30px 30px;
+padding-left: 40px;
+height: 30px;
+line-height: 1.9;
+}")))
+    ""))
+
 (defun org-ioslide-generate-config-file (text back-end info)
   (let ((file-name org-ioslide-config-file))
     (save-excursion
@@ -772,6 +795,12 @@ INFO is a plist used as a communication channel."
                        "rel=\"stylesheet\" media=\"only screen and (max-device-width: 480px)\" href=\"theme/css/phone.css\""
                        info)
    "\n"
+   (org-html-close-tag "link"
+                       "rel=\"stylesheet\" media=\"all\" href=\"theme/css/small-icon.css\""
+                       info)
+   ;; [FIXME: ugly workaround] Generate theme/css/small-icon.css.
+   (org-ioslide-generate-small-icon-css (org-ioslide--plist-get-string info :fav-icon))
+   "\n"
    "<base target=\"_blank\"> <!-- This amazingness opens all links in a new tab. -->\n"
    "<script data-main=\"js/slides\" src=\"js/require-1.0.8.min.js\"></script>"
    "\n"))
@@ -827,6 +856,7 @@ info is a plist holding export options."
 
    ;; Import stylesheet from ioslide
    (org-ioslide--build-stylesheets info)
+
    ;; html head
    (org-ioslide--build-head info)
 
