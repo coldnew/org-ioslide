@@ -76,6 +76,8 @@ vertical slides."
   :group 'org-export-ioslide
   :type 'integer)
 
+(defvar org-ioslide--current-footnote-list nil)
+
 ;;; Define Back-End
 
 (org-export-define-derived-backend 'ioslide 'html
@@ -137,17 +139,21 @@ vertical slides."
     )
 
   :translate-alist
-  '((headline     . org-ioslide-headline)
-    (section      . org-ioslide-section)
-    (template     . org-ioslide-template)
-    (center-block . org-ioslide-center-block)
-    (src-block    . org-ioslide-src-block)
-    (quote-block  . org-ioslide-quote-block)
-    (verse-block  . org-ioslide-verse-block)
-    (table-cell   . org-ioslide-table-cell)
-    (export-block . org-ioslide-export-block)
-    (plain-list   . org-ioslide-plain-list)
-    (paragraph    . org-ioslide-paragraph))
+  '((headline			.	org-ioslide-headline)
+    (section			.	org-ioslide-section)
+    (template			.	org-ioslide-template)
+    (center-block		.	org-ioslide-center-block)
+    (src-block			.	org-ioslide-src-block)
+    (quote-block		.	org-ioslide-quote-block)
+    (verse-block		.	org-ioslide-verse-block)
+    (table-cell			.	org-ioslide-table-cell)
+    (export-block		.	org-ioslide-export-block)
+    (plain-list			.	org-ioslide-plain-list)
+    (paragraph			.	org-ioslide-paragraph)
+    (inner-template             .	org-ioslide-inner-template)
+    (footnote-definition	.	org-ioslide-footnote-definition)
+    (footnote-reference		.	org-ioslide-footnote-reference)
+    )
 
   :export-block '("NOTE")
   )
@@ -545,8 +551,54 @@ holding contextual information."
          (format "class=\"%s\" id=\"text-%s\""
                  (or (org-element-property :ARTICLE parent) "")
                  (or (org-element-property :CUSTOM_ID parent) section-number))
-         contents
+         (format "%s\n%s"
+		 contents
+		 (org-ioslide--footer-from-footnote))
          )))))
+
+;; Footnotes
+
+(defun org-ioslide--footer-from-footnote ()
+  ""
+  (if org-ioslide--current-footnote-list
+      (prog1 (concat
+	      "<footer class=\"source\">\n"
+	      (mapconcat #'identity org-ioslide--current-footnote-list "\n")
+	      "\n</footer>")
+	;; clean list
+	(setq org-ioslide--current-footnote-list nil))
+    ""))
+
+(defun org-ioslide-footnote-reference (footnote-reference contents info)
+  "Transcode a FOOTNOTE-REFERENCE element from Org to HTML (<footer class='source'>).
+CONTENTS is nil.  INFO is a plist holding contextual information."
+  (concat
+   (cond
+    ;; Do nothing if footnote has already been defined.
+    ((not (org-export-footnote-first-reference-p footnote-reference info))
+     "")
+    ;; Do nothing if reference is within another footnote
+    ;; reference, footnote definition or table cell.
+    ((loop for parent in (org-export-get-genealogy footnote-reference)
+	   thereis (memq (org-element-type parent)
+			 '(footnote-reference footnote-definition table-cell)))
+     "")
+    ;; Otherwise, add it into org-ioslide--current-footnote-list
+    (t
+     (let ((def (org-export-get-footnote-definition footnote-reference info)))
+       (push
+	(format "%s" (org-trim (org-export-data def info)))
+	org-ioslide--current-footnote-list)
+       ""
+       )))))
+
+(defun org-ioslide-inner-template (contents info)
+  "Return body of document string after HTML conversion.
+CONTENTS is the transcoded contents string.  INFO is a plist
+holding export options."
+  contents
+  )
+
 
 ;;;; Table Cell (support for "highlight" class)
 (defun org-ioslide-table-cell (table-cell contents info)
