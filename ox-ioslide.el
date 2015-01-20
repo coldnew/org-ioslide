@@ -113,6 +113,7 @@ vertical slides."
     (:enable-touch      "ENABLE_TOUCH"      nil "true"  t)
     ;; favIcon
     (:fav-icon          "FAVICON"           nil "images/emacs-icon.png" t)
+    (:hash-tag          "HASHTAG"           nil "" t)
     ;; TODO: fonts
     ;; Author information
     (:company           "COMPANY"           nil   nil   t)
@@ -184,7 +185,7 @@ vertical slides."
   (if (not (file-exists-p "js/slides.js"))
       (org-ioslide--copy-resource)))
 
-(defun org-ioslide-generate-small-icon-css (icon-path)
+(defun org-ioslide-generate-small-icon-css (icon-path hash-tag)
   "Generate theme/css/small-icon.css to overwrite style.
 (The small icon at the left bottom corner)"
   (progn
@@ -193,7 +194,7 @@ vertical slides."
 	(insert "slides > slide:not(.nobackground):before {
 background: url(../../" icon-path ") no-repeat 0 50%;
 font-size: 12pt;
-content: "";
+content: \"" hash-tag "\";
 position: absolute;
 bottom: 20px;
 left: 60px;
@@ -205,7 +206,7 @@ padding-left: 40px;
 height: 30px;
 line-height: 1.9;
 }")))
-    ""))
+""))
 
 (defun org-ioslide-generate-config-file (text back-end info)
   (let ((file-name org-ioslide-config-file))
@@ -799,7 +800,8 @@ INFO is a plist used as a communication channel."
                        "rel=\"stylesheet\" media=\"all\" href=\"theme/css/small-icon.css\""
                        info)
    ;; [FIXME: ugly workaround] Generate theme/css/small-icon.css.
-   (org-ioslide-generate-small-icon-css (org-ioslide--plist-get-string info :fav-icon))
+   (org-ioslide-generate-small-icon-css (org-ioslide--plist-get-string info :fav-icon)
+					(org-ioslide--plist-get-string info :hash-tag))
    "\n"
    "<base target=\"_blank\"> <!-- This amazingness opens all links in a new tab. -->\n"
    "<script data-main=\"js/slides\" src=\"js/require-1.0.8.min.js\"></script>"
