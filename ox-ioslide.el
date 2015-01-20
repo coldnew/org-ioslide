@@ -563,7 +563,7 @@ holding contextual information."
   (if org-ioslide--current-footnote-list
       (prog1 (concat
 	      "<footer class=\"source\">\n"
-	      (mapconcat #'identity org-ioslide--current-footnote-list "\n")
+	      (mapconcat #'identity (reverse org-ioslide--current-footnote-list) "\n")
 	      "\n</footer>")
 	;; clean list
 	(setq org-ioslide--current-footnote-list nil))
