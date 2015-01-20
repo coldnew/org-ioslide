@@ -369,20 +369,22 @@ Else use org-html-src-block to convert source block to html."
 
 ;;;; Google Analytics
 (defun org-ioslide-google-analytics (info)
-  (let ((user-id (or (plist-get info :analytics) "UA-XXXXXXXX-1")))
-    (format
-     (concat "<script>\n"
-             "var _gaq = _gaq || []; \n"
-             "_gaq.push(['_setAccount', '%s']);\n"
-             "_gaq.push(['_trackPageview']); \n"
-             "(function() {
+  (let ((user-id (plist-get info :analytics)))
+    (if (null user-id)
+	""
+      (format
+       (concat "<script>\n"
+	       "var _gaq = _gaq || []; \n"
+	       "_gaq.push(['_setAccount', '%s']);\n"
+	       "_gaq.push(['_trackPageview']); \n"
+	       "(function() {
   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();
 "
-             "</script>\n"
-             ) user-id)))
+	       "</script>\n"
+	       ) user-id))))
 
 ;;;; headline
 
