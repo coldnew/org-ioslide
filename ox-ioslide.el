@@ -479,7 +479,7 @@ holding contextual information."
 
 (defun org-ioslide--container-class (headline info)
   "Special handler for segue slide class."
-  (let* ((class (or (org-element-property :SLIDE headline) ""))
+  (let* ((class (org-element-property :SLIDE headline))
          (fill-image (org-element-property :FILL headline))
          (segue-p (or (string-match "segue" (format "%s" class) nil))))
     (format
