@@ -521,6 +521,10 @@ q {
     }
 }
 
+.footpara {
+    margin: 0;
+}
+
 slide.fill {
     background-repeat: no-repeat;
     @include border-radius($slide-border-radius);
