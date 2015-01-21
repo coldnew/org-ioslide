@@ -70,3 +70,11 @@ Convert quote-block into <q>...</q> in Segue page.
   :LOGBOOK:  
   - State "TODO"       from ""           [2015-01-21 水 02:50]
   :END:      
+* TODO Click on image to open & navigate.
+  :LOGBOOK:  
+  - State "TODO"       from ""           [2015-01-21 水 13:23]
+  :END:      
+* TODO Show #+GITHUB in page
+  :LOGBOOK:  
+  - State "TODO"       from ""           [2015-01-21 水 16:22]
+  :END:      
