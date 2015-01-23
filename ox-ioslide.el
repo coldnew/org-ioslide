@@ -322,6 +322,27 @@ holding contextual information."
 	      "<span class='alignright'>\\1\\2</span>\\3"
 	      contents)))))
 
+;; Quote Block for Segue
+
+(defun org-ioslide--get-org-string-element  (headline backend info)
+  "Return the org element representation of an element."
+  (let ((prop-point (next-property-change 0 headline)))
+    (if prop-point (plist-get (text-properties-at prop-point headline) :parent))))
+
+(defun org-ioslide--export-quotes-inherit-from-headline (quote-data backend info)
+  "Wrap content with <q>...</q>."
+  (let* ((elm (org-ioslide--get-org-string-element quote-data backend info))
+	 (parent (and elm (org-export-get-parent-headline elm)))
+	 (slide-prop (org-element-property :SLIDE parent)))
+    (when (and slide-prop
+	       (string-match "segue" slide-prop))
+      (concat "<q>"
+	      (replace-regexp-in-string "\\(</?blockquote>\\|</?p>\\)"  "" quote-data)
+	      "</q>"))))
+
+(add-to-list 'org-export-filter-quote-block-functions
+	     'org-ioslide--export-quotes-inherit-from-headline)
+
 ;;; Verse Block
 (defun org-ioslide-verse-block (verse-block contents info)
   "Transcode a VERSE-BLOCK element from Org to HTML.
