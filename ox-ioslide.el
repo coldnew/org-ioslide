@@ -320,6 +320,7 @@ holding contextual information."
 			  "<span class='alignright'>\\1\\2</span>\\3" string)))))
     (if (and slide-prop
 	     (string-match "segue" slide-prop))
+	;; [FIXME] different sign rendering under Firefox and Chrome...
 	(format "<q>\n%s</q>"
 		(replace-regexp-in-string
 		 "<br>\n *<span" "<span"

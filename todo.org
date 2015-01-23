@@ -51,21 +51,25 @@ http://orgmode.org/manual/Tables.html#Tables
 	  </p>
 	</footer>
 #+END_SRC
-* TODO Speaker Notes (p)
+* DONE Make <q></q> in Segue more conveniently
+  CLOSED: [2015-01-24 土 06:41]
   :LOGBOOK:  
-  - State "TODO"       from ""           [2015-01-21 水 02:16]
-  :END:      
-* TODO Highlight Code (h)
-  :LOGBOOK:  
-  - State "TODO"       from ""           [2015-01-21 水 02:18]
-  :END:      
-wrapped in <b>
-* TODO Make <q></q> in Segue more conveniently
-  :LOGBOOK:  
+  - State "DONE"       from "STARTED"    [2015-01-24 土 06:41]
+  - State "STARTED"    from "TODO"       [2015-01-23 金 15:11]
   - State "TODO"       from "APPT"       [2015-01-20 火 02:09]
   - State "APPT"       from ""           [2015-01-20 火 00:00]
   :END:      
 Convert quote-block into <q>...</q> in Segue page.
+* CANCELLED Highlight Code (h)
+  CLOSED: [2015-01-24 土 06:50]
+  :LOGBOOK:  
+  - State "TODO"       from ""           [2015-01-21 水 02:18]
+  :END:      
+wrapped in <b>
+* TODO Speaker Notes (p)
+  :LOGBOOK:  
+  - State "TODO"       from ""           [2015-01-21 水 02:16]
+  :END:      
 * TODO Functions to make inserting properties easier
   :LOGBOOK:  
   - State "TODO"       from ""           [2015-01-21 水 02:50]
