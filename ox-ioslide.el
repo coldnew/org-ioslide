@@ -313,29 +313,39 @@ CONTENTS holds the contents of the block.  INFO is a plist
 holding contextual information."
   (let* ((parent (org-export-get-parent-headline quote-block))
 	 (slide-prop (org-element-property :SLIDE parent))
+	 (attributes (org-export-read-attribute :attr_html quote-block))
+	 (class (plist-get attributes :class))
 	 (--make-sign (function
 		       (lambda (string)
 			 (replace-regexp-in-string
 			  "^ *\\(&#x201[34];\\)\\(.+\\)\\(<br */>\\|\n\\)"
 			  "<span class='alignright'>\\1\\2</span>\\3" string)))))
-    (if (and slide-prop
-	     (string-match "segue" slide-prop))
-	;; [FIXME] different sign rendering under Firefox and Chrome...
-	(format "<q>\n%s</q>"
-		(replace-regexp-in-string
-		 "<br>\n *<span" "<span"
-		 (replace-regexp-in-string
-		  "</?p>" ""
+    (if (and class (string-match "notes?" class))
+	(format "<aside class=\"note\">
+  <section>
+%s
+  </section>
+</aside>
+" contents)
+      (if (and slide-prop
+	       (string-match "segue" slide-prop))
+	  ;; [FIXME] different sign rendering under Firefox and Chrome...
+	  (format "<q>\n%s</q>"
 		  (replace-regexp-in-string
-		   "</?p>\n* *<p>" "<br>"
-		   (funcall --make-sign contents)))))
-      (format "<blockquote>\n%s</blockquote>"
-	      ;; Align "-- Name" to right side.
-	      (save-match-data
-		(replace-regexp-in-string
-		 "</span>\n</p>"
-		 "</span><br  />\n</p>"
-		 (funcall --make-sign contents)))))))
+		   "<br>\n *<span" "<span"
+		   (replace-regexp-in-string
+		    "</?p>" ""
+		    (replace-regexp-in-string
+		     "</?p>\n* *<p>" "<br>"
+		     (funcall --make-sign contents)))))
+	(format "<blockquote>\n%s</blockquote>"
+		;; Align "-- Name" to right side.
+		(save-match-data
+		  (replace-regexp-in-string
+		   "</span>\n</p>"
+		   "</span><br  />\n</p>"
+		   (funcall --make-sign contents))))))))
+
 
 ;;; Verse Block
 (defun org-ioslide-verse-block (verse-block contents info)

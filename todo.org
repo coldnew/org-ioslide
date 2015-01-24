@@ -66,8 +66,10 @@ Convert quote-block into <q>...</q> in Segue page.
   - State "TODO"       from ""           [2015-01-21 水 02:18]
   :END:      
 wrapped in <b>
-* TODO Speaker Notes (p)
+* DONE Speaker Notes (p)
+  CLOSED: [2015-01-24 土 08:02]
   :LOGBOOK:  
+  - State "DONE"       from "TODO"       [2015-01-24 土 08:02]
   - State "TODO"       from ""           [2015-01-21 水 02:16]
   :END:      
 * TODO Functions to make inserting properties easier
