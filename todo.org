@@ -84,3 +84,41 @@ wrapped in <b>
   :LOGBOOK:  
   - State "TODO"       from ""           [2015-01-21 水 16:22]
   :END:      
+** Wrong:
+#+BEGIN_SRC html
+  <slide id="sec-22" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+    <aside class="gdbar right"><img src="images/emacs-icon.png"></aside>
+    <h2>
+      <p>
+         Thank You ˊ・ω・
+      </p>
+    </h2>
+    
+    <br>
+    
+    <p class="auto-fadein" data-config-contact><article class="flexbox vleft auto-fadein" id="text-22">
+      </article>
+  </slide>
+#+END_SRC
+** Correct:
+#+BEGIN_SRC html
+  <slide id="sec-8" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+    <aside class="gdbar right"><img src="picts/org-mode_icon.png"></aside>
+
+    <article class="flexbox vleft auto-fadein" id="text-8">
+
+      <h2>
+        <p>
+          &lt;Thank you&gt;
+        </p>
+      </h2>
+
+      <br>
+      <p class="auto-fadein" data-config-contact> </p>
+
+
+    </article>
+
+  </slide>
+#+END_SRC
+

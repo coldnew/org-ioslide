@@ -546,10 +546,13 @@ holding contextual information."
      )))
 
 (defun org-ioslide--title (headline info)
-  (let* ((title (format "%s "(org-element-property :TITLE headline)))
+  (let* ((title (format "%s " (org-element-property :TITLE headline)))
+	 (slide-prop (format "%s" (org-element-property :SLIDE headline)))
          (title-class (replace-regexp-in-string "\\<hide\\>" "" title))
          (hgroup-class (org-element-property :HGROUP headline)))
-    (if (string-match "hide" title) ""
+    (if (or (string-match "hide" title)
+	    (string-match "thank-you-slide" slide-prop))
+	""
       (format
        "<hgroup class=\"%s\">
        <h2 class=\"%s\">%s</h2>
@@ -600,10 +603,24 @@ holding contextual information."
          (format "class=\"%s\" id=\"text-%s\""
                  (or (org-element-property :ARTICLE parent) "")
                  (or (org-element-property :CUSTOM_ID parent) section-number))
-         (format "%s\n%s"
-		 contents
-		 (org-ioslide--footer-from-footnote))
-         )))))
+	 (if (string-match "thank-you-slide"
+			   (format "%s" (org-element-property :SLIDE parent)))
+
+	     ;; Thank you slide
+	     (format
+	      "<h2>
+  <p>%s</p>
+</h2>
+<br>
+<p class=\"auto-fadein\" data-config-contact>
+</p>"
+	      (org-export-data (org-element-property :title parent) info))
+
+	   ;; Normal content
+	   (format "%s\n%s"
+		   contents
+		   (org-ioslide--footer-from-footnote))
+	   ))))))
 
 ;; Footnotes
 
