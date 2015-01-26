@@ -888,7 +888,7 @@ info is a plist holding export options."
    (org-ioslide--build-head info)
 
    "
-   <script src=\"/js/jquery-1.7.1.min.js\" type=\"text/javascript\"></script>
+   <script src=\"js/jquery-1.7.1.min.js\" type=\"text/javascript\"></script>
 "
 
    ;; MathJax
