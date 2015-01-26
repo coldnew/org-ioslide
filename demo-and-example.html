@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2015-01-26 月 16:40 -->
+<!-- 2015-01-26 月 17:08 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -710,23 +710,32 @@ Available properties <b>applied separatly on each slide pages:</b>
        <h2 class="nil ">Available Options</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-19">
+<article class="smaller" id="text-19">
+
 <p>
 Available options <b>applied on the whole slide</b>:
 </p>
 <div class="org-src-container">
 
 <pre class="prettyprint" data-lang="org">
- #+COMPANY: Company
- #+GOOGLE_PLUS: https://plus.google.com/
- #+WWW: http://kuanyui.github.io
- #+GITHUB: http://github.com/kuanyui
+# Appear in cover-slide:
+#+TITLE: Org-IO Slide Demo &amp; Example
+#+SUBTITLE: Here Is Subtitle
+#+COMPANY: Company Name
 
- #+FAVICON: images/emacs-icon.png
- #+ICON: images/org-icon.png
+# Appear in thank-you-slide:
+#+GOOGLE_PLUS: https://plus.google.com/YOUR_ACCOUNT
+#+WWW: http://your.blog.io/
+#+GITHUB: http://github.com/YOUR_ACCOUNT
+#+TWITTER: USER_NAME
+
+# Appear under each slide:
+#+FAVICON: images/emacs-icon.png
+#+ICON: images/org-icon.png
+#+HASHTAG: Hash tag appears in here
 
 # Google Analytics
- #+ANALYTICS: UA-42122243-1
+#+ANALYTICS: UA-42122243-1
 </pre>
 
 </div>
@@ -738,15 +747,26 @@ Available options <b>applied on the whole slide</b>:
 </slide>
 <slide id="sec-20"  >
 <hgroup class="">
-       <h2 class="nil ">Available Options For Package</h2>
+       <h2 class="nil ">Available Options For Packages</h2>
        <h3></h3>
        </hgroup>
 <article class="" id="text-20">
+<p>
+Use or disable JS packages.
+</p>
 <div class="org-src-container">
 
 <pre class="prettyprint" data-lang="org">
-# Highlight code with Prettify.js
-#+USE_PRETTIFY: false
+# Highlight code blocks with Prettify.js
+#+USE_PRETTIFY: true
+
+# Display math formula with MathJax.js
+# MathJax is a little fat (~5 MB), set it `false` if no need to shrink the 
+# size of slide file
+#+USE_MATHJAX: true
+
+# Build list animation
+#+USE_BUILDS: true
 </pre>
 
 </div>
@@ -764,7 +784,7 @@ Available options <b>applied on the whole slide</b>:
        </hgroup>
 <article class="" id="text-21">
 <ul>
-<li>Add the following properties to a headline:
+<li>Add the following properties to one headline:
 </li>
 </ul>
 <div class="org-src-container">

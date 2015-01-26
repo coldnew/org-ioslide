@@ -109,7 +109,7 @@ vertical slides."
     ;; areas on either slide of the slides.
     (:enable-slideareas "ENABLE_SLIDEAREAS" nil "true"  t)
     ;; enableTouch, Default: true. If touch support should enabled.
-    ;; Note: the dvice must support touch.
+    ;; Note: the device must support touch.
     (:enable-touch      "ENABLE_TOUCH"      nil "true"  t)
     ;; favIcon
     (:fav-icon          "FAVICON"           nil "images/emacs-icon.png" t)

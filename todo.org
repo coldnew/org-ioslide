@@ -124,3 +124,7 @@ wrapped in <b>
   - State "TODO"       from ""           [2015-01-21 水 13:23]
   :END:      
 
+* TODO Beautify quote block
+  :LOGBOOK:  
+  - State "TODO"       from ""           [2015-01-26 月 16:53]
+  :END:      

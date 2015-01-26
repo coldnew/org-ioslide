@@ -1,4 +1,5 @@
 #+TITLE: Org-IO Slide Demo & Example
+#+SUBTITLE: Here Is Subtitle
 #+DATE: 2015/01/18（日）02:20
 #+AUTHOR: kuanyui
 #+EMAIL: azazabc123@gmail.com
@@ -13,12 +14,15 @@
 #+LANGUAGE: en
 #+SELECT_TAGS: export
 
-#+GOOGLE_PLUS: https://github.com/coldnew/COSCUP2013_org-mode.git
-#+WWW: http://coldnew.github.io
-#+GITHUB: http://github.com/coldnew
+#+GOOGLE_PLUS: https://plus.google.com/YOUR_ACCOUNT
+#+COMPANY: Company Name
+#+WWW: http://your.blog.io/
+#+GITHUB: http://github.com/YOUR_ACCOUNT
+#+TWITTER: USER_NAME
 
 #+FAVICON: images/org-icon.png
 #+ICON: images/emacs-icon.png
+#+HASHTAG: Hash tag is in here
 
 * List
 - Item 1
@@ -297,23 +301,45 @@ Available properties *applied separatly on each slide pages:*
 :ARTICLE: flexbox vleft auto-fadein
 #+END_SRC
 * Available Options
+  :PROPERTIES:
+  :ARTICLE:  smaller
+  :END:
+
 Available options *applied on the whole slide*:
 #+BEGIN_SRC org
- #+COMPANY: Company
- #+GOOGLE_PLUS: https://plus.google.com/
- #+WWW: http://kuanyui.github.io
- #+GITHUB: http://github.com/kuanyui
+ # Appear in cover-slide:
+ #+TITLE: Org-IO Slide Demo & Example
+ #+SUBTITLE: Here Is Subtitle
+ #+COMPANY: Company Name
+
+ # Appear in thank-you-slide:
+ #+GOOGLE_PLUS: https://plus.google.com/YOUR_ACCOUNT
+ #+WWW: http://your.blog.io/
+ #+GITHUB: http://github.com/YOUR_ACCOUNT
+ #+TWITTER: USER_NAME
  
+ # Appear under each slide:
  #+FAVICON: images/emacs-icon.png
  #+ICON: images/org-icon.png
+ #+HASHTAG: Hash tag appears in here
 
-# Google Analytics
+ # Google Analytics
  #+ANALYTICS: UA-42122243-1
 #+END_SRC
-* Available Options For Package
+* Available Options For Packages
+Use or disable JS packages.
 #+BEGIN_SRC org
- # Highlight code with Prettify.js
- #+USE_PRETTIFY: false
+ # Highlight code blocks with Prettify.js
+ ,#+USE_PRETTIFY: true
+
+ # Display math formula with MathJax.js
+ # MathJax is a little fat (~5 MB), set it `false` if no need to shrink the 
+ # size of slide file
+ ,#+USE_MATHJAX: true
+
+ # Build list animation
+ ,#+USE_BUILDS: true
+
 
 #+END_SRC
 
