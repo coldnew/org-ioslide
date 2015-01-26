@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<!-- 2015-01-26 月 16:40 -->
+<meta  charset="utf-8" />
+<meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
+<meta  name="generator" content="Org-mode with org-ioslide" />
+<meta  name="author" content="kuanyui" />
+
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--This one seems to work all the time, but really small on ipad-->
+<!--<meta name="viewport" content="initial-scale=0.4">-->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="stylesheet" media="all" href="theme/css/default.css" />
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css" />
+<link rel="stylesheet" media="all" href="theme/css/small-icon.css" />
+<base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+<script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+
+   <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+<script src="js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local" type="text/javascript"></script>
+</head>
+<body style="opacity: 0">
+<slides class="layout-widescreen">
+<slide class="title-slide segue nobackground">
+       <aside class="gdbar"><img src="images/emacs-icon.png"></aside>
+       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+       <hgroup class="auto-fadein">
+         <h1 data-config-title><!-- populated from slide_config.json --></h1>
+         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+         <p data-config-presenter><!-- populated from slide_config.json --></p>
+       </hgroup>
+    </slide>
+  
+<slide id="sec-1"  >
+<hgroup class="">
+       <h2 class="nil ">List</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1">
+<ul>
+<li>Item 1
+</li>
+<li>Item 2
+<ul>
+<li>Depth 2
+</li>
+<li>Depth 2
+</li>
+<li>Depth 2
+<ul>
+<li>Third
+</li>
+<li>Third
+</li>
+<li>Third
+</li>
+<li>Third
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-2"  >
+<hgroup class="">
+       <h2 class="nil ">Build List</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-2">
+<p>
+Show one by one:
+</p>
+<ul class="build">
+<li>Item 1
+</li>
+<li>Item 2
+</li>
+<li>Item 3
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+Show one by one:
+#+ATTR_HTML: :class build
+- Item 1
+- Item 2
+- Item 3
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-3"  >
+<hgroup class="">
+       <h2 class="nil ">Build + Fade List</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-3">
+<p>
+Show one by one:
+</p>
+<ul class="build fade">
+<li>Item 1
+</li>
+<li>Item 2
+</li>
+<li>Item 3
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+Show one by one:
+#+ATTR_HTML: :class build fade
+- Item 1
+- Item 2
+- Item 3
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-4"  >
+<hgroup class="">
+       <h2 class="nil ">Numerated List</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4">
+<ol>
+<li>First
+</li>
+<li>Second
+</li>
+<li>Third
+<ul>
+<li>Item
+</li>
+<li>Item
+</li>
+<li>Item
+</li>
+</ul>
+</li>
+</ol>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-5"  >
+<hgroup class="">
+       <h2 class="nil ">Smaller Arcticle</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-5">
+<p>
+The headline of this slide added a <code>:ARTICLE:  smaller</code> property, so has smaller content.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-6"  >
+<hgroup class="">
+       <h2 class="nil ">Footnote</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6">
+<p>
+Use <code>C-c C-x f</code> to create footnotes <code>[fn:N]</code>, which will be placed under a slide:
+</p>
+<blockquote>
+<p>
+Jump between footnotes with <code>C-c C-c</code> on <code>[fn:N]</code>.
+</p>
+</blockquote>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+ * Title
+   This is content text.[fn:1]
+...
+
+ * Footnotes
+ [fn:1] Footnote is in here!
+</pre>
+
+</div>
+<ul class="build">
+<li><b>↓ Look here!</b>
+</li>
+</ul>
+
+<footer class="source">
+<p class="footpara">
+Footnote is in here!
+</p>
+</footer>
+</article>
+
+</slide>
+</slide>
+<slide id="sec-7"  >
+<hgroup class="">
+       <h2 class="nil ">Code Block</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-7">
+<p>
+A source block looks like this:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="emacs-lisp">
+(def hello-world ()
+     (message "hello world!"))
+</pre>
+
+</div>
+<ul>
+<li>Just type <code>&lt;s</code> in a newline, then press <code>[TAB]</code> to expand to <code>#+BEGIN_SRC ... #+END_SRC</code>.
+</li>
+<li>Remember to specify the language name (e.g. <code>emacs-lisp</code>).
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+#+BEGIN_SRC emacs-lisp
+  (def hello-world ()
+       (message "hello world!"))
+#+END_SRC
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-8"  >
+<hgroup class="">
+       <h2 class="nil ">Highlight in Code Block</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-8">
+<ul>
+<li>Press <code>h</code> to highlight the code.
+</li>
+<li>Simply wrap the area you want with <b><code>&lt;b&gt; ... &lt;/b&gt;</code></b> in source block.
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="emacs-lisp">
+(defun org-ioslide-quote-block (quote-block contents info)
+  (let* ((parent (org-export-get-parent-headline quote-block))
+	 (slide-prop (org-element-property :SLIDE parent))
+	 <b>(--make-sign (function (lambda (string)
+			   (replace-regexp-in-string
+			    "^ *\\(&amp;#x201[34];\\)\\(.+\\)\\(&lt;br */&gt;\\|\n\\)"
+			    "&lt;span class='alignright'&gt;\\1\\2&lt;/span&gt;\\3" string))))</b>)
+    (if (and slide-prop (string-match "segue" slide-prop))
+	(format "&lt;q&gt;\n%s&lt;/q&gt;"
+		   <b>(funcall --make-sign contents)</b>)
+      (format "&lt;blockquote&gt;\n%s&lt;/blockquote&gt;"
+	      (save-match-data
+		(replace-regexp-in-string
+		 "&lt;/span&gt;\n&lt;/p&gt;"
+		 "&lt;/span&gt;&lt;br  /&gt;\n&lt;/p&gt;"
+		 <b>(funcall --make-sign contents)</b>))))))
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-9"  >
+<hgroup class="">
+       <h2 class="nil ">Quote Block</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-9">
+<p>
+Type <code>&lt;q</code> in a newline, then press <code>[TAB]</code> to expand to a quote block (Use <code>\\</code> to break line forcely.):
+</p>
+<blockquote>
+<p>
+一個人因為講實話而成為英雄，換句話說是整個社會都在說謊。<br  />
+一人は真実を言うだけからヒーローになる。換言すれば、この社会は全部が嘘している。<br  />
+If a person is treated as a hero for saying truth, that is the whole
+society are lying.<br  />
+</p>
+
+<p>
+<span class='alignright'>&#x2013; 柯文哲 Wen Jei, Ko. (2014)</span><br  />
+</p>
+</blockquote>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+#+BEGIN_QUOTE
+一個人因為講實話而成為英雄，換句話說是整個社會都在說謊。\\
+一人は真実を言うだけからヒーローになる。換言すれば、この社会は全部が嘘
+している。\\
+If a person is treated as a hero for saying truth, that is the whole
+society are lying.\\
+
+      -- 柯文哲 Wen Jei, Ko. (2014)
+#+END_QUOTE
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-10"  >
+<hgroup class="">
+       <h2 class="nil ">Verse Block</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-10">
+<p>
+Verse block is similar with quote's, but it will keeps line break. Take a poem as example:
+</p>
+
+<p class="verse">
+眾里尋他千百度<br  />
+驀然回首<br  />
+那人卻在<br  />
+燈火闌珊處<br  />
+<span class='alignright'>&#x2013; 辛棄疾〈青玉案〉</span><br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+#+BEGIN_VERSE
+眾里尋他千百度
+驀然回首
+那人卻在
+燈火闌珊處
+  -- 辛棄疾〈青玉案〉
+#+END_VERSE
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-11"  >
+<hgroup class="">
+       <h2 class="nil ">Segue Page</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-11">
+<p>
+<b>Segue</b> ([`segwe]) page is passing page.
+</p>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+:SLIDE: segue dark quote
+:ASIDE: right bottom
+:ARTICLE: flexbox vleft auto-fadein
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+<slide id="sec-11-1" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><hgroup class="">
+       <h2 class="nil ">This Is A "Segue Page" Demo</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-11-1">
+<p>
+Text content of <b>Segue page</b> will appear here.
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-11-2" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><article class="flexbox vleft auto-fadein" id="text-11-2">
+
+<q>
+
+This is what a normal QUOTE block looks like, which under a segue slide.
+<br>
+The second paragraph.
+<span class='alignright'>&#x2013; Name Sign</span>
+
+</q>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-12"  >
+<hgroup class="">
+       <h2 class="nil ">Math Formula</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-12">
+<p>
+<code>org-ioslide</code> uses MathJax to render math formula:
+</p>
+
+<p>
+$$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$$
+</p>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+$$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$$
+</pre>
+
+</div>
+<p>
+By default, MathJax is installed and enabled.
+</p>
+
+<p>
+If you don't need this, just add <code>#+USE_MATHJAX: false</code> in your slide file to shrink slide size.
+</p>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-13"  >
+<hgroup class="">
+       <h2 class="nil ">Table</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-13">
+<p>
+Add a <code>*</code> prefix to highlight item.   e.g. <code>* Highlight Item</code>
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Title1</th>
+<th scope="col" class="left">Title2</th>
+<th scope="col" class="right">Title2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Item1</td>
+<td class="left highlight">Highlight Item</td>
+<td class="right">11</td>
+</tr>
+
+<tr>
+<td class="left">Item2</td>
+<td class="left">Shiroshime Kanata</td>
+<td class="right highlight">25</td>
+</tr>
+
+<tr>
+<td class="left">Item3</td>
+<td class="left">Test</td>
+<td class="right">56</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+| Title1 | Title2            | Title2 |
+|--------+-------------------+--------|
+| Item1  | * Highlight Item  |     11 |
+| Item2  | Shiroshime Kanata |   * 25 |
+| Item3  | Test              |     56 |
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-14"  >
+<hgroup class="">
+       <h2 class="nil ">Insert Image</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-14">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/sky.jpg" alt="sky.jpg" width="400px" />
+</p>
+</div>
+</article>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/sky.jpg]]
+#+END_CENTER
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-15" class="fill white nobackground" style="background-image: url(images/sky.jpg)">
+<hgroup class="">
+       <h2 class="white ">Fill Image</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-15">
+<p>
+Text is in white.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+:PROPERTIES:
+:FILL:     images/sky.jpg
+:TITLE:    white
+:SLIDE:    white
+:END:
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-16"  >
+<hgroup class="">
+       <h2 class="nil ">Speaker Note</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-16">
+<ul>
+<li>Press <code>p</code> to display speaker note.
+</li>
+<li>Use <code>#+ATTR_HTML: :class note</code> before a QUOTE block, and its contents will be converted into speaker note:
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+#+ATTR_HTML: :class note
+#+BEGIN_QUOTE
+This is the note area for presenter.
+- Item 1
+- Item 2
+A [[https://github.com/][link]] to Github!
+#+END_QUOTE
+</pre>
+
+</div>
+
+<aside class="note">
+  <section>
+<p>
+This is the note area for presenter.
+</p>
+<ul>
+<li>Item 1
+</li>
+<li>Item 2
+</li>
+</ul>
+<p>
+A <a href="https://github.com/">link</a> to Github!
+</p>
+
+  </section>
+</aside>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-17"  >
+<hgroup class="">
+       <h2 class="nil ">Available Shortcuts</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-17">
+<ul>
+<li>Pressing <code>h</code> highlights code snippets
+</li>
+<li>Pressing <code>p</code> toggles speaker notes (if they're on the current slide)
+</li>
+<li>Pressing <code>f</code> toggles fullscreen viewing
+</li>
+<li>Pressing <code>w</code> toggles widescreen
+</li>
+<li>Pressing <code>o</code> toggles overview mode
+</li>
+<li>Pressing <code>ESC</code> toggles off these goodies
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-18"  >
+<hgroup class="">
+       <h2 class="nil ">Available Properties</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-18">
+<p>
+Available properties <b>applied separatly on each slide pages:</b>
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+:SLIDE: dark segue [thank-you-slide]
+:ASIDE: [left right] [top bottom]
+:ARTICLE: flexbox vleft auto-fadein
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-19"  >
+<hgroup class="">
+       <h2 class="nil ">Available Options</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-19">
+<p>
+Available options <b>applied on the whole slide</b>:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+ #+COMPANY: Company
+ #+GOOGLE_PLUS: https://plus.google.com/
+ #+WWW: http://kuanyui.github.io
+ #+GITHUB: http://github.com/kuanyui
+
+ #+FAVICON: images/emacs-icon.png
+ #+ICON: images/org-icon.png
+
+# Google Analytics
+ #+ANALYTICS: UA-42122243-1
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-20"  >
+<hgroup class="">
+       <h2 class="nil ">Available Options For Package</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-20">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+# Highlight code with Prettify.js
+#+USE_PRETTIFY: false
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-21"  >
+<hgroup class="">
+       <h2 class="nil ">Thank You Slide</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-21">
+<ul>
+<li>Add the following properties to a headline:
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+:SLIDE: thank-you-slide segue
+:ASIDE: right
+:ARTICLE: flexbox vleft auto-fadein
+</pre>
+
+</div>
+
+<blockquote>
+<p>
+<b>Both</b> <code>thank-you-slide</code> and <code>segue</code> are necessary!
+</p>
+</blockquote>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-22" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+<aside class="gdbar right"><img src="images/emacs-icon.png"></aside><article class="flexbox vleft auto-fadein" id="text-22">
+<h2>
+  <p>Thank You ˊ・ω・ˋ</p>
+</h2>
+<br>
+<p class="auto-fadein" data-config-contact>
+</p>
+</article>
+
+</slide>
+<slide class="backdrop"></slide>
+</slides> 
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body> 
+
+</html>
