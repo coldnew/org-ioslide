@@ -1,6 +1,7 @@
 ;;; ox-ioslide.el --- Export org-mode to Google I/O HTML5 slide..
 
-;; Copyright (c) 2013 Yen-Chin, Lee.
+;; Copyright (c) 2013-2014 Yen-Chin, Lee. (coldnew) <coldnew.tw@gmail.com>
+;; Copyright (c) 2015 Kuan, Yen. (kuanyui) <azazabc123@gmail.com>
 ;;
 ;; Author: coldnew <coldnew.tw@gmail.com>
 ;; Keywords: html presentation
