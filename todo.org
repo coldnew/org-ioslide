@@ -128,6 +128,7 @@ wrapped in <b>
   :LOGBOOK:
   - State "TODO"       from ""           [2015-01-26 月 16:53]
   :END:
-* TODO Rewrite Readme.old.org in ox-ioslide.el
+* CANCELLED Rewrite Readme.old.org in ox-ioslide.el
+CLOSED: [2015-02-07 Sat 15:46]
 
 We use =make README.md= to generate README.md from ox-ioslide.el
