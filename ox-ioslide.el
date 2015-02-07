@@ -7,7 +7,7 @@
 ;; Keywords: html presentation
 ;; X-URL: http://github.com/coldnew/org-ioslide
 ;; Version: 0.2
-;; Package-Requires: ((emacs "24.1") (org "8.0") (cl-lib "0.5"))
+;; Package-Requires: ((emacs "24.1") (org "8.0") (cl-lib "0.5") (f "0.17.2"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -42,11 +42,12 @@
 
 ;;; Code:
 
-(require 'ox-html)
 (eval-when-compile (require 'cl-lib))
+(require 'ox-html)
+(require 'f)
 
 (defvar org-ioslide-path
-  (file-truename (or load-file-name (buffer-file-name)))
+  (file-name-directory (or load-file-name (buffer-file-name)))
   "Get the absolute path of this file. Don't change this manually.")
 
 (defgroup org-export-ioslide nil
@@ -171,7 +172,7 @@ vertical slides."
   ;; TODO: make user use their own template instead of force copy
   ;; FIXME: do not copy image folder ?
   (mapc (lambda (dir)
-          (copy-directory (concat org-ioslide-path dir) dir))
+          (copy-directory (f-join org-ioslide-path dir) dir))
         '("js/" "images/" "theme/")))
 
 (defun org-ioslide-check-resource ()
