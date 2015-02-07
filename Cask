@@ -1,4 +1,4 @@
-(package-file "ox-ioslide.el")
+(package "org-ioslide" "0.1.0" "Export org-mode to Google I/O HTML5 slide.")
 
 (source melpa)
 (source org)
