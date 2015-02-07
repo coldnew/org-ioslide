@@ -1,6 +1,5 @@
 EMACS ?= emacs
 CASK ?= cask
-BATCH := $(EMACS) $(EFLAGS) -batch -q -no-site-file -L .
 
 all: compile
 
