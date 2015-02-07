@@ -7,7 +7,7 @@
 ;; Keywords: html presentation
 ;; X-URL: http://github.com/coldnew/org-ioslide
 ;; Version: 0.1
-;; Package-Requires: ((org "8.0"))
+;; Package-Requires: ((emacs "24.1") (org "8.0") (cl-lib "0.5"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -43,7 +43,7 @@
 ;;; Code:
 
 (require 'ox-html)
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (defvar org-ioslide-path
   (file-truename (or load-file-name (buffer-file-name)))
@@ -638,9 +638,9 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
      "")
     ;; Do nothing if reference is within another footnote
     ;; reference, footnote definition or table cell.
-    ((loop for parent in (org-export-get-genealogy footnote-reference)
-           thereis (memq (org-element-type parent)
-                         '(footnote-reference footnote-definition table-cell)))
+    ((cl-loop for parent in (org-export-get-genealogy footnote-reference)
+              thereis (memq (org-element-type parent)
+                            '(footnote-reference footnote-definition table-cell)))
      "")
     ;; Otherwise, add it into org-ioslide--current-footnote-list
     (t
@@ -693,9 +693,9 @@ channel."
 
 ;; Plain List
 
-;; FIXME Maybe arg1 is not needed because <li value="20"> already sets
+;; FIXME: Maybe arg1 is not needed because <li value="20"> already sets
 ;; the correct value for the item counter
-(defun org-ioslide-begin-plain-list (type class &optional arg1)
+(defun org-ioslide-begin-plain-list (type &optional class arg1)
   "Insert the beginning of the HTML list depending on TYPE.
 When ARG1 is a string, use it as the start parameter for ordered
 lists."
@@ -705,7 +705,7 @@ lists."
             (format " class=\"%s\""
                     (replace-regexp-in-string "[\"']" "" class)))
     (setq class ""))
-  (case type
+  (cl-case type
     (ordered
      (format "<ol%s%s>"
              class
@@ -715,7 +715,7 @@ lists."
 
 (defun org-ioslide-end-plain-list (type)
   "Insert the end of the HTML list depending on TYPE."
-  (case type
+  (cl-case type
     (ordered "</ol>")
     (unordered "</ul>")
     (descriptive "</dl>")))
