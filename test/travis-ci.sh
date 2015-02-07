@@ -3,7 +3,7 @@
 export-example() {
     travis_fold start export-example
     cd $PWD/example
-    "$EMACS" -Q -l ../ox-ioslide.el -batch index.org --eval 'org-ioslide-export-to-html'
+    "$EMACS" -Q -l ../ox-ioslide.el -batch index.org --eval '(org-ioslide-export-to-html)'
     travis_fold end export-example
 }
 
