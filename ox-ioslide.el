@@ -1,6 +1,6 @@
-;;; ox-ioslide.el --- Export org-mode to Google I/O HTML5 slide..
+;;; ox-ioslide.el --- Export org-mode to Google I/O HTML5 slide.
 
-;; Copyright (c) 2013-2014 Yen-Chin, Lee. (coldnew) <coldnew.tw@gmail.com>
+;; Copyright (c) 2013-2015 Yen-Chin, Lee. (coldnew) <coldnew.tw@gmail.com>
 ;; Copyright (c) 2015 Kuan, Yen. (kuanyui) <azazabc123@gmail.com>
 ;;
 ;; Author: coldnew <coldnew.tw@gmail.com>
@@ -26,17 +26,10 @@
 ;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ;;; Commentary:
+;; [![MELPA](http://melpa.org/packages/org-ioslide-badge.svg)](http://melpa.org/#/org-ioslide)
+;; [![MELPA Stable](http://stable.melpa.org/packages/org-ioslide-badge.svg)](http://stable.melpa.org/#/org-ioslide)
 
-;;; Note: This emacs plugin is under hardly development.
-;;
-;; It's not suggest to use this plugin since
-;; any function may be renamed or modified later.
-
-;; ox-ioslide.el works like org-html5presentation.el and generate
-;; Google I/O 2013 slide template.
-;;
-
-;;; Installation (not done yet):
+;;; Installation:
 
 ;; If you have `melpa` and `emacs24` installed, simply type:
 ;;
@@ -45,6 +38,10 @@
 ;; In your .emacs
 ;;
 ;;      (require 'ox-ioslide)
+
+;;; Examples:
+
+;; You can take a look of <demo-and-example.html> and <demo-and-example.md>, which contains detailed examples & demo.
 
 ;;; Code:
 
@@ -174,7 +171,7 @@ vertical slides."
 
 (defun org-ioslide--copy-resource ()
   "Copy needed resource to current path."
-  ;; Download files
+  ;; TODO: make user use their own template instead of force copy
   (mapc (lambda (dir)
           (copy-directory (concat org-ioslide-path dir) dir))
         '("js/" "images/" "theme/")))
@@ -979,13 +976,6 @@ is non-nil."
     (org-export-to-file
         'ioslide file subtreep visible-only body-only ext-plist)))
 
-;; TODO:
-;; Fix center not center
-;; hoghtlight in table
-;; table color
-;; table option B
-;; maybe remove slide_config.js ?
-;; rewrite css <-- wtf!! the little icon is defined in css
 
 (provide 'ox-ioslide)
 ;;; ox-ioslide.el ends here
