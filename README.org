@@ -1,5 +1,8 @@
 #+TITLE: org-ioslide
 
+#+ATTRL_TML: alt="License GPL 3"
+[[http://www.gnu.org/licenses/gpl-3.0.txt][badge-license]]
+
 #+ATTRL_TML: alt="Build Status"
 [[https://travis-ci.org/coldnew/org-ioslide][https://travis-ci.org/coldnew/org-ioslide.svg?branch=master]]
 
