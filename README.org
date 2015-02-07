@@ -1,4 +1,7 @@
-* ox-ioslide.el
+#+TITLE: org-ioslide
+
+* About
+
 Export your Org document to Google I/O HTML5 slide.
 
 #+BEGIN_QUOTE
@@ -29,7 +32,7 @@ That said, if not comfortable working with SCSS or don't want to learn something
 new, not a problem. The generated .css files can already be found in
 (see [[theme/css)][/theme/css]] You can just edit those and bypass SCSS altogether.
 However, our recommendation is to use Compass. It's super easy to install and use.
-	
+
 *** Installing Compass and making changes
 
 First, install compass:

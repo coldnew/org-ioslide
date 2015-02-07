@@ -26,8 +26,6 @@
 ;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ;;; Commentary:
-;; [![MELPA](http://melpa.org/packages/org-ioslide-badge.svg)](http://melpa.org/#/org-ioslide)
-;; [![MELPA Stable](http://stable.melpa.org/packages/org-ioslide-badge.svg)](http://stable.melpa.org/#/org-ioslide)
 
 ;;; Installation:
 
@@ -38,10 +36,9 @@
 ;; In your .emacs
 ;;
 ;;      (require 'ox-ioslide)
-
-;;; Examples:
-
-;; You can take a look of <demo-and-example.html> and <demo-and-example.md>, which contains detailed examples & demo.
+;;
+;; For more information, please see `README.org'
+;;
 
 ;;; Code:
 
