@@ -37,4 +37,4 @@ install:
 
 script:
   - byte-compile
-  - export-example
+  - make test
