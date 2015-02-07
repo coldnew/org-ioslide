@@ -1,8 +1,7 @@
 #+TITLE: org-ioslide
 
-* About
-
 Export your Org document to Google I/O HTML5 slide.
+See [[http://coldnew.github.io/slides/org-ioslide][DEMO]] slide.
 
 #+BEGIN_QUOTE
 Note: Org 8.x or above is required.
