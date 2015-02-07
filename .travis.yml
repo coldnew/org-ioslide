@@ -32,9 +32,8 @@ before_install:
 
 install:
   - cask install
-  - source test/travis-ci.sh
   - '"$EMACS" --version'
 
 script:
-  - byte-compile
+  - make
   - make test
