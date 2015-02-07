@@ -13,11 +13,31 @@ Note: Org 8.x or above is required.
 
 * Installation
 
+If you have =melpa= and =emacs24= installed, simply type:
+
+: M-x package-install org-ioslide
+
+And following code in your .emacs
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-ioslide)
+#+END_SRC
+
+For =cask= user, just add following lines in your =Cask= file
+
+#+BEGIN_SRC emacs-lisp
+  (source melpa)
+
+  (depends-on "ox-ioslide")
+#+END_SRC
+
+If you want to install manually, just do as following:
+
 =git clone= this repository into =whatever/=, then in your Emacs init file:
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "path/to/whatever/")
-(require 'ox-ioslide)
+  (add-to-list 'load-path "path/to/whatever/")
+  (require 'ox-ioslide)
 #+END_SRC
 
 * Usage
