@@ -54,9 +54,8 @@
 (eval-when-compile (require 'cl))
 
 (defvar org-ioslide-path
-  (file-truename (file-name-directory load-file-name))
-  "Get the absolute path of this file. Don't change this manually."
-  )
+  (file-truename (or load-file-name (buffer-file-name)))
+  "Get the absolute path of this file. Don't change this manually.")
 
 
 ;;; User Configuration Variables
