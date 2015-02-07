@@ -31,7 +31,7 @@
 
 ;; If you have `melpa` and `emacs24` installed, simply type:
 ;;
-;;      M-x package-install org-ioslide
+;;      M-x package-install ox-ioslide
 ;;
 ;; In your .emacs
 ;;
