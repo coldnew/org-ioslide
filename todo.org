@@ -1,0 +1,130 @@
+* DONE MathJax
+  CLOSED: [2015-01-18 日 21:49]
+  :LOGBOOK:  
+  - State "DONE"       from "STARTED"    [2015-01-18 日 21:49]
+  - State "STARTED"    from ""           [2015-01-18 日 04:55]
+  :END:
+- [ ] Shrink the size.
+* DONE Numerated list
+  CLOSED: [2015-01-19 月 01:52]
+  :LOGBOOK:  
+  - State "DONE"       from ""           [2015-01-19 月 01:52]
+  :END:      
+* DONE Blockquote support
+  CLOSED: [2015-01-19 月 22:33]
+  :LOGBOOK:  
+  - State "DONE"       from "STARTED"    [2015-01-19 月 22:33]
+  - State "STARTED"    from ""           [2015-01-19 月 03:01]
+  :END:      
+* DONE "Build" list
+  CLOSED: [2015-01-19 月 22:33]
+  :LOGBOOK:  
+  - State "DONE"       from ""           [2015-01-19 月 22:33]
+  :END:      
+<ul> build
+<li> to-build
+
+<ul> build fade
+<li> to-build fade
+
+#+ATTR_HTML: class="build fade"
+* DONE Highlighted table cons.
+  CLOSED: [2015-01-20 火 02:08]
+  :LOGBOOK:  
+  - State "DONE"       from ""           [2015-01-20 火 02:08]
+  :END:      
+<td class="highlight">格子</td>
+* DONE Footnote -> footer
+  CLOSED: [2015-01-20 火 21:20]
+  :LOGBOOK:  
+  - State "DONE"       from "STARTED"    [2015-01-20 火 21:20]
+  - State "STARTED"    from ""           [2015-01-20 火 02:47]
+  :END:      
+#+HTML: <footer class="source">
+http://orgmode.org/manual/Tables.html#Tables
+#+HTML: </footer>
+
+#+BEGIN_SRC html
+	<footer class="source">
+	  <p>
+	    <a href="http://orgmode.org/worg/org-tutorials/org4beginners.html">http://orgmode.org/worg/org-tutorials/org4beginners.html</a>
+	  </p>
+	</footer>
+#+END_SRC
+* DONE Make <q></q> in Segue more conveniently
+  CLOSED: [2015-01-24 土 06:41]
+  :LOGBOOK:  
+  - State "DONE"       from "STARTED"    [2015-01-24 土 06:41]
+  - State "STARTED"    from "TODO"       [2015-01-23 金 15:11]
+  - State "TODO"       from "APPT"       [2015-01-20 火 02:09]
+  - State "APPT"       from ""           [2015-01-20 火 00:00]
+  :END:      
+Convert quote-block into <q>...</q> in Segue page.
+* CANCELLED Highlight Code (h)
+  CLOSED: [2015-01-24 土 06:50]
+  :LOGBOOK:  
+  - State "TODO"       from ""           [2015-01-21 水 02:18]
+  :END:      
+wrapped in <b>
+* DONE Speaker Notes (p)
+  CLOSED: [2015-01-24 土 08:02]
+  :LOGBOOK:  
+  - State "DONE"       from "TODO"       [2015-01-24 土 08:02]
+  - State "TODO"       from ""           [2015-01-21 水 02:16]
+  :END:      
+* DONE Show #+GITHUB in page
+  CLOSED: [2015-01-26 月 16:42]
+  :LOGBOOK:  
+  - State "DONE"       from "TODO"       [2015-01-26 月 16:42]
+  - State "TODO"       from ""           [2015-01-21 水 16:22]
+  :END:      
+** Wrong:
+#+BEGIN_SRC html
+  <slide id="sec-22" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+    <aside class="gdbar right"><img src="images/emacs-icon.png"></aside>
+    <h2>
+      <p>
+         Thank You ˊ・ω・
+      </p>
+    </h2>
+    
+    <br>
+    
+    <p class="auto-fadein" data-config-contact><article class="flexbox vleft auto-fadein" id="text-22">
+      </article>
+  </slide>
+#+END_SRC
+** Correct:
+#+BEGIN_SRC html
+  <slide id="sec-8" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+    <aside class="gdbar right"><img src="picts/org-mode_icon.png"></aside>
+
+    <article class="flexbox vleft auto-fadein" id="text-8">
+
+      <h2>
+        <p>
+          &lt;Thank you&gt;
+        </p>
+      </h2>
+
+      <br>
+      <p class="auto-fadein" data-config-contact> </p>
+
+
+    </article>
+
+  </slide>
+#+END_SRC
+* TODO Functions to make inserting properties easier
+  :LOGBOOK:  
+  - State "TODO"       from ""           [2015-01-21 水 02:50]
+  :END:      
+* TODO Click on image to open & navigate.
+  :LOGBOOK:  
+  - State "TODO"       from ""           [2015-01-21 水 13:23]
+  :END:      
+
+* TODO Beautify quote block
+  :LOGBOOK:  
+  - State "TODO"       from ""           [2015-01-26 月 16:53]
+  :END:      

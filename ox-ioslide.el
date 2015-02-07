@@ -1,6 +1,7 @@
 ;;; ox-ioslide.el --- Export org-mode to Google I/O HTML5 slide..
 
-;; Copyright (c) 2013 Yen-Chin, Lee.
+;; Copyright (c) 2013-2014 Yen-Chin, Lee. (coldnew) <coldnew.tw@gmail.com>
+;; Copyright (c) 2015 Kuan, Yen. (kuanyui) <azazabc123@gmail.com>
 ;;
 ;; Author: coldnew <coldnew.tw@gmail.com>
 ;; Keywords: html presentation
@@ -52,18 +53,17 @@
 (require 'ox-html)
 (eval-when-compile (require 'cl))
 
+(defvar org-ioslide-path
+  (file-truename (file-name-directory load-file-name))
+  "Get the absolute path of this file. Don't change this manually."
+  )
+
 
 ;;; User Configuration Variables
 (defgroup org-export-ioslide nil
   "Options for exporting Org mode files to HTML5 slide."
   :tag "Org Export to Google I/O HTML5 slide"
   :group 'org-export)
-
-(defcustom org-ioslide-resource-url
-  "https://io-2012-slides.googlecode.com/git/"
-  "Url to get Google I/O js and css resources."
-  :group 'org-export-ioslide
-  :type 'string)
 
 (defcustom org-ioslide-config-file
   "slide_config.js"
@@ -77,11 +77,7 @@ vertical slides."
   :group 'org-export-ioslide
   :type 'integer)
 
-(defcustom org-ioslide-download-resource-if-not-exist t
-  "Set t will automatically download resource when export to
-html."
-  :group 'org-export-ioslide
-  :type 'boolean)
+(defvar org-ioslide--current-footnote-list nil)
 
 ;;; Define Back-End
 
@@ -99,6 +95,9 @@ html."
 
   :options-alist
   '(
+    ;; Overwrite the HTML_HEAD defined in ox-html.el
+    (:html-head "HTML_HEAD" nil "" newline)
+
     ;; Configs that will be generated in slide_config.js
 
     ;; subtitle
@@ -111,10 +110,11 @@ html."
     ;; areas on either slide of the slides.
     (:enable-slideareas "ENABLE_SLIDEAREAS" nil "true"  t)
     ;; enableTouch, Default: true. If touch support should enabled.
-    ;; Note: the dvice must support touch.
+    ;; Note: the device must support touch.
     (:enable-touch      "ENABLE_TOUCH"      nil "true"  t)
     ;; favIcon
-    (:fav-icon          "FAVICON"           nil    ""   t)
+    (:fav-icon          "FAVICON"           nil "images/emacs-icon.png" t)
+    (:hash-tag          "HASHTAG"           nil "" t)
     ;; TODO: fonts
     ;; Author information
     (:company           "COMPANY"           nil   nil   t)
@@ -125,10 +125,14 @@ html."
 
     ;; Other configs
 
+    ;; Use MathJax, Default: true. False will remove MathJax from
+    ;; current slide to save space (when exporting); True will
+    ;; re-install it again.
+    (:use-mathjax       "USE_MATHJAX"       nil "true"  t)
     ;; Google analytics: 'UA-XXXXXXXX-1
     (:analytics         "ANALYTICS"         nil   nil   t)
     (:logo              "LOGO"              nil    ""   t)
-    (:icon              "ICON"              nil    ""   t)
+    (:icon              "ICON"              nil "images/emacs-icon.png" t)
     (:hlevel            "HLEVEL"            nil   nil   t)
 
     ;; TODO: idea ?
@@ -137,16 +141,25 @@ html."
     )
 
   :translate-alist
-  '((headline     . org-ioslide-headline)
-    (section      . org-ioslide-section)
-    (template     . org-ioslide-template)
-    (center-block . org-ioslide-center-block)
-    (src-block    . org-ioslide-src-block)
-    (export-block . org-ioslide-export-block)
-    (paragraph    . org-ioslide-paragraph))
+  '((headline			.	org-ioslide-headline)
+    (section			.	org-ioslide-section)
+    (template			.	org-ioslide-template)
+    (center-block		.	org-ioslide-center-block)
+    (src-block			.	org-ioslide-src-block)
+    (quote-block		.	org-ioslide-quote-block)
+    (verse-block		.	org-ioslide-verse-block)
+    (table-cell			.	org-ioslide-table-cell)
+    (export-block		.	org-ioslide-export-block)
+    (plain-list			.	org-ioslide-plain-list)
+    (paragraph			.	org-ioslide-paragraph)
+    (inner-template             .	org-ioslide-inner-template)
+    (footnote-definition	.	org-ioslide-footnote-definition)
+    (footnote-reference		.	org-ioslide-footnote-reference)
+    )
 
   :export-block '("NOTE")
   )
+
 
 
 ;;; Internal Functions
@@ -158,50 +171,43 @@ html."
   (format "<%s %s>\n%s\n</%s>" element attr body element))
 
 (defun org-ioslide-close-element* (element attr body)
+  "What is this?!"
   (format "</%s>\n%s\n<%s %s>\n" element body element attr))
 
-(defun org-ioslide--download-resource ()
-  "Download needed rsouce from org-ioslide-resource-url."
-  (let ((url org-ioslide-resource-url)
-        (file-list '(;; Files in js dir
-                     ("js/" .
-                      ("hammer.js" "modernizr.custom.45394.js" "order.js"
-                       "require-1.0.8.min.js" "slide-controller.js" "slide-deck.js" "slides.js"))
-                     ;; Files in js/polyfills dir
-                     ("js/polyfills/" .
-                      ("classList.min.js" "dataset.min.js" "history.min.js"))
-                     ;; Files in js/prettify dir
-                     ("js/prettify/" .
-                      ("lang-apollo.js" "lang-css.js" "lang-hs.js" "lang-lua.js"
-                       "lang-n.js" "lang-scala.js" "lang-tex.js""lang-vhdl.js"
-                       "lang-xq.js""prettify.css" "lang-clj.js" "lang-go.js"
-                       "lang-lisp.js" "lang-ml.js" "lang-proto.js" "lang-sql.js"
-                       "lang-vb.js" "lang-wiki.js" "lang-yaml.js" "prettify.js"))
-                     ;; Files in theme/css dir
-                     ("theme/css/"  .
-                      ("default.css" "io2013.css" "phone.css"))
-                     ;; Files in theme/scss dir
-                     ("theme/scss/" .
-                      ("_base.scss" "default.scss" "io2013.scss" "phone.scss" "_variable.scss"))
-                     )))
-
-    ;; Download files
-    (dolist (fl file-list)
-
-      ;; Check if parent dir exist or not
-      (unless (file-exists-p (car fl))
-        (make-directory (cad fl) t))
-
-      ;; Download files
-      (dolist (f (cdr fl))
-        (let ((target (concat (car fl) f)))
-          (url-copy-file (concat url target) target t))))))
+(defun org-ioslide--copy-resource ()
+  "Copy needed resource to current path."
+  ;; Download files
+  (mapc (lambda (dir)
+	  (copy-directory (concat org-ioslide-path dir) dir))
+	'("js/" "images/" "theme/")))
 
 (defun org-ioslide-check-resource ()
   "Check js/slides.js exist or not, if not exist, re-fetch resource."
-  (if (and (not (file-exists-p "js/slides.js"))
-           org-ioslide-download-resource-if-not-exist)
-      (org-ioslide--download-resource)))
+  (if (not (file-exists-p "js/slides.js"))
+      (org-ioslide--copy-resource)))
+
+(defun org-ioslide-generate-small-icon-css (icon-path hash-tag)
+  "Generate theme/css/small-icon.css to overwrite style.
+(The small icon at the left bottom corner)"
+  (progn
+    (save-excursion
+      (with-temp-file "theme/css/small-icon.css"
+	(insert "slides > slide:not(.nobackground):before {
+background: url(../../" icon-path ") no-repeat 0 50%;
+font-size: 12pt;
+content: \"" hash-tag "\";
+position: absolute;
+bottom: 20px;
+left: 60px;
+-moz-background-size: 30px 30px;
+-o-background-size: 30px 30px;
+-webkit-background-size: 30px 30px;
+background-size: 30px 30px;
+padding-left: 40px;
+height: 30px;
+line-height: 1.9;
+}")))
+""))
 
 (defun org-ioslide-generate-config-file (text back-end info)
   (let ((file-name org-ioslide-config-file))
@@ -301,6 +307,57 @@ CONTENTS is nil. NFO is a plist holding contextual information."
        "</section>\n</aside>\n")
     (org-html-export-block export-block contents info)))
 
+;;;; Quote Block
+(defun org-ioslide-quote-block (quote-block contents info)
+  "Transcode a QUOTE-BLOCK element from Org to HTML.
+CONTENTS holds the contents of the block.  INFO is a plist
+holding contextual information."
+  (let* ((parent (org-export-get-parent-headline quote-block))
+	 (slide-prop (org-element-property :SLIDE parent))
+	 (attributes (org-export-read-attribute :attr_html quote-block))
+	 (class (plist-get attributes :class))
+	 (--make-sign (function
+		       (lambda (string)
+			 (replace-regexp-in-string
+			  "^ *\\(&#x201[34];\\)\\(.+\\)\\(<br */>\\|\n\\)"
+			  "<span class='alignright'>\\1\\2</span>\\3" string)))))
+    (if (and class (string-match "notes?" class))
+	(format "<aside class=\"note\">
+  <section>
+%s
+  </section>
+</aside>
+" contents)
+      (if (and slide-prop
+	       (string-match "segue" slide-prop))
+	  ;; [FIXME] different sign rendering under Firefox and Chrome...
+	  (format "<q>\n%s</q>"
+		  (replace-regexp-in-string
+		   "<br>\n *<span" "<span"
+		   (replace-regexp-in-string
+		    "</?p>" ""
+		    (replace-regexp-in-string
+		     "</?p>\n* *<p>" "<br>"
+		     (funcall --make-sign contents)))))
+	(format "<blockquote>\n%s</blockquote>"
+		;; Align "-- Name" to right side.
+		(save-match-data
+		  (replace-regexp-in-string
+		   "</span>\n</p>"
+		   "</span><br  />\n</p>"
+		   (funcall --make-sign contents))))))))
+
+
+;;; Verse Block
+(defun org-ioslide-verse-block (verse-block contents info)
+  "Transcode a VERSE-BLOCK element from Org to HTML.
+CONTENTS is verse block contents.  INFO is a plist holding
+contextual information."
+  ;; Align "-- Name" to right side.
+  (replace-regexp-in-string "^ *&#xa0;\\(?:&#xa0;\\)+\\(&#x201[34];\\)\\(.+?\\)\\(<br */>\\|\n\\)"
+			    "<span class='alignright'>\\1\\2</span>\\3"
+			    (org-html-verse-block verse-block contents info)))
+
 ;;;; Paragraph
 
 (defun org-ioslide-paragraph (paragraph contents info)
@@ -368,20 +425,22 @@ Else use org-html-src-block to convert source block to html."
 
 ;;;; Google Analytics
 (defun org-ioslide-google-analytics (info)
-  (let ((user-id (or (plist-get info :analytics) "UA-XXXXXXXX-1")))
-    (format
-     (concat "<script>\n"
-             "var _gaq = _gaq || []; \n"
-             "_gaq.push(['_setAccount', '%s']);\n"
-             "_gaq.push(['_trackPageview']); \n"
-             "(function() {
+  (let ((user-id (plist-get info :analytics)))
+    (if (null user-id)
+	""
+      (format
+       (concat "<script>\n"
+	       "var _gaq = _gaq || []; \n"
+	       "_gaq.push(['_setAccount', '%s']);\n"
+	       "_gaq.push(['_trackPageview']); \n"
+	       "(function() {
   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();
 "
-             "</script>\n"
-             ) user-id)))
+	       "</script>\n"
+	       ) user-id))))
 
 ;;;; headline
 
@@ -418,10 +477,10 @@ holding contextual information."
                              contents type nil info nil full-text)))
         (concat
          (and (org-export-first-sibling-p headline info)
-              (org-html-begin-plain-list type))
+              (org-ioslide-begin-plain-list type))
          itemized-body
          (and (org-export-last-sibling-p headline info)
-              (org-html-end-plain-list type)))))
+              (org-ioslide-end-plain-list type)))))
 
      ;; Case 3. Standard headline.  Export it as a section.
      (t
@@ -470,7 +529,7 @@ holding contextual information."
 
 (defun org-ioslide--container-class (headline info)
   "Special handler for segue slide class."
-  (let* ((class (or (org-element-property :SLIDE headline) ""))
+  (let* ((class (org-element-property :SLIDE headline))
          (fill-image (org-element-property :FILL headline))
          (segue-p (or (string-match "segue" (format "%s" class) nil))))
     (format
@@ -488,10 +547,13 @@ holding contextual information."
      )))
 
 (defun org-ioslide--title (headline info)
-  (let* ((title (format "%s "(org-element-property :TITLE headline)))
+  (let* ((title (format "%s " (org-element-property :TITLE headline)))
+	 (slide-prop (format "%s" (org-element-property :SLIDE headline)))
          (title-class (replace-regexp-in-string "\\<hide\\>" "" title))
          (hgroup-class (org-element-property :HGROUP headline)))
-    (if (string-match "hide" title) ""
+    (if (or (string-match "hide" title)
+	    (string-match "thank-you-slide" slide-prop))
+	""
       (format
        "<hgroup class=\"%s\">
        <h2 class=\"%s\">%s</h2>
@@ -542,8 +604,141 @@ holding contextual information."
          (format "class=\"%s\" id=\"text-%s\""
                  (or (org-element-property :ARTICLE parent) "")
                  (or (org-element-property :CUSTOM_ID parent) section-number))
-         contents
-         )))))
+	 (if (string-match "thank-you-slide"
+			   (format "%s" (org-element-property :SLIDE parent)))
+
+	     ;; Thank you slide
+	     (format
+	      "<h2>
+  <p>%s</p>
+</h2>
+<br>
+<p class=\"auto-fadein\" data-config-contact>
+</p>"
+	      (org-export-data (org-element-property :title parent) info))
+
+	   ;; Normal content
+	   (format "%s\n%s"
+		   contents
+		   (org-ioslide--footer-from-footnote))
+	   ))))))
+
+;; Footnotes
+
+(defun org-ioslide--footer-from-footnote ()
+  ""
+  (if org-ioslide--current-footnote-list
+      (prog1 (concat
+	      "<footer class=\"source\">\n"
+	      (mapconcat #'identity (reverse org-ioslide--current-footnote-list) "\n")
+	      "\n</footer>")
+	;; clean list
+	(setq org-ioslide--current-footnote-list nil))
+    ""))
+
+(defun org-ioslide-footnote-reference (footnote-reference contents info)
+  "Transcode a FOOTNOTE-REFERENCE element from Org to HTML (<footer class='source'>).
+CONTENTS is nil.  INFO is a plist holding contextual information."
+  (concat
+   (cond
+    ;; Do nothing if footnote has already been defined.
+    ((not (org-export-footnote-first-reference-p footnote-reference info))
+     "")
+    ;; Do nothing if reference is within another footnote
+    ;; reference, footnote definition or table cell.
+    ((loop for parent in (org-export-get-genealogy footnote-reference)
+	   thereis (memq (org-element-type parent)
+			 '(footnote-reference footnote-definition table-cell)))
+     "")
+    ;; Otherwise, add it into org-ioslide--current-footnote-list
+    (t
+     (let ((def (org-export-get-footnote-definition footnote-reference info)))
+       (push
+	(format "%s" (org-trim (org-export-data def info)))
+	org-ioslide--current-footnote-list)
+       ""
+       )))))
+
+(defun org-ioslide-inner-template (contents info)
+  "Return body of document string after HTML conversion.
+CONTENTS is the transcoded contents string.  INFO is a plist
+holding export options."
+  contents
+  )
+
+
+;;;; Table Cell (support for "highlight" class)
+(defun org-ioslide-table-cell (table-cell contents info)
+  "Transcode a TABLE-CELL element from Org to HTML.
+CONTENTS is nil.  INFO is a plist used as a communication
+channel."
+  (let* ((table-row (org-export-get-parent table-cell))
+	 (table (org-export-get-parent-table table-cell))
+	 (cell-attrs
+	  (if (not org-html-table-align-individual-fields) ""
+	    (format " class=\"%s%s\""
+		    (org-export-table-cell-alignment table-cell info)
+		    (if (and (stringp contents)
+			     (string-prefix-p "* " contents))
+			(progn (setq contents (substring contents 2))
+			       " highlight")
+		      "")
+		    ))))
+    (when (or (not contents) (string= "" (org-trim contents)))
+      (setq contents "&#xa0;"))
+    (cond
+     ((and (org-export-table-has-header-p table info)
+	   (= 1 (org-export-table-row-group table-row info)))
+      (concat "\n" (format (car org-html-table-header-tags) "col" cell-attrs)
+	      contents (cdr org-html-table-header-tags)))
+     ((and org-html-table-use-header-tags-for-first-column
+	   (zerop (cdr (org-export-table-cell-address table-cell info))))
+      (concat "\n" (format (car org-html-table-header-tags) "row" cell-attrs)
+	      contents (cdr org-html-table-header-tags)))
+     (t (concat "\n" (format (car org-html-table-data-tags) cell-attrs)
+		contents (cdr org-html-table-data-tags))))))
+
+
+;; Plain List
+
+;; FIXME Maybe arg1 is not needed because <li value="20"> already sets
+;; the correct value for the item counter
+(defun org-ioslide-begin-plain-list (type class &optional arg1)
+  "Insert the beginning of the HTML list depending on TYPE.
+When ARG1 is a string, use it as the start parameter for ordered
+lists."
+  (if class
+      ;; quotes should be removed from "\"build fade\"", so:
+      (setq class
+	    (format " class=\"%s\""
+		    (replace-regexp-in-string "[\"']" "" class)))
+    (setq class ""))
+  (case type
+    (ordered
+     (format "<ol%s%s>"
+	     class
+	     (if arg1 (format " start=\"%d\"" arg1) "")))
+    (unordered (format "<ul%s>" class))
+    (descriptive (format "<dl%s>" class))))
+
+(defun org-ioslide-end-plain-list (type)
+  "Insert the end of the HTML list depending on TYPE."
+  (case type
+    (ordered "</ol>")
+    (unordered "</ul>")
+    (descriptive "</dl>")))
+
+(defun org-ioslide-plain-list (plain-list contents info)
+  "Transcode a PLAIN-LIST element from Org to HTML.
+CONTENTS is the contents of the list.  INFO is a plist holding
+contextual information."
+  (let* ((type (org-element-property :type plain-list))
+	 (attributes (org-export-read-attribute :attr_html plain-list))
+	 (class (plist-get attributes :class)))
+    (format "%s\n%s%s"
+	    (org-ioslide-begin-plain-list type class)
+	    contents (org-ioslide-end-plain-list type))))
+
 
 
 ;;; Template
@@ -644,6 +839,13 @@ INFO is a plist used as a communication channel."
                        "rel=\"stylesheet\" media=\"only screen and (max-device-width: 480px)\" href=\"theme/css/phone.css\""
                        info)
    "\n"
+   (org-html-close-tag "link"
+                       "rel=\"stylesheet\" media=\"all\" href=\"theme/css/small-icon.css\""
+                       info)
+   ;; [FIXME: ugly workaround] Generate theme/css/small-icon.css.
+   (org-ioslide-generate-small-icon-css (org-ioslide--plist-get-string info :fav-icon)
+					(org-ioslide--plist-get-string info :hash-tag))
+   "\n"
    "<base target=\"_blank\"> <!-- This amazingness opens all links in a new tab. -->\n"
    "<script data-main=\"js/slides\" src=\"js/require-1.0.8.min.js\"></script>"
    "\n"))
@@ -662,10 +864,27 @@ INFO is a plist used as a communication channel."
                                   (plist-get info :html-htmlized-css-url))
                           info)))))
 
+(defun org-ioslide--install-mathjax (info)
+  "If '#+USE_MATHJAX: true' is set (default), install MathJax and enable it.
+If '#+USE_MATHJAX: false' is set, remove MathJax directory to
+save disk space."
+  (if (string= "true" (org-ioslide--plist-get-string info :use-mathjax))
+      (progn
+	;; Check if MathJax installed
+	(if (not (file-exists-p "js/mathjax"))
+	    (copy-directory (concat org-ioslide-path "js/mathjax") "js/mathjax"))
+	"\n<script src=\"js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local\" type=\"text/javascript\"></script>\n")
+    (progn
+      (if (file-exists-p "js/mathjax")
+	  (delete-directory "js/mathjax" t))
+      "")
+    )
+  )
+
 (defun org-ioslide-template (contents info)
   "Return complete document string after HTML conversion.
 contents is the transoded contents string.
-info is a plist holding eport options."
+info is a plist holding export options."
   (concat
    "<!DOCTYPE html>
 <html>
@@ -682,8 +901,17 @@ info is a plist holding eport options."
 
    ;; Import stylesheet from ioslide
    (org-ioslide--build-stylesheets info)
+
    ;; html head
    (org-ioslide--build-head info)
+
+   "
+   <script src=\"js/jquery-1.7.1.min.js\" type=\"text/javascript\"></script>
+"
+
+   ;; MathJax
+   (org-ioslide--install-mathjax info)
+
    "</head>
 <body style=\"opacity: 0\">
 "
@@ -717,18 +945,9 @@ info is a plist holding eport options."
 
 
 ;;; End-user functions
-
-;;;###autoload
-(defun org-ioslide-download-resource ()
-  "Download extra resource like css or js file to use this slide offline."
-  (interactive)
-  (message "Start download ioslide resource!")
-  (org-ioslide--download-resource)
-  (message "Download ioslide resource Finish!"))
-
 ;;;###autoload
 (defun org-ioslide-export-as-html
-  (&optional async subtreep visible-only body-only ext-plist)
+    (&optional async subtreep visible-only body-only ext-plist)
   "Export current buffer to an HTML buffer.
 
 Export is done in a buffer named \"*Org HTML5 Slide Export*\", which
