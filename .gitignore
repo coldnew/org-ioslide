@@ -9,5 +9,6 @@
 *.out
 *.exe
 .#*
-.cask
+.cask/
 flycheck_*
+.sandbox/
