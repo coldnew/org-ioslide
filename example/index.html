@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2015-01-26 月 17:08 -->
+<!-- 2015-02-07 Sat 16:16 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -35,7 +35,7 @@
          <p data-config-presenter><!-- populated from slide_config.json --></p>
        </hgroup>
     </slide>
-  
+
 <slide id="sec-1"  >
 <hgroup class="">
        <h2 class="nil ">List</h2>
@@ -288,20 +288,20 @@ A source block looks like this:
 <pre class="prettyprint" data-lang="emacs-lisp">
 (defun org-ioslide-quote-block (quote-block contents info)
   (let* ((parent (org-export-get-parent-headline quote-block))
-	 (slide-prop (org-element-property :SLIDE parent))
-	 <b>(--make-sign (function (lambda (string)
-			   (replace-regexp-in-string
-			    "^ *\\(&amp;#x201[34];\\)\\(.+\\)\\(&lt;br */&gt;\\|\n\\)"
-			    "&lt;span class='alignright'&gt;\\1\\2&lt;/span&gt;\\3" string))))</b>)
+         (slide-prop (org-element-property :SLIDE parent))
+         <b>(--make-sign (function (lambda (string)
+                           (replace-regexp-in-string
+                            "^ *\\(&amp;#x201[34];\\)\\(.+\\)\\(&lt;br */&gt;\\|\n\\)"
+                            "&lt;span class='alignright'&gt;\\1\\2&lt;/span&gt;\\3" string))))</b>)
     (if (and slide-prop (string-match "segue" slide-prop))
-	(format "&lt;q&gt;\n%s&lt;/q&gt;"
-		   <b>(funcall --make-sign contents)</b>)
+        (format "&lt;q&gt;\n%s&lt;/q&gt;"
+                   <b>(funcall --make-sign contents)</b>)
       (format "&lt;blockquote&gt;\n%s&lt;/blockquote&gt;"
-	      (save-match-data
-		(replace-regexp-in-string
-		 "&lt;/span&gt;\n&lt;/p&gt;"
-		 "&lt;/span&gt;&lt;br  /&gt;\n&lt;/p&gt;"
-		 <b>(funcall --make-sign contents)</b>))))))
+              (save-match-data
+                (replace-regexp-in-string
+                 "&lt;/span&gt;\n&lt;/p&gt;"
+                 "&lt;/span&gt;&lt;br  /&gt;\n&lt;/p&gt;"
+                 <b>(funcall --make-sign contents)</b>))))))
 </pre>
 
 </div>
@@ -761,7 +761,7 @@ Use or disable JS packages.
 #+USE_PRETTIFY: true
 
 # Display math formula with MathJax.js
-# MathJax is a little fat (~5 MB), set it `false` if no need to shrink the 
+# MathJax is a little fat (~5 MB), set it `false` if no need to shrink the
 # size of slide file
 #+USE_MATHJAX: true
 
@@ -821,11 +821,11 @@ Use or disable JS packages.
 
 </slide>
 <slide class="backdrop"></slide>
-</slides> 
+</slides>
 <!--[if IE]>
   <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
   <script>CFInstall.check({mode: 'overlay'});</script>
 <![endif]-->
-</body> 
+</body>
 
 </html>

@@ -18,7 +18,8 @@ Note: Org 8.x or above is required.
 
 * Usage
 
-Just take a look of [[file:demo-and-example.html]] and [[file:demo-and-example.org]], which contains detailed examples & demo.
+Just take a look of [[file:example/index.html]] and
+[[file:example/index.org]], which contains detailed examples & demo.
 
 * Development Info
 ** Editing CSS
