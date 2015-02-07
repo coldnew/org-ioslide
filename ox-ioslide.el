@@ -48,8 +48,6 @@
 
 ;;; Code:
 
-;;; Dependencies
-
 (require 'ox-html)
 (eval-when-compile (require 'cl))
 
@@ -57,12 +55,13 @@
   (file-truename (or load-file-name (buffer-file-name)))
   "Get the absolute path of this file. Don't change this manually.")
 
-
-;;; User Configuration Variables
 (defgroup org-export-ioslide nil
   "Options for exporting Org mode files to HTML5 slide."
   :tag "Org Export to Google I/O HTML5 slide"
   :group 'org-export)
+
+
+;;; User Configuration Variables
 
 (defcustom org-ioslide-config-file
   "slide_config.js"
@@ -140,20 +139,20 @@ vertical slides."
     )
 
   :translate-alist
-  '((headline			.	org-ioslide-headline)
-    (section			.	org-ioslide-section)
-    (template			.	org-ioslide-template)
-    (center-block		.	org-ioslide-center-block)
-    (src-block			.	org-ioslide-src-block)
-    (quote-block		.	org-ioslide-quote-block)
-    (verse-block		.	org-ioslide-verse-block)
-    (table-cell			.	org-ioslide-table-cell)
-    (export-block		.	org-ioslide-export-block)
-    (plain-list			.	org-ioslide-plain-list)
-    (paragraph			.	org-ioslide-paragraph)
-    (inner-template             .	org-ioslide-inner-template)
-    (footnote-definition	.	org-ioslide-footnote-definition)
-    (footnote-reference		.	org-ioslide-footnote-reference)
+  '((headline                   .       org-ioslide-headline)
+    (section                    .       org-ioslide-section)
+    (template                   .       org-ioslide-template)
+    (center-block               .       org-ioslide-center-block)
+    (src-block                  .       org-ioslide-src-block)
+    (quote-block                .       org-ioslide-quote-block)
+    (verse-block                .       org-ioslide-verse-block)
+    (table-cell                 .       org-ioslide-table-cell)
+    (export-block               .       org-ioslide-export-block)
+    (plain-list                 .       org-ioslide-plain-list)
+    (paragraph                  .       org-ioslide-paragraph)
+    (inner-template             .       org-ioslide-inner-template)
+    (footnote-definition        .       org-ioslide-footnote-definition)
+    (footnote-reference         .       org-ioslide-footnote-reference)
     )
 
   :export-block '("NOTE")
@@ -177,8 +176,8 @@ vertical slides."
   "Copy needed resource to current path."
   ;; Download files
   (mapc (lambda (dir)
-	  (copy-directory (concat org-ioslide-path dir) dir))
-	'("js/" "images/" "theme/")))
+          (copy-directory (concat org-ioslide-path dir) dir))
+        '("js/" "images/" "theme/")))
 
 (defun org-ioslide-check-resource ()
   "Check js/slides.js exist or not, if not exist, re-fetch resource."
@@ -191,7 +190,7 @@ vertical slides."
   (progn
     (save-excursion
       (with-temp-file "theme/css/small-icon.css"
-	(insert "slides > slide:not(.nobackground):before {
+        (insert "slides > slide:not(.nobackground):before {
 background: url(../../" icon-path ") no-repeat 0 50%;
 font-size: 12pt;
 content: \"" hash-tag "\";
@@ -312,39 +311,39 @@ CONTENTS is nil. NFO is a plist holding contextual information."
 CONTENTS holds the contents of the block.  INFO is a plist
 holding contextual information."
   (let* ((parent (org-export-get-parent-headline quote-block))
-	 (slide-prop (org-element-property :SLIDE parent))
-	 (attributes (org-export-read-attribute :attr_html quote-block))
-	 (class (plist-get attributes :class))
-	 (--make-sign (function
-		       (lambda (string)
-			 (replace-regexp-in-string
-			  "^ *\\(&#x201[34];\\)\\(.+\\)\\(<br */>\\|\n\\)"
-			  "<span class='alignright'>\\1\\2</span>\\3" string)))))
+         (slide-prop (org-element-property :SLIDE parent))
+         (attributes (org-export-read-attribute :attr_html quote-block))
+         (class (plist-get attributes :class))
+         (--make-sign (function
+                       (lambda (string)
+                         (replace-regexp-in-string
+                          "^ *\\(&#x201[34];\\)\\(.+\\)\\(<br */>\\|\n\\)"
+                          "<span class='alignright'>\\1\\2</span>\\3" string)))))
     (if (and class (string-match "notes?" class))
-	(format "<aside class=\"note\">
+        (format "<aside class=\"note\">
   <section>
 %s
   </section>
 </aside>
 " contents)
       (if (and slide-prop
-	       (string-match "segue" slide-prop))
-	  ;; [FIXME] different sign rendering under Firefox and Chrome...
-	  (format "<q>\n%s</q>"
-		  (replace-regexp-in-string
-		   "<br>\n *<span" "<span"
-		   (replace-regexp-in-string
-		    "</?p>" ""
-		    (replace-regexp-in-string
-		     "</?p>\n* *<p>" "<br>"
-		     (funcall --make-sign contents)))))
-	(format "<blockquote>\n%s</blockquote>"
-		;; Align "-- Name" to right side.
-		(save-match-data
-		  (replace-regexp-in-string
-		   "</span>\n</p>"
-		   "</span><br  />\n</p>"
-		   (funcall --make-sign contents))))))))
+               (string-match "segue" slide-prop))
+          ;; [FIXME] different sign rendering under Firefox and Chrome...
+          (format "<q>\n%s</q>"
+                  (replace-regexp-in-string
+                   "<br>\n *<span" "<span"
+                   (replace-regexp-in-string
+                    "</?p>" ""
+                    (replace-regexp-in-string
+                     "</?p>\n* *<p>" "<br>"
+                     (funcall --make-sign contents)))))
+        (format "<blockquote>\n%s</blockquote>"
+                ;; Align "-- Name" to right side.
+                (save-match-data
+                  (replace-regexp-in-string
+                   "</span>\n</p>"
+                   "</span><br  />\n</p>"
+                   (funcall --make-sign contents))))))))
 
 
 ;;; Verse Block
@@ -354,8 +353,8 @@ CONTENTS is verse block contents.  INFO is a plist holding
 contextual information."
   ;; Align "-- Name" to right side.
   (replace-regexp-in-string "^ *&#xa0;\\(?:&#xa0;\\)+\\(&#x201[34];\\)\\(.+?\\)\\(<br */>\\|\n\\)"
-			    "<span class='alignright'>\\1\\2</span>\\3"
-			    (org-html-verse-block verse-block contents info)))
+                            "<span class='alignright'>\\1\\2</span>\\3"
+                            (org-html-verse-block verse-block contents info)))
 
 ;;;; Paragraph
 
@@ -426,20 +425,20 @@ Else use org-html-src-block to convert source block to html."
 (defun org-ioslide-google-analytics (info)
   (let ((user-id (plist-get info :analytics)))
     (if (null user-id)
-	""
+        ""
       (format
        (concat "<script>\n"
-	       "var _gaq = _gaq || []; \n"
-	       "_gaq.push(['_setAccount', '%s']);\n"
-	       "_gaq.push(['_trackPageview']); \n"
-	       "(function() {
+               "var _gaq = _gaq || []; \n"
+               "_gaq.push(['_setAccount', '%s']);\n"
+               "_gaq.push(['_trackPageview']); \n"
+               "(function() {
   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();
 "
-	       "</script>\n"
-	       ) user-id))))
+               "</script>\n"
+               ) user-id))))
 
 ;;;; headline
 
@@ -547,12 +546,12 @@ holding contextual information."
 
 (defun org-ioslide--title (headline info)
   (let* ((title (format "%s " (org-element-property :TITLE headline)))
-	 (slide-prop (format "%s" (org-element-property :SLIDE headline)))
+         (slide-prop (format "%s" (org-element-property :SLIDE headline)))
          (title-class (replace-regexp-in-string "\\<hide\\>" "" title))
          (hgroup-class (org-element-property :HGROUP headline)))
     (if (or (string-match "hide" title)
-	    (string-match "thank-you-slide" slide-prop))
-	""
+            (string-match "thank-you-slide" slide-prop))
+        ""
       (format
        "<hgroup class=\"%s\">
        <h2 class=\"%s\">%s</h2>
@@ -603,24 +602,24 @@ holding contextual information."
          (format "class=\"%s\" id=\"text-%s\""
                  (or (org-element-property :ARTICLE parent) "")
                  (or (org-element-property :CUSTOM_ID parent) section-number))
-	 (if (string-match "thank-you-slide"
-			   (format "%s" (org-element-property :SLIDE parent)))
+         (if (string-match "thank-you-slide"
+                           (format "%s" (org-element-property :SLIDE parent)))
 
-	     ;; Thank you slide
-	     (format
-	      "<h2>
+             ;; Thank you slide
+             (format
+              "<h2>
   <p>%s</p>
 </h2>
 <br>
 <p class=\"auto-fadein\" data-config-contact>
 </p>"
-	      (org-export-data (org-element-property :title parent) info))
+              (org-export-data (org-element-property :title parent) info))
 
-	   ;; Normal content
-	   (format "%s\n%s"
-		   contents
-		   (org-ioslide--footer-from-footnote))
-	   ))))))
+           ;; Normal content
+           (format "%s\n%s"
+                   contents
+                   (org-ioslide--footer-from-footnote))
+           ))))))
 
 ;; Footnotes
 
@@ -628,11 +627,11 @@ holding contextual information."
   ""
   (if org-ioslide--current-footnote-list
       (prog1 (concat
-	      "<footer class=\"source\">\n"
-	      (mapconcat #'identity (reverse org-ioslide--current-footnote-list) "\n")
-	      "\n</footer>")
-	;; clean list
-	(setq org-ioslide--current-footnote-list nil))
+              "<footer class=\"source\">\n"
+              (mapconcat #'identity (reverse org-ioslide--current-footnote-list) "\n")
+              "\n</footer>")
+        ;; clean list
+        (setq org-ioslide--current-footnote-list nil))
     ""))
 
 (defun org-ioslide-footnote-reference (footnote-reference contents info)
@@ -646,15 +645,15 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;; Do nothing if reference is within another footnote
     ;; reference, footnote definition or table cell.
     ((loop for parent in (org-export-get-genealogy footnote-reference)
-	   thereis (memq (org-element-type parent)
-			 '(footnote-reference footnote-definition table-cell)))
+           thereis (memq (org-element-type parent)
+                         '(footnote-reference footnote-definition table-cell)))
      "")
     ;; Otherwise, add it into org-ioslide--current-footnote-list
     (t
      (let ((def (org-export-get-footnote-definition footnote-reference info)))
        (push
-	(format "%s" (org-trim (org-export-data def info)))
-	org-ioslide--current-footnote-list)
+        (format "%s" (org-trim (org-export-data def info)))
+        org-ioslide--current-footnote-list)
        ""
        )))))
 
@@ -672,30 +671,30 @@ holding export options."
 CONTENTS is nil.  INFO is a plist used as a communication
 channel."
   (let* ((table-row (org-export-get-parent table-cell))
-	 (table (org-export-get-parent-table table-cell))
-	 (cell-attrs
-	  (if (not org-html-table-align-individual-fields) ""
-	    (format " class=\"%s%s\""
-		    (org-export-table-cell-alignment table-cell info)
-		    (if (and (stringp contents)
-			     (string-prefix-p "* " contents))
-			(progn (setq contents (substring contents 2))
-			       " highlight")
-		      "")
-		    ))))
+         (table (org-export-get-parent-table table-cell))
+         (cell-attrs
+          (if (not org-html-table-align-individual-fields) ""
+            (format " class=\"%s%s\""
+                    (org-export-table-cell-alignment table-cell info)
+                    (if (and (stringp contents)
+                             (string-prefix-p "* " contents))
+                        (progn (setq contents (substring contents 2))
+                               " highlight")
+                      "")
+                    ))))
     (when (or (not contents) (string= "" (org-trim contents)))
       (setq contents "&#xa0;"))
     (cond
      ((and (org-export-table-has-header-p table info)
-	   (= 1 (org-export-table-row-group table-row info)))
+           (= 1 (org-export-table-row-group table-row info)))
       (concat "\n" (format (car org-html-table-header-tags) "col" cell-attrs)
-	      contents (cdr org-html-table-header-tags)))
+              contents (cdr org-html-table-header-tags)))
      ((and org-html-table-use-header-tags-for-first-column
-	   (zerop (cdr (org-export-table-cell-address table-cell info))))
+           (zerop (cdr (org-export-table-cell-address table-cell info))))
       (concat "\n" (format (car org-html-table-header-tags) "row" cell-attrs)
-	      contents (cdr org-html-table-header-tags)))
+              contents (cdr org-html-table-header-tags)))
      (t (concat "\n" (format (car org-html-table-data-tags) cell-attrs)
-		contents (cdr org-html-table-data-tags))))))
+                contents (cdr org-html-table-data-tags))))))
 
 
 ;; Plain List
@@ -709,14 +708,14 @@ lists."
   (if class
       ;; quotes should be removed from "\"build fade\"", so:
       (setq class
-	    (format " class=\"%s\""
-		    (replace-regexp-in-string "[\"']" "" class)))
+            (format " class=\"%s\""
+                    (replace-regexp-in-string "[\"']" "" class)))
     (setq class ""))
   (case type
     (ordered
      (format "<ol%s%s>"
-	     class
-	     (if arg1 (format " start=\"%d\"" arg1) "")))
+             class
+             (if arg1 (format " start=\"%d\"" arg1) "")))
     (unordered (format "<ul%s>" class))
     (descriptive (format "<dl%s>" class))))
 
@@ -732,11 +731,11 @@ lists."
 CONTENTS is the contents of the list.  INFO is a plist holding
 contextual information."
   (let* ((type (org-element-property :type plain-list))
-	 (attributes (org-export-read-attribute :attr_html plain-list))
-	 (class (plist-get attributes :class)))
+         (attributes (org-export-read-attribute :attr_html plain-list))
+         (class (plist-get attributes :class)))
     (format "%s\n%s%s"
-	    (org-ioslide-begin-plain-list type class)
-	    contents (org-ioslide-end-plain-list type))))
+            (org-ioslide-begin-plain-list type class)
+            contents (org-ioslide-end-plain-list type))))
 
 
 
@@ -843,7 +842,7 @@ INFO is a plist used as a communication channel."
                        info)
    ;; [FIXME: ugly workaround] Generate theme/css/small-icon.css.
    (org-ioslide-generate-small-icon-css (org-ioslide--plist-get-string info :fav-icon)
-					(org-ioslide--plist-get-string info :hash-tag))
+                                        (org-ioslide--plist-get-string info :hash-tag))
    "\n"
    "<base target=\"_blank\"> <!-- This amazingness opens all links in a new tab. -->\n"
    "<script data-main=\"js/slides\" src=\"js/require-1.0.8.min.js\"></script>"
@@ -869,13 +868,13 @@ If '#+USE_MATHJAX: false' is set, remove MathJax directory to
 save disk space."
   (if (string= "true" (org-ioslide--plist-get-string info :use-mathjax))
       (progn
-	;; Check if MathJax installed
-	(if (not (file-exists-p "js/mathjax"))
-	    (copy-directory (concat org-ioslide-path "js/mathjax") "js/mathjax"))
-	"\n<script src=\"js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local\" type=\"text/javascript\"></script>\n")
+        ;; Check if MathJax installed
+        (if (not (file-exists-p "js/mathjax"))
+            (copy-directory (concat org-ioslide-path "js/mathjax") "js/mathjax"))
+        "\n<script src=\"js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local\" type=\"text/javascript\"></script>\n")
     (progn
       (if (file-exists-p "js/mathjax")
-	  (delete-directory "js/mathjax" t))
+          (delete-directory "js/mathjax" t))
       "")
     )
   )
@@ -968,7 +967,7 @@ is non-nil."
 
 ;;;###autoload
 (defun org-ioslide-export-to-html
-  (&optional async subtreep visible-only body-only ext-plist)
+    (&optional async subtreep visible-only body-only ext-plist)
   "Export current buffer to a Google ioslide HTML5 slide HTML file."
   (interactive)
   (let* ((extension (concat "." org-html-extension))
