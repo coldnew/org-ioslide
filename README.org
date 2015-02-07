@@ -3,6 +3,8 @@
 # Badge
 [[http://www.gnu.org/licenses/gpl-3.0.txt][https://img.shields.io/badge/license-GPL_3-green.svg?dummy]]
 [[https://travis-ci.org/coldnew/org-ioslide][https://travis-ci.org/coldnew/org-ioslide.svg?branch=master]]
+[[http://melpa.org/#/ox-ioslide][http://melpa.org/packages/ox-ioslide-badge.svg]]
+[[http://stable.melpa.org/#/ox-ioslide][http://stable.melpa.org/packages/ox-ioslide-badge.svg]]
 
 Export your Org document to Google I/O HTML5 slide.
 See [[http://coldnew.github.io/slides/org-ioslide][DEMO]] slide.
