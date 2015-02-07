@@ -1,5 +1,8 @@
 #+TITLE: org-ioslide
 
+#+ATTRL_TML: alt="Build Status"
+[[https://travis-ci.org/coldnew/org-ioslide][https://travis-ci.org/coldnew/org-ioslide.svg?branch=master]]
+
 Export your Org document to Google I/O HTML5 slide.
 See [[http://coldnew.github.io/slides/org-ioslide][DEMO]] slide.
 
