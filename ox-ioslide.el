@@ -169,6 +169,7 @@ vertical slides."
 (defun org-ioslide--copy-resource ()
   "Copy needed resource to current path."
   ;; TODO: make user use their own template instead of force copy
+  ;; FIXME: do not copy image folder ?
   (mapc (lambda (dir)
           (copy-directory (concat org-ioslide-path dir) dir))
         '("js/" "images/" "theme/")))
