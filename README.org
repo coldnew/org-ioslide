@@ -17,7 +17,7 @@ Note: Org 8.x or above is required.
 
 If you have =melpa= and =emacs24= installed, simply type:
 
-: M-x package-install org-ioslide
+: M-x package-install ox-ioslide
 
 And following code in your .emacs
 
