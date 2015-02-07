@@ -1,1 +1,1 @@
---load test/ert-loader.el
+--load test/test-helper.el
