@@ -24,6 +24,13 @@
 #+ICON: images/emacs-icon.png
 #+HASHTAG: Hash tag is in here
 
+# Fork me ribbon
+#+BEGIN_HTML
+<a href="https://github.com/coldnew/org-ioslide">
+<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
+</a>
+#+END_HTML
+
 * List
 - Item 1
 - Item 2
