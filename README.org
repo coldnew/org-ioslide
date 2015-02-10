@@ -5,6 +5,7 @@
 [[https://travis-ci.org/coldnew/org-ioslide][https://travis-ci.org/coldnew/org-ioslide.svg?branch=master]]
 [[http://melpa.org/#/ox-ioslide][http://melpa.org/packages/ox-ioslide-badge.svg]]
 [[http://stable.melpa.org/#/ox-ioslide][http://stable.melpa.org/packages/ox-ioslide-badge.svg]]
+[[http://waffle.io/coldnew/org-ioslide][https://badge.waffle.io/coldnew/org-ioslide.png?label=ready&title=Ready]]
 
 Export your Org document to Google I/O HTML5 slide.
 See [[http://coldnew.github.io/slides/org-ioslide][DEMO]] slide.
