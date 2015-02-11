@@ -48,6 +48,8 @@ If you want to install manually, just do as following:
 Just take a look of [[file:example/index.html]] and
 [[file:example/index.org]], which contains detailed examples & demo.
 
+=ox-ioslide-helper.el= is also available (depend on =makey.el=, install it if not), just =(require 'ox-ioslide-helper)=; which help you enter verbose properties/options/attributes into your slide file.
+
 * Development Info
 ** Editing CSS
 
