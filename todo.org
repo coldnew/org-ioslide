@@ -115,8 +115,10 @@ wrapped in <b>
 
   </slide>
 #+END_SRC
-* TODO Functions to make inserting properties easier
+* DONE Functions to make inserting properties easier
+  CLOSED: [2015-02-12 木 01:39]
   :LOGBOOK:
+  - State "DONE"       from "TODO"       [2015-02-12 木 01:39]
   - State "TODO"       from ""           [2015-01-21 水 02:50]
   :END:
 * TODO Click on image to open & navigate.
