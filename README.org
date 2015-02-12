@@ -48,6 +48,15 @@ If you want to install manually, just do as following:
 Just take a look of [[file:example/index.html]] and
 [[file:example/index.org]], which contains detailed examples & demo.
 
+** If Tired Of Memorize Magic Code...
+=ox-ioslide-helper.el= is also available to help you interactively inserting verbose properties/options/attributes into your slide file. 
+
+#+BEGIN_QUOTE
+This package depends on =makey.el=, install it if not.
+#+END_QUOTE
+
+Just =(require 'ox-ioslide-helper)= then =M-x ioslide:helper=.
+
 * Development Info
 ** Editing CSS
 
