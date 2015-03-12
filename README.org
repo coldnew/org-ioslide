@@ -8,7 +8,7 @@
 [[http://waffle.io/coldnew/org-ioslide][https://badge.waffle.io/coldnew/org-ioslide.png?label=ready&title=Ready]]
 
 Export your Org document to Google I/O HTML5 slide.
-See [[http://coldnew.github.io/slides/org-ioslide][DEMO]] slide.
+See [[http://coldnew.github.io/org-ioslide][DEMO]] slide.
 
 #+BEGIN_QUOTE
 Note: Org 8.x or above is required.
