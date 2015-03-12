@@ -1,4 +1,0 @@
-({{head}} "^{{body}}$"
-  (lambda ({{args}})
-
-    ))
