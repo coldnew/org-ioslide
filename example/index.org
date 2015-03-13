@@ -31,16 +31,21 @@
 </a>
 #+END_HTML
 
-* List
+* Nested List
 - Item 1
 - Item 2
   + Depth 2
   + Depth 2
+    * Third
+    * Third
+#+BEGIN_SRC org
+- Item 1
+- Item 2
+  + Depth 2
   + Depth 2
     * Third
     * Third
-    * Third
-    * Third
+#+END_SRC
 * Build List
 Show one by one:
 #+ATTR_HTML: :class build
@@ -73,7 +78,32 @@ Show one by one:
 3. Third
    - Item
    - Item
+#+BEGIN_SRC org
+1. First
+2. Second
+3. Third
    - Item
+   - Item
+#+END_SRC
+* Build Nested List
+#+ATTR_HTML: :class build
+- Build me
+- Build me
+  #+ATTR_HTML: :class build
+  + Build me
+  + Build me
+    * No build
+    * No build
+#+BEGIN_SRC org
+#+ATTR_HTML: :class build
+- Build me
+- Build me
+  #+ATTR_HTML: :class build
+  + Build me
+  + Build me
+    * No build
+    * No build
+#+END_SRC
 * Smaller Arcticle
   :PROPERTIES:
   :ARTICLE:  smaller
@@ -326,7 +356,7 @@ Available properties *applied separatly on each slide pages:*
 #+BEGIN_SRC org
 :SLIDE: dark segue [thank-you-slide]
 :ASIDE: [left right] [top bottom]
-:ARTICLE: flexbox vleft auto-fadein
+:ARTICLE: flexbox vleft auto-fadein [smaller/larger/large]
 #+END_SRC
 * Available Options
   :PROPERTIES:
