@@ -78,12 +78,33 @@ Show one by one:
   :PROPERTIES:
   :ARTICLE:  smaller
   :END:
-The headline of this slide added a =:ARTICLE:  smaller= property, so has smaller content.
+This slide has =:ARTICLE:  smaller= property, so has *smaller* content.
 #+BEGIN_SRC org
   :PROPERTIES:
   :ARTICLE:  smaller
   :END:
 #+END_SRC
+* Larger Arcticle
+  :PROPERTIES:
+  :ARTICLE:  larger
+  :END:
+This slide has =:ARTICLE:  larger= property, so has *larger* content.
+#+BEGIN_SRC org
+  :PROPERTIES:
+  :ARTICLE:  larger
+  :END:
+#+END_SRC
+* Large Arcticle
+  :PROPERTIES:
+  :ARTICLE:  large
+  :END:
+This slide has =:ARTICLE:  large= property, so has *large* content.
+#+BEGIN_SRC org
+  :PROPERTIES:
+  :ARTICLE:  larger
+  :END:
+#+END_SRC
+
 * Footnote
 Use =C-c C-x f= to create footnotes =[fn:N]=, which will be placed under a slide[fn:1]:
 #+BEGIN_QUOTE
@@ -324,7 +345,7 @@ Available options *applied on the whole slide*:
  #+WWW: http://your.blog.io/
  #+GITHUB: http://github.com/YOUR_ACCOUNT
  #+TWITTER: USER_NAME
- 
+
  # Appear under each slide:
  #+FAVICON: images/emacs-icon.png
  #+ICON: images/org-icon.png
@@ -340,7 +361,7 @@ Use or disable JS packages.
  ,#+USE_PRETTIFY: true
 
  # Display math formula with MathJax.js
- # MathJax is a little fat (~5 MB), set it `false` if no need to shrink the 
+ # MathJax is a little fat (~5 MB), set it `false` if no need to shrink the
  # size of slide file
  ,#+USE_MATHJAX: true
 
@@ -373,5 +394,3 @@ Use or disable JS packages.
 * Footnotes
 
 [fn:1] Footnote is in here!
-
-
