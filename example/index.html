@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2015-02-08 Sun 11:26 -->
+<!-- 2015-03-13 金 13:52 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -38,13 +38,22 @@
   <a href="https://github.com/coldnew/org-ioslide">
 <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
 </a>
-
-<slide id="sec-1"  >
-<hgroup class="">
+<slide id="sec-1" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><hgroup class="">
        <h2 class="nil ">List</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1">
+<article class="flexbox vleft auto-fadein" id="text-1">
+
+
+</article>
+</slide>
+<slide id="sec-1-1"  >
+<hgroup class="">
+       <h2 class="nil ">Nested List</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-1">
 <ul>
 <li>Item 1
 </li>
@@ -53,34 +62,40 @@
 <li>Depth 2
 </li>
 <li>Depth 2
-</li>
-<li>Depth 2
 <ul>
 <li>Third
 </li>
 <li>Third
 </li>
-<li>Third
-</li>
-<li>Third
-</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+- Item 1
+- Item 2
+  + Depth 2
+  + Depth 2
+    * Third
+    * Third
+</pre>
+
+</div>
 
 
 </article>
 
 </slide>
 </slide>
-<slide id="sec-2"  >
+<slide id="sec-1-2"  >
 <hgroup class="">
        <h2 class="nil ">Build List</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-2">
+<article class="" id="text-1-2">
 <p>
 Show one by one:
 </p>
@@ -109,12 +124,12 @@ Show one by one:
 
 </slide>
 </slide>
-<slide id="sec-3"  >
+<slide id="sec-1-3"  >
 <hgroup class="">
        <h2 class="nil ">Build + Fade List</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-3">
+<article class="" id="text-1-3">
 <p>
 Show one by one:
 </p>
@@ -143,12 +158,12 @@ Show one by one:
 
 </slide>
 </slide>
-<slide id="sec-4"  >
+<slide id="sec-1-4"  >
 <hgroup class="">
        <h2 class="nil ">Numerated List</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-4">
+<article class="" id="text-1-4">
 <ol>
 <li>First
 </li>
@@ -160,25 +175,90 @@ Show one by one:
 </li>
 <li>Item
 </li>
-<li>Item
-</li>
 </ul>
 </li>
 </ol>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+1. First
+2. Second
+3. Third
+   - Item
+   - Item
+</pre>
+
+</div>
 
 
 </article>
 
 </slide>
 </slide>
-<slide id="sec-5"  >
+<slide id="sec-1-5"  >
+<hgroup class="">
+       <h2 class="nil ">Build Nested List</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5">
+<ul class="build">
+<li>Build me
+</li>
+<li>Build me
+<ul class="build">
+<li>Build me
+</li>
+<li>Build me
+<ul>
+<li>No build
+</li>
+<li>No build
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+#+ATTR_HTML: :class build
+- Build me
+- Build me
+  #+ATTR_HTML: :class build
+  + Build me
+  + Build me
+    * No build
+    * No build
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-2" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><hgroup class="">
+       <h2 class="nil ">Font Size</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-2">
+
+
+</article>
+</slide>
+<slide id="sec-2-1"  >
 <hgroup class="">
        <h2 class="nil ">Smaller Arcticle</h2>
        <h3></h3>
        </hgroup>
-<article class="smaller" id="text-5">
+<article class="smaller" id="text-2-1">
 <p>
-The headline of this slide added a <code>:ARTICLE:  smaller</code> property, so has smaller content.
+This slide has <code>:ARTICLE:  smaller</code> property, so has <b>smaller</b> content.
 </p>
 <div class="org-src-container">
 
@@ -195,52 +275,73 @@ The headline of this slide added a <code>:ARTICLE:  smaller</code> property, so 
 
 </slide>
 </slide>
-<slide id="sec-6"  >
+<slide id="sec-2-2"  >
 <hgroup class="">
-       <h2 class="nil ">Footnote</h2>
+       <h2 class="nil ">Larger Arcticle</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-6">
+<article class="larger" id="text-2-2">
 <p>
-Use <code>C-c C-x f</code> to create footnotes <code>[fn:N]</code>, which will be placed under a slide:
+This slide has <code>:ARTICLE:  larger</code> property, so has <b>larger</b> content.
 </p>
-<blockquote>
-<p>
-Jump between footnotes with <code>C-c C-c</code> on <code>[fn:N]</code>.
-</p>
-</blockquote>
 <div class="org-src-container">
 
 <pre class="prettyprint" data-lang="org">
- * Title
-   This is content text.[fn:1]
-...
-
- * Footnotes
- [fn:1] Footnote is in here!
+:PROPERTIES:
+:ARTICLE:  larger
+:END:
 </pre>
 
 </div>
-<ul class="build">
-<li><b>↓ Look here!</b>
-</li>
-</ul>
 
-<footer class="source">
-<p class="footpara">
-Footnote is in here!
-</p>
-</footer>
+
 </article>
 
 </slide>
 </slide>
-<slide id="sec-7"  >
+<slide id="sec-2-3"  >
+<hgroup class="">
+       <h2 class="nil ">Large Arcticle</h2>
+       <h3></h3>
+       </hgroup>
+<article class="large" id="text-2-3">
+<p>
+This slide has <code>:ARTICLE:  large</code> property, so has <b>large</b> content.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+:PROPERTIES:
+:ARTICLE:  larger
+:END:
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-3" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><hgroup class="">
+       <h2 class="nil ">Block</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-3">
+
+
+</article>
+</slide>
+<slide id="sec-3-1"  >
 <hgroup class="">
        <h2 class="nil ">Code Block</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-7">
+<article class="" id="text-3-1">
 <p>
 A source block looks like this:
 </p>
@@ -274,12 +375,12 @@ A source block looks like this:
 
 </slide>
 </slide>
-<slide id="sec-8"  >
+<slide id="sec-3-2"  >
 <hgroup class="">
        <h2 class="nil ">Highlight in Code Block</h2>
        <h3></h3>
        </hgroup>
-<article class="smaller" id="text-8">
+<article class="smaller" id="text-3-2">
 <ul>
 <li>Press <code>h</code> to highlight the code.
 </li>
@@ -291,20 +392,20 @@ A source block looks like this:
 <pre class="prettyprint" data-lang="emacs-lisp">
 (defun org-ioslide-quote-block (quote-block contents info)
   (let* ((parent (org-export-get-parent-headline quote-block))
-         (slide-prop (org-element-property :SLIDE parent))
-         <b>(--make-sign (function (lambda (string)
-                           (replace-regexp-in-string
-                            "^ *\\(&amp;#x201[34];\\)\\(.+\\)\\(&lt;br */&gt;\\|\n\\)"
-                            "&lt;span class='alignright'&gt;\\1\\2&lt;/span&gt;\\3" string))))</b>)
+	 (slide-prop (org-element-property :SLIDE parent))
+	 <b>(--make-sign (function (lambda (string)
+			   (replace-regexp-in-string
+			    "^ *\\(&amp;#x201[34];\\)\\(.+\\)\\(&lt;br */&gt;\\|\n\\)"
+			    "&lt;span class='alignright'&gt;\\1\\2&lt;/span&gt;\\3" string))))</b>)
     (if (and slide-prop (string-match "segue" slide-prop))
-        (format "&lt;q&gt;\n%s&lt;/q&gt;"
-                   <b>(funcall --make-sign contents)</b>)
+	(format "&lt;q&gt;\n%s&lt;/q&gt;"
+		   <b>(funcall --make-sign contents)</b>)
       (format "&lt;blockquote&gt;\n%s&lt;/blockquote&gt;"
-              (save-match-data
-                (replace-regexp-in-string
-                 "&lt;/span&gt;\n&lt;/p&gt;"
-                 "&lt;/span&gt;&lt;br  /&gt;\n&lt;/p&gt;"
-                 <b>(funcall --make-sign contents)</b>))))))
+	      (save-match-data
+		(replace-regexp-in-string
+		 "&lt;/span&gt;\n&lt;/p&gt;"
+		 "&lt;/span&gt;&lt;br  /&gt;\n&lt;/p&gt;"
+		 <b>(funcall --make-sign contents)</b>))))))
 </pre>
 
 </div>
@@ -314,12 +415,12 @@ A source block looks like this:
 
 </slide>
 </slide>
-<slide id="sec-9"  >
+<slide id="sec-3-3"  >
 <hgroup class="">
        <h2 class="nil ">Quote Block</h2>
        <h3></h3>
        </hgroup>
-<article class="smaller" id="text-9">
+<article class="smaller" id="text-3-3">
 <p>
 Type <code>&lt;q</code> in a newline, then press <code>[TAB]</code> to expand to a quote block (Use <code>\\</code> to break line forcely.):
 </p>
@@ -358,12 +459,12 @@ society are lying.\\
 </slide>
 
 </slide>
-<slide id="sec-10"  >
+<slide id="sec-3-4"  >
 <hgroup class="">
        <h2 class="nil ">Verse Block</h2>
        <h3></h3>
        </hgroup>
-<article class="smaller" id="text-10">
+<article class="smaller" id="text-3-4">
 <p>
 Verse block is similar with quote's, but it will keeps line break. Take a poem as example:
 </p>
@@ -394,93 +495,69 @@ Verse block is similar with quote's, but it will keeps line break. Take a poem a
 </article>
 
 </slide>
-</slide>
-<slide id="sec-11"  >
-<hgroup class="">
-       <h2 class="nil ">Segue Page</h2>
-       <h3></h3>
-       </hgroup>
-<article class="" id="text-11">
-<p>
-<b>Segue</b> ([`segwe]) page is passing page.
-</p>
-
-<div class="org-src-container">
-
-<pre class="prettyprint" data-lang="org">
-:SLIDE: segue dark quote
-:ASIDE: right bottom
-:ARTICLE: flexbox vleft auto-fadein
-</pre>
-
-</div>
-
-
-</article>
 
 </slide>
-<slide id="sec-11-1" class=" segue dark quote nobackground" style="background-image: url(nil)">
+</slide>
+<slide id="sec-4" class=" segue dark quote nobackground" style="background-image: url(nil)">
 <aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><hgroup class="">
-       <h2 class="nil ">This Is A "Segue Page" Demo</h2>
+       <h2 class="nil ">Image</h2>
        <h3></h3>
        </hgroup>
-<article class="flexbox vleft auto-fadein" id="text-11-1">
-<p>
-Text content of <b>Segue page</b> will appear here.
-</p>
+<article class="flexbox vleft auto-fadein" id="text-4">
 
 
 </article>
-
 </slide>
-</slide>
-<slide id="sec-11-2" class=" segue dark quote nobackground" style="background-image: url(nil)">
-<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><article class="flexbox vleft auto-fadein" id="text-11-2">
-
-<q>
-
-This is what a normal QUOTE block looks like, which under a segue slide.
-<br>
-The second paragraph.
-<span class='alignright'>&#x2013; Name Sign</span>
-
-</q>
-
-
-</article>
-
-</slide>
-
-</slide>
-</slide>
-<slide id="sec-12"  >
+<slide id="sec-4-1"  >
 <hgroup class="">
-       <h2 class="nil ">Math Formula</h2>
+       <h2 class="nil ">Insert Image</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-12">
-<p>
-<code>org-ioslide</code> uses MathJax to render math formula:
-</p>
+<article class="" id="text-4-1">
+<article class="flexbox vcenter">
 
-<p>
-$$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$$
+<div class="figure">
+<p><img src="images/sky.jpg" alt="sky.jpg" width="400px" />
 </p>
+</div>
+</article>
 
 <div class="org-src-container">
 
 <pre class="prettyprint" data-lang="org">
-$$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$$
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/sky.jpg]]
+#+END_CENTER
 </pre>
 
 </div>
-<p>
-By default, MathJax is installed and enabled.
-</p>
 
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-4-2" class="fill white nobackground" style="background-image: url(images/sky.jpg)">
+<hgroup class="">
+       <h2 class="white ">Fill Image</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-2">
 <p>
-If you don't need this, just add <code>#+USE_MATHJAX: false</code> in your slide file to shrink slide size.
+Text is in white.
 </p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+:PROPERTIES:
+:FILL:     images/sky.jpg
+:TITLE:    white
+:SLIDE:    white
+:END:
+</pre>
+
+</div>
 
 
 </article>
@@ -488,12 +565,24 @@ If you don't need this, just add <code>#+USE_MATHJAX: false</code> in your slide
 </slide>
 
 </slide>
-<slide id="sec-13"  >
+</slide>
+<slide id="sec-5" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><hgroup class="">
+       <h2 class="nil ">Miscellaneous</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-5">
+
+
+</article>
+
+</slide>
+<slide id="sec-5-1"  >
 <hgroup class="">
        <h2 class="nil ">Table</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-13">
+<article class="" id="text-5-1">
 <p>
 Add a <code>*</code> prefix to highlight item.   e.g. <code>* Highlight Item</code>
 </p>
@@ -552,68 +641,86 @@ Add a <code>*</code> prefix to highlight item.   e.g. <code>* Highlight Item</co
 
 </slide>
 </slide>
-<slide id="sec-14"  >
+<slide id="sec-5-2"  >
 <hgroup class="">
-       <h2 class="nil ">Insert Image</h2>
+       <h2 class="nil ">Footnote</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-14">
-<article class="flexbox vcenter">
-
-<div class="figure">
-<p><img src="images/sky.jpg" alt="sky.jpg" width="400px" />
-</p>
-</div>
-</article>
-
-<div class="org-src-container">
-
-<pre class="prettyprint" data-lang="org">
-#+BEGIN_CENTER
-#+ATTR_HTML: :width 400px
-[[file:images/sky.jpg]]
-#+END_CENTER
-</pre>
-
-</div>
-
-
-</article>
-
-</slide>
-</slide>
-<slide id="sec-15" class="fill white nobackground" style="background-image: url(images/sky.jpg)">
-<hgroup class="">
-       <h2 class="white ">Fill Image</h2>
-       <h3></h3>
-       </hgroup>
-<article class="" id="text-15">
+<article class="" id="text-5-2">
 <p>
-Text is in white.
+Use <code>C-c C-x f</code> to create footnotes <code>[fn:N]</code>, which will be placed under a slide:
 </p>
+<blockquote>
+<p>
+Jump between footnotes with <code>C-c C-c</code> on <code>[fn:N]</code>.
+</p>
+</blockquote>
 <div class="org-src-container">
 
 <pre class="prettyprint" data-lang="org">
-:PROPERTIES:
-:FILL:     images/sky.jpg
-:TITLE:    white
-:SLIDE:    white
-:END:
+ * Title
+   This is content text.[fn:1]
+...
+
+ * Footnotes
+ [fn:1] Footnote is in here!
 </pre>
 
 </div>
+<ul class="build">
+<li><b>↓ Look here!</b>
+</li>
+</ul>
+
+<footer class="source">
+<p class="footpara">
+Footnote is in here!
+</p>
+</footer>
+</article>
+
+</slide>
+</slide>
+<slide id="sec-5-3"  >
+<hgroup class="">
+       <h2 class="nil ">Math Formula</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-5-3">
+<p>
+<code>org-ioslide</code> uses MathJax to render math formula:
+</p>
+
+<p>
+$$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$$
+</p>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+$$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$$
+</pre>
+
+</div>
+<p>
+By default, MathJax is installed and enabled.
+</p>
+
+<p>
+If you don't need this, just add <code>#+USE_MATHJAX: false</code> in your slide file to shrink slide size.
+</p>
 
 
 </article>
 
 </slide>
 </slide>
-<slide id="sec-16"  >
+<slide id="sec-5-4"  >
 <hgroup class="">
        <h2 class="nil ">Speaker Note</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-16">
+<article class="" id="text-5-4">
 <ul>
 <li>Press <code>p</code> to display speaker note.
 </li>
@@ -658,12 +765,96 @@ A <a href="https://github.com/">link</a> to Github!
 </slide>
 
 </slide>
-<slide id="sec-17"  >
+</slide>
+<slide id="sec-6" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><hgroup class="">
+       <h2 class="nil ">Segue Page</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-6">
+
+
+</article>
+
+</slide>
+<slide id="sec-6-1"  >
+<hgroup class="">
+       <h2 class="nil ">What Segue?</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6-1">
+<p>
+<b>Segue</b> ([`segwe]) page is passing page.
+</p>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="org">
+:SLIDE: segue dark quote
+:ASIDE: right bottom
+:ARTICLE: flexbox vleft auto-fadein
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-6-2" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><hgroup class="">
+       <h2 class="nil ">This Is A "Segue Page" Demo</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-6-2">
+<p>
+Text content of <b>Segue page</b> will appear here.
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-6-3" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><article class="flexbox vleft auto-fadein" id="text-6-3">
+
+<q>
+
+This is what a normal QUOTE block looks like, which under a segue slide.
+<br>
+The second paragraph.
+<span class='alignright'>&#x2013; Name Sign</span>
+
+</q>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-7" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/emacs-icon.png"></aside><hgroup class="">
+       <h2 class="nil ">Cheat Sheets</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-7">
+
+
+</article>
+
+</slide>
+<slide id="sec-7-1"  >
 <hgroup class="">
        <h2 class="nil ">Available Shortcuts</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-17">
+<article class="" id="text-7-1">
 <ul>
 <li>Pressing <code>h</code> highlights code snippets
 </li>
@@ -684,12 +875,12 @@ A <a href="https://github.com/">link</a> to Github!
 
 </slide>
 </slide>
-<slide id="sec-18"  >
+<slide id="sec-7-2"  >
 <hgroup class="">
        <h2 class="nil ">Available Properties</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-18">
+<article class="" id="text-7-2">
 <p>
 Available properties <b>applied separatly on each slide pages:</b>
 </p>
@@ -698,7 +889,7 @@ Available properties <b>applied separatly on each slide pages:</b>
 <pre class="prettyprint" data-lang="org">
 :SLIDE: dark segue [thank-you-slide]
 :ASIDE: [left right] [top bottom]
-:ARTICLE: flexbox vleft auto-fadein
+:ARTICLE: flexbox vleft auto-fadein [smaller/larger/large]
 </pre>
 
 </div>
@@ -708,12 +899,12 @@ Available properties <b>applied separatly on each slide pages:</b>
 
 </slide>
 </slide>
-<slide id="sec-19"  >
+<slide id="sec-7-3"  >
 <hgroup class="">
        <h2 class="nil ">Available Options</h2>
        <h3></h3>
        </hgroup>
-<article class="smaller" id="text-19">
+<article class="smaller" id="text-7-3">
 
 <p>
 Available options <b>applied on the whole slide</b>:
@@ -748,12 +939,12 @@ Available options <b>applied on the whole slide</b>:
 
 </slide>
 </slide>
-<slide id="sec-20"  >
+<slide id="sec-7-4"  >
 <hgroup class="">
        <h2 class="nil ">Available Options For Packages</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-20">
+<article class="" id="text-7-4">
 <p>
 Use or disable JS packages.
 </p>
@@ -780,12 +971,14 @@ Use or disable JS packages.
 </slide>
 
 </slide>
-<slide id="sec-21"  >
+
+</slide>
+<slide id="sec-8"  >
 <hgroup class="">
        <h2 class="nil ">Thank You Slide</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-21">
+<article class="" id="text-8">
 <ul>
 <li>Add the following properties to one headline:
 </li>
@@ -812,8 +1005,8 @@ Use or disable JS packages.
 </slide>
 
 </slide>
-<slide id="sec-22" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
-<aside class="gdbar right"><img src="images/emacs-icon.png"></aside><article class="flexbox vleft auto-fadein" id="text-22">
+<slide id="sec-9" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+<aside class="gdbar right"><img src="images/emacs-icon.png"></aside><article class="flexbox vleft auto-fadein" id="text-9">
 <h2>
   <p>Thank You ˊ・ω・ˋ</p>
 </h2>

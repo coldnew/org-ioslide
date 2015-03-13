@@ -30,18 +30,28 @@
 <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
 </a>
 #+END_HTML
-
 * List
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Nested List
 - Item 1
 - Item 2
   + Depth 2
   + Depth 2
+    * Third
+    * Third
+#+BEGIN_SRC org
+- Item 1
+- Item 2
+  + Depth 2
   + Depth 2
     * Third
     * Third
-    * Third
-    * Third
-* Build List
+#+END_SRC
+** Build List
 Show one by one:
 #+ATTR_HTML: :class build
 - Item 1
@@ -54,7 +64,7 @@ Show one by one:
 - Item 2
 - Item 3
 #+END_SRC
-* Build + Fade List
+** Build + Fade List
 Show one by one:
 #+ATTR_HTML: :class build fade
 - Item 1
@@ -67,40 +77,82 @@ Show one by one:
 - Item 2
 - Item 3
 #+END_SRC
-* Numerated List
+** Numerated List
 1. First
 2. Second
 3. Third
    - Item
    - Item
+#+BEGIN_SRC org
+1. First
+2. Second
+3. Third
    - Item
-* Smaller Arcticle
-  :PROPERTIES:
-  :ARTICLE:  smaller
-  :END:
-The headline of this slide added a =:ARTICLE:  smaller= property, so has smaller content.
-#+BEGIN_SRC org
-  :PROPERTIES:
-  :ARTICLE:  smaller
-  :END:
+   - Item
 #+END_SRC
-* Footnote
-Use =C-c C-x f= to create footnotes =[fn:N]=, which will be placed under a slide[fn:1]:
-#+BEGIN_QUOTE
-Jump between footnotes with =C-c C-c= on =[fn:N]=.
-#+END_QUOTE
-#+BEGIN_SRC org
- * Title
-   This is content text.[fn:1]
-...
-
- * Footnotes
- [fn:1] Footnote is in here!
-
-#+END_SRC
+** Build Nested List
 #+ATTR_HTML: :class build
-- *↓ Look here!*
-* Code Block
+- Build me
+- Build me
+  #+ATTR_HTML: :class build
+  + Build me
+  + Build me
+    * No build
+    * No build
+#+BEGIN_SRC org
+#+ATTR_HTML: :class build
+- Build me
+- Build me
+  #+ATTR_HTML: :class build
+  + Build me
+  + Build me
+    * No build
+    * No build
+#+END_SRC
+* Font Size
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Smaller Arcticle
+  :PROPERTIES:
+  :ARTICLE:  smaller
+  :END:
+This slide has =:ARTICLE:  smaller= property, so has *smaller* content.
+#+BEGIN_SRC org
+  :PROPERTIES:
+  :ARTICLE:  smaller
+  :END:
+#+END_SRC
+** Larger Arcticle
+  :PROPERTIES:
+  :ARTICLE:  larger
+  :END:
+This slide has =:ARTICLE:  larger= property, so has *larger* content.
+#+BEGIN_SRC org
+  :PROPERTIES:
+  :ARTICLE:  larger
+  :END:
+#+END_SRC
+** Large Arcticle
+  :PROPERTIES:
+  :ARTICLE:  large
+  :END:
+This slide has =:ARTICLE:  large= property, so has *large* content.
+#+BEGIN_SRC org
+  :PROPERTIES:
+  :ARTICLE:  larger
+  :END:
+#+END_SRC
+
+* Block
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Code Block
 A source block looks like this:
 #+BEGIN_SRC emacs-lisp
   (def hello-world ()
@@ -114,7 +166,7 @@ A source block looks like this:
        (message "hello world!"))
 ,#+END_SRC
 #+END_SRC
-* Highlight in Code Block
+** Highlight in Code Block
   :PROPERTIES:
   :ARTICLE:  smaller
   :END:
@@ -138,7 +190,7 @@ A source block looks like this:
 		 "</span><br  />\n</p>"
 		 <b>(funcall --make-sign contents)</b>))))))
 #+END_SRC
-* Quote Block
+** Quote Block
   :PROPERTIES:
   :ARTICLE:  smaller
   :END:
@@ -165,7 +217,7 @@ society are lying.\\
   ,#+END_QUOTE
 #+END_SRC
 
-* Verse Block
+** Verse Block
   :PROPERTIES:
   :ARTICLE:  smaller
   :END:
@@ -188,7 +240,115 @@ Verse block is similar with quote's, but it will keeps line break. Take a poem a
   -- 辛棄疾〈青玉案〉
 ,#+END_VERSE
 #+END_SRC
+* Image
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Insert Image
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/sky.jpg]]
+#+END_CENTER
+
+#+BEGIN_SRC org
+,#+BEGIN_CENTER
+,#+ATTR_HTML: :width 400px
+[[file:images/sky.jpg]]
+,#+END_CENTER
+#+END_SRC
+** Fill Image
+  :PROPERTIES:
+  :FILL:     images/sky.jpg
+  :TITLE:    white
+  :SLIDE:    white
+  :END:
+Text is in white.
+#+BEGIN_SRC org
+  :PROPERTIES:
+  :FILL:     images/sky.jpg
+  :TITLE:    white
+  :SLIDE:    white
+  :END:
+#+END_SRC
+* Miscellaneous
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Table
+Add a =*= prefix to highlight item.   e.g. =* Highlight Item=
+| Title1 | Title2            | Title2 |
+|--------+-------------------+--------|
+| Item1  | * Highlight Item  |     11 |
+| Item2  | Shiroshime Kanata |   * 25 |
+| Item3  | Test              |     56 |
+
+#+BEGIN_SRC org
+| Title1 | Title2            | Title2 |
+|--------+-------------------+--------|
+| Item1  | * Highlight Item  |     11 |
+| Item2  | Shiroshime Kanata |   * 25 |
+| Item3  | Test              |     56 |
+#+END_SRC
+** Footnote
+Use =C-c C-x f= to create footnotes =[fn:N]=, which will be placed under a slide[fn:1]:
+#+BEGIN_QUOTE
+Jump between footnotes with =C-c C-c= on =[fn:N]=.
+#+END_QUOTE
+#+BEGIN_SRC org
+ * Title
+   This is content text.[fn:1]
+...
+
+ * Footnotes
+ [fn:1] Footnote is in here!
+
+#+END_SRC
+#+ATTR_HTML: :class build
+- *↓ Look here!*
+** Math Formula
+=org-ioslide= uses MathJax to render math formula:
+
+$$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$$
+
+#+BEGIN_SRC org
+$$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$$
+#+END_SRC
+By default, MathJax is installed and enabled.
+
+If you don't need this, just add =#+USE_MATHJAX: false= in your slide file to shrink slide size.
+** Speaker Note
+- Press =p= to display speaker note.
+- Use =#+ATTR_HTML: :class note= before a QUOTE block, and its contents will be converted into speaker note:
+#+BEGIN_SRC org
+,#+ATTR_HTML: :class note
+,#+BEGIN_QUOTE
+This is the note area for presenter.
+- Item 1
+- Item 2
+A [[https://github.com/][link]] to Github!
+,#+END_QUOTE
+#+END_SRC
+
+#+ATTR_HTML: :class note
+#+BEGIN_QUOTE
+This is the note area for presenter.
+- Item 1
+- Item 2
+A [[https://github.com/][link]] to Github!
+#+END_QUOTE
 * Segue Page
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** What Segue?
 *Segue* ([`segwe]) page is passing page.
 
 #+BEGIN_SRC org
@@ -219,95 +379,29 @@ The second paragraph.
 
   -- Name Sign
 #+END_QUOTE
-* Math Formula
-=org-ioslide= uses MathJax to render math formula:
 
-$$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$$
-
-#+BEGIN_SRC org
-$$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$$
-#+END_SRC
-By default, MathJax is installed and enabled.
-
-If you don't need this, just add =#+USE_MATHJAX: false= in your slide file to shrink slide size.
-
-* Table
-Add a =*= prefix to highlight item.   e.g. =* Highlight Item=
-| Title1 | Title2            | Title2 |
-|--------+-------------------+--------|
-| Item1  | * Highlight Item  |     11 |
-| Item2  | Shiroshime Kanata |   * 25 |
-| Item3  | Test              |     56 |
-
-#+BEGIN_SRC org
-| Title1 | Title2            | Title2 |
-|--------+-------------------+--------|
-| Item1  | * Highlight Item  |     11 |
-| Item2  | Shiroshime Kanata |   * 25 |
-| Item3  | Test              |     56 |
-#+END_SRC
-* Insert Image
-#+BEGIN_CENTER
-#+ATTR_HTML: :width 400px
-[[file:images/sky.jpg]]
-#+END_CENTER
-
-#+BEGIN_SRC org
-,#+BEGIN_CENTER
-,#+ATTR_HTML: :width 400px
-[[file:images/sky.jpg]]
-,#+END_CENTER
-#+END_SRC
-* Fill Image
+* Cheat Sheets
   :PROPERTIES:
-  :FILL:     images/sky.jpg
-  :TITLE:    white
-  :SLIDE:    white
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
   :END:
-Text is in white.
-#+BEGIN_SRC org
-  :PROPERTIES:
-  :FILL:     images/sky.jpg
-  :TITLE:    white
-  :SLIDE:    white
-  :END:
-#+END_SRC
-* Speaker Note
-- Press =p= to display speaker note.
-- Use =#+ATTR_HTML: :class note= before a QUOTE block, and its contents will be converted into speaker note:
-#+BEGIN_SRC org
-,#+ATTR_HTML: :class note
-,#+BEGIN_QUOTE
-This is the note area for presenter.
-- Item 1
-- Item 2
-A [[https://github.com/][link]] to Github!
-,#+END_QUOTE
-#+END_SRC
 
-#+ATTR_HTML: :class note
-#+BEGIN_QUOTE
-This is the note area for presenter.
-- Item 1
-- Item 2
-A [[https://github.com/][link]] to Github!
-#+END_QUOTE
-
-* Available Shortcuts
+** Available Shortcuts
 - Pressing =h= highlights code snippets
 - Pressing =p= toggles speaker notes (if they're on the current slide)
 - Pressing =f= toggles fullscreen viewing
 - Pressing =w= toggles widescreen
 - Pressing =o= toggles overview mode
 - Pressing =ESC= toggles off these goodies
-* Available Properties
+** Available Properties
 Available properties *applied separatly on each slide pages:*
 #+BEGIN_SRC org
 :SLIDE: dark segue [thank-you-slide]
 :ASIDE: [left right] [top bottom]
-:ARTICLE: flexbox vleft auto-fadein
+:ARTICLE: flexbox vleft auto-fadein [smaller/larger/large]
 #+END_SRC
-* Available Options
+** Available Options
   :PROPERTIES:
   :ARTICLE:  smaller
   :END:
@@ -324,7 +418,7 @@ Available options *applied on the whole slide*:
  #+WWW: http://your.blog.io/
  #+GITHUB: http://github.com/YOUR_ACCOUNT
  #+TWITTER: USER_NAME
- 
+
  # Appear under each slide:
  #+FAVICON: images/emacs-icon.png
  #+ICON: images/org-icon.png
@@ -333,14 +427,14 @@ Available options *applied on the whole slide*:
  # Google Analytics
  #+ANALYTICS: UA-42122243-1
 #+END_SRC
-* Available Options For Packages
+** Available Options For Packages
 Use or disable JS packages.
 #+BEGIN_SRC org
  # Highlight code blocks with Prettify.js
  ,#+USE_PRETTIFY: true
 
  # Display math formula with MathJax.js
- # MathJax is a little fat (~5 MB), set it `false` if no need to shrink the 
+ # MathJax is a little fat (~5 MB), set it `false` if no need to shrink the
  # size of slide file
  ,#+USE_MATHJAX: true
 
@@ -373,5 +467,3 @@ Use or disable JS packages.
 * Footnotes
 
 [fn:1] Footnote is in here!
-
-
