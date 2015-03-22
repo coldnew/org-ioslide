@@ -464,7 +464,9 @@ holding contextual information."
          (priority (and (plist-get info :with-priority)
                         (org-element-property :priority headline)))
          ;; Create the headline text.
-         (full-text (org-html-format-headline--wrap headline info)))
+         (full-text (if (fboundp 'org-html-format-headline--wrap)
+                        (org-html-format-headline--wrap headline info)
+                     (org-html-headline headline contents info))))
     (cond
      ;; Case 1: This is a footnote section: ignore it.
      ((org-element-property :footnote-section-p headline) nil)
@@ -564,7 +566,9 @@ holding contextual information."
        (or hgroup-class "")
        ;; headline text.
        (or title-class "")
-       (org-html-format-headline--wrap headline info)
+       (if (fboundp 'org-html-format-headline--wrap)
+           (org-html-format-headline--wrap headline info)
+         (org-html-headline headline contents info))
        ;; subtitle
        (or (org-element-property :SUBTITLE headline) "")))))
 
