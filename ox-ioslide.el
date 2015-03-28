@@ -466,7 +466,7 @@ holding contextual information."
          ;; Create the headline text.
          (full-text (if (fboundp 'org-html-format-headline--wrap)
                         (org-html-format-headline--wrap headline info)
-                     (org-html-headline headline contents info))))
+                     (org-html-headline headline "" info))))
     (cond
      ;; Case 1: This is a footnote section: ignore it.
      ((org-element-property :footnote-section-p headline) nil)
@@ -550,7 +550,7 @@ holding contextual information."
      )))
 
 (defun org-ioslide--title (headline info)
-  (let* ((title (format "%s " (org-element-property :TITLE headline)))
+  (let* ((title (format "%s " (or (org-element-property :TITLE headline) "")))
          (slide-prop (format "%s" (org-element-property :SLIDE headline)))
          (title-class (replace-regexp-in-string "\\<hide\\>" "" title))
          (hgroup-class (org-element-property :HGROUP headline)))
@@ -568,7 +568,7 @@ holding contextual information."
        (or title-class "")
        (if (fboundp 'org-html-format-headline--wrap)
            (org-html-format-headline--wrap headline info)
-         (org-html-headline headline contents info))
+         (org-html-headline headline "" info))
        ;; subtitle
        (or (org-element-property :SUBTITLE headline) "")))))
 
@@ -624,7 +624,7 @@ holding contextual information."
 
            ;; Normal content
            (format "%s\n%s"
-                   contents
+                   (or contents "")
                    (org-ioslide--footer-from-footnote))
            ))))))
 
