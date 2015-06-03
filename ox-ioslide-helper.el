@@ -50,8 +50,11 @@
 	(ioslide-property
 	 (description "[Property] Apply on a single page.")
 	 (actions
+          ("Font Size"
+           ("m" "Smaller Font" ioslide/smaller)
+           ("l" "Larger Font" ioslide/larger)
+           ("L" "Large Font" ioslide/large))
 	  ("Set Page As..."
-	   ("m" "Smaller Font" ioslide/smaller)
 	   ("s" "Segue" ioslide/segue)
 	   ("f" "Fill Image" ioslide/fill-image)
 	   ("t" "Thank-you-slide" ioslide/thank-you-slide))))
@@ -155,6 +158,17 @@ The ugly-looking indentation mechanism is for build list."
   (interactive)
   (mapc #'ioslide--put-property
 	'(("ARTICLE" "smaller"))))
+
+(defun ioslide/larger ()
+  (interactive)
+  (mapc #'ioslide--put-property
+	'(("ARTICLE" "larger"))))
+
+(defun ioslide/large ()
+  (interactive)
+  (mapc #'ioslide--put-property
+	'(("ARTICLE" "large"))))
+
 
 (defun ioslide/thank-you-slide ()
   (interactive)
