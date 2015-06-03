@@ -94,6 +94,10 @@
 # ======= Google Analytics =========================
 #+ANALYTICS: UA-000000000-0
 
+# ======= Org settings =========================
+#+EXCLUDE_TAGS: noexport
+#+OPTIONS: toc:nil num:nil
+
 ")
 
 
