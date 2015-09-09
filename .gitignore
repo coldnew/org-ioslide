@@ -12,3 +12,4 @@
 .cask/
 flycheck_*
 .sandbox/
+.sass-cache/
