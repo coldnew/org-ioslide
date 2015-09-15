@@ -1,3 +1,24 @@
+* TODO ioslide--define-attribute-inserter :class
+  :LOGBOOK:  
+  - State "TODO"       from ""           [2015-09-16 水 01:26]
+  :END:      
+If multiple =:class= is specified in a single object (HTML element), it should be merged in one line. e.g.
+#+BEGIN_EXAMPLE
+#+ATTR_HTML: :class float-right 
+#+ATTR_HTML: :class z-index-999
+
+ ============merge============>
+#+ATTR_HTML: :class float-right z-index-999
+#+END_EXAMPLE
+Otherwise, only one class will be applied in browser!
+* TODO Click on image to open & navigate.
+  :LOGBOOK:
+  - State "TODO"       from ""           [2015-01-21 水 13:23]
+  :END:
+* TODO Beautify quote block
+  :LOGBOOK:
+  - State "TODO"       from ""           [2015-01-26 月 16:53]
+  :END:
 * DONE MathJax
   CLOSED: [2015-01-18 日 21:49]
   :LOGBOOK:
@@ -120,15 +141,6 @@ wrapped in <b>
   :LOGBOOK:
   - State "DONE"       from "TODO"       [2015-02-12 木 01:39]
   - State "TODO"       from ""           [2015-01-21 水 02:50]
-  :END:
-* TODO Click on image to open & navigate.
-  :LOGBOOK:
-  - State "TODO"       from ""           [2015-01-21 水 13:23]
-  :END:
-
-* TODO Beautify quote block
-  :LOGBOOK:
-  - State "TODO"       from ""           [2015-01-26 月 16:53]
   :END:
 * CANCELLED Rewrite Readme.old.org in ox-ioslide.el
 CLOSED: [2015-02-07 Sat 15:46]
