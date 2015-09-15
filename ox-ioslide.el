@@ -322,7 +322,7 @@ holding contextual information."
                        (lambda (string)
                          (replace-regexp-in-string
                           "^ *\\(&#x201[34];\\)\\(.+\\)\\(<br */>\\|\n\\)"
-                          "<span class='alignright'>\\1\\2</span>\\3" string)))))
+                          "<span class='float-right'>\\1\\2</span>\\3" string)))))
     (if (and class (string-match "notes?" class))
         (format "<aside class=\"note\">
   <section>
@@ -357,7 +357,7 @@ CONTENTS is verse block contents.  INFO is a plist holding
 contextual information."
   ;; Align "-- Name" to right side.
   (replace-regexp-in-string "^ *&#xa0;\\(?:&#xa0;\\)+\\(&#x201[34];\\)\\(.+?\\)\\(<br */>\\|\n\\)"
-                            "<span class='alignright'>\\1\\2</span>\\3"
+                            "<span class='float-right'>\\1\\2</span>\\3"
                             (org-html-verse-block verse-block contents info)))
 
 ;;;; Paragraph
