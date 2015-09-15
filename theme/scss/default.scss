@@ -794,6 +794,16 @@ article.large {
     float: right;
 }
 
+.alignleft {
+    float: left;
+}
+
+.z-index-999 {
+    position: relative;
+    z-index: 999;
+}
+
+
 blockquote, p.verse {
     font-style: italic;
     font-family: 'Times New Roman', Times, serif !important;
