@@ -124,6 +124,10 @@ vertical slides."
     (:www               "WWW"               nil   nil   t)
     (:github            "GITHUB"            nil   nil   t)
 
+    ;; Enable user add #+THEME: io2013 to select theme from theme/css/io2013.css
+    ;; FIXME: currently the io2013.css is not work, we use theme/css/default.css by default
+    (:theme             "THEME"             nil   nil   t)
+
     ;; Other configs
 
     ;; Use MathJax, Default: true. False will remove MathJax from
@@ -847,7 +851,7 @@ INFO is a plist used as a communication channel."
                        info)
    "\n"
    (org-html-close-tag "link"
-                       "rel=\"stylesheet\" media=\"all\" href=\"theme/css/default.css\""
+                       (format "rel=\"stylesheet\" media=\"all\" href=\"theme/css/%s.css\"" (or (plist-get info :theme) "default"))
                        info)
    "\n"
    (org-html-close-tag "link"
