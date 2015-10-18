@@ -790,9 +790,19 @@ article.large {
     text-align: center;
 }
 
-.alignright {
+.float-right {
     float: right;
 }
+
+.float-left {
+    float: left;
+}
+
+.z-index-999 {
+    position: relative;
+    z-index: 999;
+}
+
 
 blockquote, p.verse {
     font-style: italic;
