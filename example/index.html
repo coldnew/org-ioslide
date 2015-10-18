@@ -396,7 +396,7 @@ A source block looks like this:
 	 <b>(--make-sign (function (lambda (string)
 			   (replace-regexp-in-string
 			    "^ *\\(&amp;#x201[34];\\)\\(.+\\)\\(&lt;br */&gt;\\|\n\\)"
-			    "&lt;span class='alignright'&gt;\\1\\2&lt;/span&gt;\\3" string))))</b>)
+			    "&lt;span class='float-right'&gt;\\1\\2&lt;/span&gt;\\3" string))))</b>)
     (if (and slide-prop (string-match "segue" slide-prop))
 	(format "&lt;q&gt;\n%s&lt;/q&gt;"
 		   <b>(funcall --make-sign contents)</b>)
@@ -433,7 +433,7 @@ society are lying.<br  />
 </p>
 
 <p>
-<span class='alignright'>&#x2013; 柯文哲 Wen Jei, Ko. (2014)</span><br  />
+<span class='float-right'>&#x2013; 柯文哲 Wen Jei, Ko. (2014)</span><br  />
 </p>
 </blockquote>
 
@@ -474,7 +474,7 @@ Verse block is similar with quote's, but it will keeps line break. Take a poem a
 驀然回首<br  />
 那人卻在<br  />
 燈火闌珊處<br  />
-<span class='alignright'>&#x2013; 辛棄疾〈青玉案〉</span><br  />
+<span class='float-right'>&#x2013; 辛棄疾〈青玉案〉</span><br  />
 </p>
 
 <div class="org-src-container">
@@ -826,7 +826,7 @@ Text content of <b>Segue page</b> will appear here.
 This is what a normal QUOTE block looks like, which under a segue slide.
 <br>
 The second paragraph.
-<span class='alignright'>&#x2013; Name Sign</span>
+<span class='float-right'>&#x2013; Name Sign</span>
 
 </q>
 

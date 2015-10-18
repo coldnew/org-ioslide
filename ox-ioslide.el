@@ -78,6 +78,7 @@ vertical slides."
   :type 'integer)
 
 (defvar org-ioslide--current-footnote-list nil)
+(defvar org-ioslide--footnote-count-in-slide 0)
 
 ;;; Define Back-End
 
@@ -321,7 +322,7 @@ holding contextual information."
                        (lambda (string)
                          (replace-regexp-in-string
                           "^ *\\(&#x201[34];\\)\\(.+\\)\\(<br */>\\|\n\\)"
-                          "<span class='alignright'>\\1\\2</span>\\3" string)))))
+                          "<span class='float-right'>\\1\\2</span>\\3" string)))))
     (if (and class (string-match "notes?" class))
         (format "<aside class=\"note\">
   <section>
@@ -356,7 +357,7 @@ CONTENTS is verse block contents.  INFO is a plist holding
 contextual information."
   ;; Align "-- Name" to right side.
   (replace-regexp-in-string "^ *&#xa0;\\(?:&#xa0;\\)+\\(&#x201[34];\\)\\(.+?\\)\\(<br */>\\|\n\\)"
-                            "<span class='alignright'>\\1\\2</span>\\3"
+                            "<span class='float-right'>\\1\\2</span>\\3"
                             (org-html-verse-block verse-block contents info)))
 
 ;;;; Paragraph
@@ -631,14 +632,16 @@ holding contextual information."
 ;; Footnotes
 
 (defun org-ioslide--footer-from-footnote ()
-  ""
+  "Generate <footer> for footnotes in a single slide page."
   (if org-ioslide--current-footnote-list
       (prog1 (concat
               "<footer class=\"source\">\n"
               (mapconcat #'identity (reverse org-ioslide--current-footnote-list) "\n")
               "\n</footer>")
-        ;; clean list
-        (setq org-ioslide--current-footnote-list nil))
+        ;; clean list & footnote count
+        (setq org-ioslide--current-footnote-list nil)
+        (setq org-ioslide--footnote-count-in-slide 0)
+        )
     ""))
 
 (defun org-ioslide-footnote-reference (footnote-reference contents info)
@@ -658,11 +661,18 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;; Otherwise, add it into org-ioslide--current-footnote-list
     (t
      (let ((def (org-export-get-footnote-definition footnote-reference info)))
+       (incf org-ioslide--footnote-count-in-slide)
        (push
-        (format "%s" (org-trim (org-export-data def info)))
+        ;; [FIXME] `replace-regexp' as ugly workaround because I don't
+        ;; know how to redefine the back-end for footnote-definition
+        (replace-regexp-in-string "<p class=\"footpara\">"
+                                  (format "<p class=\"footpara\">%s. " org-ioslide--footnote-count-in-slide)
+                                  (org-trim (org-export-data def info)))
         org-ioslide--current-footnote-list)
-       ""
+       ;; Add number as <sup>
+       (format "<sup>%s</sup>" org-ioslide--footnote-count-in-slide)
        )))))
+
 
 (defun org-ioslide-inner-template (contents info)
   "Return body of document string after HTML conversion.

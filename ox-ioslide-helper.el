@@ -43,29 +43,31 @@
 	   ("b" "Build List" ioslide/build-list)
 	   ("f" "Build + Fade List" ioslide/build-fade-list))
 	  ("Image"
-	   ("w" "Width" ioslide/image-width))
-	  ("Block"
-	   ("n" "Speaker Note" ioslide/speaker-note)
-	   )))
-	(ioslide-property
-	 (description "[Property] Apply on a single page.")
-	 (actions
+	   ("w" "Width" ioslide/image-width)
+	   ("f" "Floating (Right/Left)" ioslide/image-float)
+           ("t" "Move to Top (z-index)" ioslide/image-move-to-top))
+          ("Block"
+           ("n" "Speaker Note" ioslide/speaker-note)
+           )))
+        (ioslide-property
+         (description "[Property] Apply on a single page.")
+         (actions
           ("Font Size"
            ("m" "Smaller Font" ioslide/smaller)
            ("l" "Larger Font" ioslide/larger)
            ("L" "Large Font" ioslide/large))
-	  ("Set Page As..."
-	   ("s" "Segue" ioslide/segue)
-	   ("f" "Fill Image" ioslide/fill-image)
-	   ("t" "Thank-you-slide" ioslide/thank-you-slide))))
-	(ioslide-option
-	 (description "[Option] Apply on the whole slode file")
-	 (actions
-	  ("Insert"
-	   ("o" "Insert options template" ioslide/insert-options-template)
-	   ("m" "Remove MathJax from this slide file to save space" ioslide/remove-mathjax))
-	  ))
-	)
+          ("Set Page As..."
+           ("s" "Segue" ioslide/segue)
+           ("f" "Fill Image" ioslide/fill-image)
+           ("t" "Thank-you-slide" ioslide/thank-you-slide))))
+        (ioslide-option
+         (description "[Option] Apply on the whole slode file")
+         (actions
+          ("Insert"
+           ("o" "Insert options template" ioslide/insert-options-template)
+           ("m" "Remove MathJax from this slide file to save space" ioslide/remove-mathjax))
+          ))
+        )
       )
 (makey-initialize-key-groups ioslide-helper-menus)
 
@@ -129,6 +131,14 @@ The ugly-looking indentation mechanism is for build list."
 				    (format ":width %s"
 					    (read-from-minibuffer
 					     "Width (recommended using px instead of %): ")))
+(ioslide--define-attribute-inserter "image-float"
+				    (format ":class float-%s"
+					    (completing-read
+					     "Float to (right/left): " '("right" "left") nil t)))
+
+(ioslide--define-attribute-inserter "image-move-to-top" ":class z-index-999")
+
+
 (ioslide--define-attribute-inserter "speaker-note"
 				    ":class note\n#+BEGIN_QUOTE\n\n#+END_QUOTE\n"
 				    (previous-line 2))

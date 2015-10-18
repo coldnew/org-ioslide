@@ -179,7 +179,7 @@ A source block looks like this:
 	 <b>(--make-sign (function (lambda (string)
 			   (replace-regexp-in-string
 			    "^ *\\(&#x201[34];\\)\\(.+\\)\\(<br */>\\|\n\\)"
-			    "<span class='alignright'>\\1\\2</span>\\3" string))))</b>)
+			    "<span class='float-right'>\\1\\2</span>\\3" string))))</b>)
     (if (and slide-prop (string-match "segue" slide-prop))
 	(format "<q>\n%s</q>"
 		   <b>(funcall --make-sign contents)</b>)
