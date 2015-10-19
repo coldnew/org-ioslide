@@ -665,7 +665,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     ;; Otherwise, add it into org-ioslide--current-footnote-list
     (t
      (let ((def (org-export-get-footnote-definition footnote-reference info)))
-       (incf org-ioslide--footnote-count-in-slide)
+       (cl-incf org-ioslide--footnote-count-in-slide)
        (push
         ;; [FIXME] `replace-regexp' as ugly workaround because I don't
         ;; know how to redefine the back-end for footnote-definition
