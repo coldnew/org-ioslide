@@ -161,8 +161,6 @@ vertical slides."
     (footnote-definition        .       org-ioslide-footnote-definition)
     (footnote-reference         .       org-ioslide-footnote-reference)
     )
-
-  :export-block '("NOTE")
   )
 
 
