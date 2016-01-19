@@ -84,6 +84,7 @@
 #+TITLE: Title
 #+SUBTITLE: Here Is Subtitle
 #+COMPANY: Company Name
+#+AUTHOR: John Smith
 
 # ======= Appear in thank-you-slide ================
 #+GOOGLE_PLUS: https://plus.google.com/YOUR_ACCOUNT
