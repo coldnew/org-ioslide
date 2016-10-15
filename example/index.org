@@ -457,7 +457,6 @@ Use or disable JS packages.
 #+END_QUOTE
 
 * Thank You ˊ・ω・ˋ
-
 :PROPERTIES:
 :SLIDE: thank-you-slide segue
 :ASIDE: right
