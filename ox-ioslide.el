@@ -407,7 +407,7 @@ contextual information."
           (label (let ((lbl (org-element-property :name src-block)))
                    (if (not lbl) ""
                      (format " id=\"%s\""
-                             (org-export-solidify-link-text lbl))))))
+                             (org-export-get-reference lbl info))))))
       (if (not lang)
           ;; Use org-html-src-block to genterate HTML code.
           (org-html-src-block src-block contents info)
